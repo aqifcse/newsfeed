@@ -8,7 +8,8 @@ A user friendly, personalized news feed portal
 - Used Sendgrid for sending emails 
 - For mobile access, some APIs are exposed
 
-*Setting Up*
+**Setting Up**
+
 OS: Ubuntu 18.04 LTS
 
 At first, clone the project from terminal by renaming the folder(e.g. newsfeed) 
@@ -33,6 +34,7 @@ Install all the packages from requirements.txt file using pip
 ```
 (venv) x@x:~/newsfeed$ pip install -r requirements.txt
 ```
+
 
 
 
