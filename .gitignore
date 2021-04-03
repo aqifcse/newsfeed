@@ -11,9 +11,13 @@ media
 *$py.class  
 
 # Environments 
+.env 
 .venv 
+env/ 
 venv/ 
-venv.bak/ 
+ENV/ 
+env.bak/ 
+venv.bak/
 
 # Visual Studio Code # 
 .vscode/* 
