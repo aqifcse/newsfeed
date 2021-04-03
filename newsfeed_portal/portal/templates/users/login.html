@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login to App Update Platform </title>
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'portal/assets/img/bless_favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'portal/assets/img/bless_favicon.png' %}">
+
+    <!-- Bootstrap CSS Files version 4 -->
+    <link rel="stylesheet" href="{% static 'portal/assets/css/bootstrap.min.css' %}">
+
+    <!-- Google Fonts -->
+    <link href="{% static 'portal/assets/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'portal/assets/css/style.css' %}">
+    <style>
+        nav > div a.nav-item.nav-link {
+            border: none;
+            padding: 18px 25px;
+            color: #fff;
+            background: #272e38;
+            border-radius: 0;
+        }
+        nav > div a.nav-item.nav-link.active {
+            border: none;
+            background: #F2652D;
+            color: #fff;
+            border-radius: 0;
+            transition: background 0.20s linear;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid mglr-0">
+        {% if success_message %}
+            <div class="alert alert-success">
+                {{ success_message }}
+            </div>
+        {% endif %}
+        {% if error_message %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+        {% endif %}
+        {% if form.non_field_errors %}
+<!--                <div class="alert alert-{{ active.tags }}">-->
+                     {{ form.non_field_errors }}
+<!--                </div>-->
+        {% endif %}
+        <div class="login_form_section">
+            <div class="login_options col-sm-9 col-lg-7 col-xl-5 col-md-9 ">
+                <div class="col-xs-12 ">
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                          <a class="nav-item nav-link col-6 " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" >Login</a>
+                        </div>
+                    </nav>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <form method="post" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_type" value="user"/>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text login_input_addon"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control login_input_field" placeholder="username" name="username">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text login_input_addon"><i class="fa fa-key key_rotate"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control login_input_field" placeholder="Password" name="password">
+                                    <i class="fa fa-eye show_pass"></i>
+                                </div>
+
+                                <button type="submit" class="btn btn-block btn-orange">LOGIN</button>
+                            </form>
+                            </br> </br>
+                            <a href="{% url 'signup' %}"> Create Account</a>
+                            <a class="float-right" href="{% url 'password_reset' %}">Forget Password</a>
+                        </div>
+                        </br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Jquery Js  version: 3.3.1-->
+<script src="{% static 'portal/assets/js/jquery.min.js' %}"></script>
+
+<!-- Bootstrap Js -->
+<script src="{% static 'portal/assets/js/bootstrap.min.js' %}"></script>
+
+<!-- Custom JS -->
+<script src="{% static 'portal/assets/js/main.js' %}"></script>
+
+</html>

@@ -1,0 +1,52 @@
+{% extends "portal/user_base.html" %}
+{% block content %}
+<div class="container-fluid dashboard_item">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4"></div>
+    <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-12 col-md-12 mb-12 mb-3">
+            <div class="card h-100 py-2 dashboard_header">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary">
+                                <h1 class="h3 mb-0 text-gray-800">App Details</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card shadow mb-4 dashboard_item_shadow br-10">
+                <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="content-section">
+                            <div class="media">
+                                <div class="media-body">
+                                    <img src = "{{ object.app_logo.url }}" height = 100px width = 100px><br>
+                                    <h2><b>{{ object.app.app_name }}</b><small>v{{ object.app_version_name }}</small></h2>
+                                    <br><p> Published by <b> {{ object.app.author.user.username }} </b> in {{ object.pub_date }} UTC</p></br>
+                                    <p> Total downloaded:     {{ object.downloads }} </p>
+                                    <p> Current Status:       {{ object.is_active }}</p>
+                                    <p> Package Name:         {{ object.app_package_name }}</p> 
+                                    <p> Version Code:         {{ object.app_version_code }} </p>
+                                    <p> Version Name:         {{ object.app_version_name }} </p>
+                                    <p> Short Description:    {{ object.app_short_description }} </p>
+                                    <p> Detail Description:   {{ object.app_long_description }} </p>
+                                    <p> Release Note:         {{ object.app_release_note }} </p>
+                                    <p> Update Notice:        {{ object.app_update_notice }} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

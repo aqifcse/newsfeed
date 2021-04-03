@@ -1,0 +1,14 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        {% for app in apps %}
+            Author Name: <h4>{{app.author.user.get_short_name}}</h4>
+            App Name: <h4>{{app.app_name}}</h4>
+            App Version: <h4>{{app.app_version}}</h4>
+            Download: <a href="http://127.0.0.1:8000/media/{{app.app_file}}" download class="btn btn-dark float-right">Download</a>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}
