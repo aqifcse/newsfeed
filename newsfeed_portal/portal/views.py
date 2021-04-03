@@ -2,7 +2,7 @@ from django.shortcuts import render
 from newsapi.newsapi_client import NewsApiClient
 
 def AlJazeera(request):
-    newsapi = NewsApiClient(api_key='cbdd86a002e24e569b7905729d546e91')
+    newsapi = NewsApiClient(api_key='<your api key>')
     topheadlines = newsapi.get_top_headlines(sources='al-jazeera-english')
 
 
