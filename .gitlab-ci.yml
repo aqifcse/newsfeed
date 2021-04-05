@@ -1,4 +1,4 @@
-image: python:latest
+image: python:3.6.9
 
 variables:
     SECRET_KEY: "this-is-my-secret-key"
@@ -18,7 +18,11 @@ before_script:
 
 test:
   script:
-    - cd personalized-newsfeed-portal-with-django
+    - pip3 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - cd newsfeed_portal
     - python3 manage.py makemigrations
     - python3 manage.py migrate
+    - python3 manage.py collectstatic
     - python3 manage.py test
