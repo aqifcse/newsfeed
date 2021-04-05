@@ -14,7 +14,7 @@ OS: Ubuntu 18.04 LTS
 
 At first, clone the project from terminal by renaming the folder(e.g. newsfeed) 
 ```
-$ git clone https://gitlab.com/aqifcse/personalized-newsfeed-portal-with-django.git newsfeed
+$ git clone https://gitlab.com/aqifcse/newsfeed.git
 ```
 enter the project directory
 ```

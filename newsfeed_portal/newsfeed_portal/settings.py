@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -66,7 +67,7 @@ MIDDLEWARE = [
 ]
 
 # For future JS Fronend, we need corsheaders and whitelist for backend frontend communication 
-# Frontend will access whitelist addresses
+# Future frontend will access whitelist addresses
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:8000'
 ]
@@ -125,17 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Sendgrid settings for sending email
-# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-# SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-
-# Toggle sandbox mode (when running in DEBUG mode)
-# SENDGRID_SANDBOX_MODE_IN_DEBUG=True
-
-# echo to stdout or any other file-like object that is passed to the backend via the stream kwarg.
-# SENDGRID_ECHO_TO_STDOUT=True
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -149,13 +139,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'login'
-
-LOGIN_REDIRECT_URL = 'user_home'
-
-LOGIN_REDIRECT_URL = 'newsfeed_portal:user_home'
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -164,5 +147,24 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'email-smtp.ap-southeast-2.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# ----------------Sendgrid settings for sending email---------------------------------------------------
+# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+
+# Toggle sandbox mode (when running in DEBUG mode)
+# SENDGRID_SANDBOX_MODE_IN_DEBUG=True
+
+# echo to stdout or any other file-like object that is passed to the backend via the stream kwarg.
+# SENDGRID_ECHO_TO_STDOUT=True
+#--------------------Sendgrid Ends----------------------------------------------------------------------
+
 
 

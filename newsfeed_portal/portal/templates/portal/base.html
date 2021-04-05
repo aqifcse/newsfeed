@@ -39,11 +39,16 @@
 
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">MAIN NAVIGATION</li>
-                <!-- <li>
+                <li>
+                    <a href="{% url 'portal:user_home' %}" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Home</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'logout' %}" class="waves-effect">
                         <i class="fa fa-sign-out"></i><span>Logout</span>
                     </a>
-                </li> -->
+                </li>
             </ul>
         </div>
         <!--End sidebar-wrapper-->
@@ -62,12 +67,24 @@
                     </li>
                 </ul>
 
-                <div class="navbar-nav align-items-center right-nav-link ml-auto">
-                    
-                    <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
-                    <a href="{% url 'signup' %}" class="btn btn-dark" role="button">Sign up</a>
-                    
-                </div>
+                <ul class="navbar-nav align-items-center right-nav-link ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="javascript:;">
+                            <span class="user-profile">
+                                <img src="{% static 'portal/assets/img/download.jpeg' %}" class="img-circle"
+                                    alt="user avatar">
+                            </span>
+                            <span style="font-size: 16px;color: #333;">{{user.username}}</span>
+                            <i class="fa fa-angle-down" style="font-size: 16px;color: #000;"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeIn">
+
+                            <li class="dropdown-divider"></li>
+                            <a href="{% url 'portal:profile' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> profile</li></a>
+                            <a href="{% url 'logout' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li></a>
+                        </ul>
+                    </li>
+                </ul>
             </nav>
         </header>
         <!--End topbar header-->

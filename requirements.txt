@@ -9,4 +9,5 @@ easy-thumbnails==2.7
 django-crispy-forms==1.11.2
 six==1.15.0
 django-utils-six==2.0
+python-decouple==3.3
 
