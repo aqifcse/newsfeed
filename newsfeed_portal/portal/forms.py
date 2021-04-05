@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.models import User 
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, UserCreationForm
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
@@ -29,6 +30,27 @@ class UserAuthForm(AuthenticationForm):
                     )
 
         return self.cleaned_data
+
+class UserSignUpForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_user = True
+        user.save()
+        return user
+
+class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
 
 class EmailValidationOnForgotPassword(PasswordResetForm):
 

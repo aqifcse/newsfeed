@@ -1,8 +1,0 @@
-{% extends "users/base.html" %}
-
-{% block content %}
-  <h2>Sign up for a account</h2>
-  <p class="lead">Select below the type of account you want to create</p>
-  <a href="{% url 'app_developer_signup' %}" class="btn btn-student btn-lg" role="button">I'm a App Developer</a>
-  <a href="{% url 'app_user_signup' %}" class="btn btn-teacher btn-lg" role="button">I'm a App user</a>
-{% endblock %}
