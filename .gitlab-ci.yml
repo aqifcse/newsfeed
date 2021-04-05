@@ -24,7 +24,6 @@ docker-build:
     - docker info
   script:
     - docker build -t turkle .
-    - docker build --force-rm -t hltcoe/turkle
   tags:
     - docker
 
