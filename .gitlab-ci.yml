@@ -18,8 +18,11 @@ before_script:
 
 test:
   script:
-    - ls
-    - cd backend
+    - pip3 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - cd newsfeed_portal
     - python3 manage.py makemigrations
     - python3 manage.py migrate
+    - python3 manage.py collectstatic
     - python3 manage.py test
