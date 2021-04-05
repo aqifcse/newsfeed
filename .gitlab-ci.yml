@@ -1,38 +1,24 @@
-python3-stylecheck:
-  image: python:3.6.9
-  stage: test
-  script:
-    - pip install flake8
-    - flake8
-  tags:
-    - docker
+image: python:latest
 
-python3-tests:
-  image: python:3.6.9
-  stage: test
-  script:
-    - pip install -r requirements.txt
-    - python manage.py test
-  tags:
-    - docker
+variables:
+    SECRET_KEY: "this-is-my-secret-key"
+    DEBUG: "True"
+    ALLOWED_HOSTS: "['*']"
+    DB_ENGINE: "django.db.backends.sqlite3"
+    DB_NAME: "test_database.sqlite3"
+    STATIC_URL: "/static/"
 
-docker-build:
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - docker info
-  script:
-    - docker build -t turkle .
-    - docker build -t turkle.mysql -f Dockerfile-MySQL .
-  tags:
-    - docker
+cache:
+  paths:
+    - ~/.cache/pip/
 
-docs:
-  image: python:3.6.9
-  stage: test
+before_script:
+  - python -V 
+  - pip install -r requirements.txt
+
+test:
   script:
-    - pip install sphinx sphinx_rtd_theme
-    - sphinx-build -M html docs _built_docs -W
-  tags:
-    - docker
+    - cd personalized-newsfeed-portal-with-django
+    - python3 manage.py makemigrations
+    - python3 manage.py migrate
+    - python3 manage.py test
