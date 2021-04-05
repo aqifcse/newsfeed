@@ -23,12 +23,12 @@ docker-build:
   before_script:
     - docker info
   script:
-    - docker build -t turkle .
+    - docker build -t newsfeed .
   tags:
     - docker
 
 docs:
-  image: python:3.5-alpine3.8
+  image: python:3.6.9
   stage: test
   script:
     - pip install sphinx sphinx_rtd_theme
