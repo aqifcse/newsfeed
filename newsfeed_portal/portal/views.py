@@ -8,13 +8,10 @@ from django.urls import reverse
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView, View
 from django.db.models import Q
 
-
-from .forms import UserAuthForm
+from .forms import *
 from .models import News
 
 from newsapi.newsapi_client import NewsApiClient
-
-
 
 import datetime
 
@@ -43,19 +40,13 @@ from django.views.generic.detail import DetailView
 from rest_framework.response import Response
 from django.core.files.storage import FileSystemStorage
 
-
-# from .decorators import admin_required, app_user_required, app_developer_required
-# from .forms import UserSignUpForm, AppDeveloperSignUpForm, UserUpdateForm, UserLoginForm, AppDeveloperAppUploadForm, \
-#     AppDeveloperAppUpdateForm
-# from .models import User, App, AppDeveloper, AppUser, AppAuthor
-
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from portal.tokens import account_activation_token
-# from .serializers import UserUpdateSerializer, AppCreateUpdateSerializer
+# from .serializers import UserUpdateSerializer
 
 # ------------------------------------------REST-framework-----------------------------------------
 from rest_framework import viewsets, permissions, filters
@@ -106,8 +97,43 @@ class UserLoginView(LoginView):
         )
         return redirect_to if url_is_safe else ''
 
-class SignUpView(TemplateView):
-    template_name = 'users/signup.html'
+class UserSignUpView(CreateView):
+    model = User
+    form_class = UserSignUpForm
+    template_name = 'users/signup_form.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {
+            'form': form,
+            'user_type': 'User',
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+
+            user = form.save(commit=False)
+            user.is_active = False # Deactivate account till it is confirmed
+            user.save()
+
+            current_site = get_current_site(request)
+            subject = 'Activate Your User account in NewsFeed Portal'
+            message = render_to_string('users/account_activation_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            user.email_user(subject, message, 'contact@kd.ticonsys.com')
+
+            email_sent_message = 'An email has been sent to ' + str(user.email) + ' Please check your email and click on the confirmation link to confirm your account'
+
+            return render(request, 'users/login.html', {
+                'success_message': email_sent_message,
+            })
+
+        return render(request, self.template_name, {'form': form})
 
 class ActivateAccount(View):
 
@@ -122,35 +148,27 @@ class ActivateAccount(View):
             user = None
 
         if user is not None and account_activation_token.check_token(user, token):
-            if user.is_user:
+            if user:
                 user.is_active = True
-            elif user.is_developer:
-                user.is_active = False
 
             user.email_confirmed = True
             user.save()
             login(request, user)
 
-            if user.is_user:
+            if user:
                 user_success_account_message = email_sent_message = 'Hi!! ' + str(user.username) + ' Your account have been confirmed. Please log with your given username and password.'
 
                 return render(request, 'users/login.html', {
                     'success_message': user_success_account_message,
-                })
-            elif user.is_developer:
-                admin_approval_message = 'Hi ' + str(user.username) +'!! Please wait for the activation status email from the admin. Once you get it, you will be able to login with your given username and password.  '
-                return render(request, 'users/login.html', {
-                    'success_message': admin_approval_message,
-                })            
+                }) 
         else:
             return render(request, 'users/login.html', {
                 'error_message': 'The confirmation link was invalid, possibly because it has already been used.'
             })
 
-@method_decorator(login_required, name='dispatch')
 class HomeView(ListView):
     model = News
-    template_name = 'users/user_home.html'
+    template_name = 'portal/home.html'
     context_object_name = 'records'
     paginate_by = 15
     
@@ -169,6 +187,28 @@ class HomeView(ListView):
         kwargs['q'] = self.request.GET.get('q')
         return super().get_context_data(**kwargs)
 
+@method_decorator(login_required, name='dispatch')
+class UserHomeView(ListView):
+    model = News
+    template_name = 'portal/user_home.html'
+    # context_object_name = 'news_list'
+    # paginate_by = 15
+    
+    # def get_queryset(self):
+    #     form = self.request.GET.get('q')
+    #     if form:
+    #         return News.objects.filter(
+    #             Q(image_url__icontains=form) | 
+    #             Q(result__icontains=form) |
+    #             Q(created_at__icontains=form)
+    #         )
+    #     queryset = News.objects.all().order_by('created_at').reverse()
+    #     return queryset
+
+    # def get_context_data(self, **kwargs):
+    #     kwargs['q'] = self.request.GET.get('q')
+    #     return super().get_context_data(**kwargs)
+
 class MyPasswordRestView(PasswordResetView):
     from_email = 'contact@kd.ticonsys.com'
     html_email_template_name = 'users/password_reset_email_template.html'
@@ -181,7 +221,7 @@ def profile(request):
         u_form = UserUpdateForm(request.POST, instance=request.user)
         if u_form.is_valid():
             u_form.save()       
-            return render(request, 'portal/admin_profile.html', {
+            return render(request, 'portal/user_home.html', {
                 'u_form': u_form,
                 'message': 'Your account has been updated!'
             })
@@ -215,7 +255,7 @@ def AlJazeera(request):
     mylist = zip(news, desc, img)
 
 
-    return render(request, 'al-jazeera.html', context={"mylist":mylist})
+    return render(request, 'portal/aljazeera.html', context={"mylist":mylist})
 
 def BBC(request):
     newsapi = NewsApiClient(api_key='cbdd86a002e24e569b7905729d546e91')# '<your API key>')
@@ -239,7 +279,7 @@ def BBC(request):
     mylist = zip(news, desc, img)
 
 
-    return render(request, 'bbc.html', context={"mylist":mylist})
+    return render(request, 'portal/bbc.html', context={"mylist":mylist})
 
 # For 404 and 505 page handle
 def handler404(request, template_name="../templates/404.html"):

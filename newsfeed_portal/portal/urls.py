@@ -6,6 +6,6 @@ app_name = 'portal'
 urlpatterns = [
     path('aljazeera/', AlJazeera, name = 'AlJazeera'),
     path('bbc/', BBC, name = 'BBC'),
-
-    path('home/', HomeView.as_view(), name='home'),
+    path('user-home/', UserHomeView.as_view(), name='user_home'),
+    path('profile/', profile, name='profile'),
 ]

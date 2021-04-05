@@ -10,10 +10,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
-    {% if user.is_authenticated %}
-      <link rel="stylesheet" type="text/css" href="{% static 'css/app_developer.css' %}">
-    {% endif %}
   </head>
   <body style="background: #1a262b">
     <div class="container my-4">
@@ -22,18 +18,14 @@
           <div class="row">
             <div class="col-6">
               <h1 class="logo">
-                <a href="{% url 'portal:home' %}" style="color: #d9d9d9">
+                <a href="{% url 'home' %}" style="color: #d9d9d9">
                   NewsFeed Portal
                 </a>
               </h1>
             </div>
             <div class="col-6 text-right">
-              {% if user.is_authenticated %}
-                <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Log out</a>.</p>
-              {% else %}
-                <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
-                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
-              {% endif %}
+              <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
+              <a href="{% url 'home' %}" class="btn btn-primary" role="button">Go to home Page</a>
             </div>
           </div>
           <div class="card mb-3">
