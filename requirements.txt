@@ -2,4 +2,11 @@ django==3.1.7
 djangorestframework==3.12.4
 newsapi-python==0.2.6
 django-sendgrid-v5
+django-cors-headers==3.5.0
+jsonfield==3.1.0
+sorl-thumbnail==12.6.3
+easy-thumbnails==2.7
+django-crispy-forms==1.11.2
+six==1.15.0
+django-utils-six==2.0
 

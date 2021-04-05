@@ -1,0 +1,43 @@
+{% extends "portal/app_developer_base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid dashboard_item">
+    {% if message %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endif %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4"></div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card shadow mb-4 dashboard_item_shadow br-10">
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="content-section">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-secondary">{{ user.email }}</p>
+                            </div>
+                        </div>
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Profile Info</legend>
+                                    {{ u_form | crispy }}
+                            </fieldset>
+
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
