@@ -31,7 +31,5 @@ docs:
   image: python:3.6.9
   stage: test
   script:
-    - pip install sphinx sphinx_rtd_theme
-    - sphinx-build -M html docs _built_docs -W
   tags:
     - docker
