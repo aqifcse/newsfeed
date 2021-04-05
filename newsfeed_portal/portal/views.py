@@ -125,7 +125,7 @@ class UserSignUpView(CreateView):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            user.email_user(subject, message, 'contact@kd.ticonsys.com')
+            user.email_user(subject, message, '<your aws smtp sending mail id e.g. x@y.com>')
 
             email_sent_message = 'An email has been sent to ' + str(user.email) + ' Please check your email and click on the confirmation link to confirm your account'
 
@@ -210,7 +210,7 @@ class UserHomeView(ListView):
     #     return super().get_context_data(**kwargs)
 
 class MyPasswordRestView(PasswordResetView):
-    from_email = 'contact@kd.ticonsys.com'
+    from_email = '<your aws smtp sending mail id e.g x@y.com>'
     html_email_template_name = 'users/password_reset_email_template.html'
     subject_template_name = 'users/password_reset_subject.txt'
     template_name = 'users/password_reset.html'
