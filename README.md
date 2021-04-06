@@ -1,9 +1,9 @@
+![Logo](https://i.ibb.co/C23m7NR/Logo-Makr-2jjctm.png)
+
 **NewsFeed**
 
 
 A user friendly, personalized news feed portal
-
-![Logo](https://i.ibb.co/C23m7NR/Logo-Makr-2jjctm.png)
 
 - This is a personalized news feed portal fetches news with NewsAPI 
 - A personalized feed is included for user modification 
@@ -11,6 +11,7 @@ A user friendly, personalized news feed portal
 - For mobile access, some APIs are exposed
 
 **Setting Up**
+
 
 OS: Ubuntu 18.04 LTS
 
