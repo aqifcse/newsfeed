@@ -71,16 +71,27 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="javascript:;">
                             <span class="user-profile">
-                                <img src="{% static 'portal/assets/img/download.jpeg' %}" class="img-circle"
-                                    alt="user avatar">
+
+                                {% if user.avater %}
+                                    <img src="{% static '{{ user.avater }}' %}" class="img-circle" alt="user avatar">
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <img src="{% static 'portal/assets/img/avatar.jpg' %}" class="img-circle" alt="user avatar">
+                                {% endif %}
+
+
+
+
+
+                                
                             </span>
-                            <span style="font-size: 16px;color: #333;">{{user.username}}</span>
+                            <span style="font-size: 16px;color: #333;">{{user.first_name}}</span>
                             <i class="fa fa-angle-down" style="font-size: 16px;color: #000;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right animated fadeIn">
 
                             <li class="dropdown-divider"></li>
-                            <a href="{% url 'portal:profile' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> profile</li></a>
+                            <a href="{% url 'portal:profile' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Profile</li></a>
+                            <a href="{% url 'portal:settings' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i>Settings</li></a>
                             <a href="{% url 'logout' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li></a>
                         </ul>
                     </li>

@@ -8,4 +8,5 @@ urlpatterns = [
     path('bbc/', BBC, name = 'BBC'),
     path('user-home/', UserHomeView.as_view(), name='user_home'),
     path('profile/', profile, name='profile'),
+    path('settings/', SettingsView.as_view(), name='settings'),
 ]

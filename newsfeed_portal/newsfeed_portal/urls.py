@@ -13,7 +13,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 urlpatterns = [
-     path('newsFeedAllinAllAdmin/', admin.site.urls), # Secured naming to hide master admin
+     path('admin/', admin.site.urls), # Secured naming to hide master admin
      path('', HomeView.as_view(), name='home'),
      path('', include('portal.urls', namespace='portal')),
      path('login/', UserLoginView.as_view(template_name='users/login.html'), name='login'),

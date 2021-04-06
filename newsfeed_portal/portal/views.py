@@ -209,6 +209,11 @@ class UserHomeView(ListView):
     #     kwargs['q'] = self.request.GET.get('q')
     #     return super().get_context_data(**kwargs)
 
+@method_decorator(login_required, name='dispatch')
+class SettingsView(ListView):
+    model = User
+    template_name = 'portal/settings.html'
+
 class MyPasswordRestView(PasswordResetView):
     from_email = '<your aws smtp sending mail id e.g x@y.com>'
     html_email_template_name = 'users/password_reset_email_template.html'
