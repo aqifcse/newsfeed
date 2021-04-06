@@ -45,12 +45,13 @@ class UserSignUpForm(UserCreationForm):
         return user
 
 class UserUpdateForm(forms.ModelForm):
+    avatar     = forms.ImageField(required=False)
     first_name = forms.CharField()
-    last_name = forms.CharField()
+    last_name  = forms.CharField()
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name']
+        fields = ['avatar', 'first_name', 'last_name']
 
 class EmailValidationOnForgotPassword(PasswordResetForm):
 
