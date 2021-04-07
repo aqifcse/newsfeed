@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.auth.models import User 
+from .models import User 
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, UserCreationForm
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
+from django_json_widget.widgets import JSONEditorWidget
 
 class UserAuthForm(AuthenticationForm):
     
@@ -45,13 +46,16 @@ class UserSignUpForm(UserCreationForm):
         return user
 
 class UserUpdateForm(forms.ModelForm):
-    avatar     = forms.ImageField(required=False)
-    first_name = forms.CharField()
-    last_name  = forms.CharField()
+    first_name      = forms.CharField(required=False)
+    last_name       = forms.CharField(required=False)
+    email           = forms.EmailField(required=False)
 
     class Meta:
         model = User
-        fields = ['avatar', 'first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'email', 'subscribe']
+        widgets = {
+            'jsonfield': JSONEditorWidget
+        }
 
 class EmailValidationOnForgotPassword(PasswordResetForm):
 

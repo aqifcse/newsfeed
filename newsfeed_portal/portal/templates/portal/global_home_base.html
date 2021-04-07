@@ -40,13 +40,24 @@
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">MAIN NAVIGATION</li>
                 <li>
-                    <a href="{% url 'portal:user_home' %}" class="waves-effect">
+                    <a href="{% url 'global_home' %}" class="waves-effect">
                         <i class="fa fa-tachometer"></i><span>Home</span>
                     </a>
                 </li>
+
                 <li>
-                    <a href="{% url 'logout' %}" class="waves-effect">
-                        <i class="fa fa-sign-out"></i><span>Logout</span>
+                    <a href="{% url 'global_country_based_news' %}" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Countries</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_source_based_news' %}" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Sources</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_keyword_based_news' %}" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Keywords</span>
                     </a>
                 </li>
             </ul>
@@ -67,35 +78,12 @@
                     </li>
                 </ul>
 
-                <ul class="navbar-nav align-items-center right-nav-link ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="javascript:;">
-                            <span class="user-profile">
-
-                                {% if user.avater %}
-                                    <img src="{% static '{{ user.avater }}' %}" class="img-circle" alt="user avatar">
-                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                                    <img src="{% static 'portal/assets/img/avatar.jpg' %}" class="img-circle" alt="user avatar">
-                                {% endif %}
-
-
-
-
-
-                                
-                            </span>
-                            <span style="font-size: 16px;color: #333;">{{user.first_name}}</span>
-                            <i class="fa fa-angle-down" style="font-size: 16px;color: #000;"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right animated fadeIn">
-
-                            <li class="dropdown-divider"></li>
-                            <a href="{% url 'portal:profile' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Profile</li></a>
-                            <a href="{% url 'portal:settings' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i>Settings</li></a>
-                            <a href="{% url 'logout' %}"><li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li></a>
-                        </ul>
-                    </li>
-                </ul>
+                <div class="navbar-nav align-items-center right-nav-link ml-auto">
+                    
+                    <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
+                    <a href="{% url 'signup' %}" class="btn btn-dark" role="button">Sign up</a>
+                    
+                </div>
             </nav>
         </header>
         <!--End topbar header-->
