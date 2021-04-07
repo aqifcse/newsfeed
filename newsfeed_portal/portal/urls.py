@@ -13,5 +13,6 @@ urlpatterns = [
     path('user-keyword-based-news/', UserKeywordBasedNewsView.as_view(), name='user_keyword_based_news'),
 
     path('profile/', profile, name='profile'),
-    path('settings/', SettingsView.as_view(), name='settings'),
+    path('settings/', settings, name='settings'),
+    #path('settings/', SettingsView.as_view(), name='settings'),
 ]

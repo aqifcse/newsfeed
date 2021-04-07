@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import Group
 from jsonfield import JSONField
 from django_json_widget.widgets import JSONEditorWidget
-from .models import User, RecommendTags, NewsCard
+from portal.models import *
 
 class UserAdmin(admin.ModelAdmin):
     list_display = [
@@ -40,9 +40,22 @@ class NewsCardAdmin(admin.ModelAdmin):
         'country_of_news',
         'original_news_source_link',   
     ]
+#------------------To do------------------
+class TodoListAdmin(admin.ModelAdmin):
+	list_display = ("title", "created", "due_date")
+
+class CategoryAdmin(admin.ModelAdmin):
+	list_display = ("name",)
+
+admin.site.register(TodoList, TodoListAdmin)
+admin.site.register(Category, CategoryAdmin)
+
+#---------------------------------------------------
 
 admin.site.unregister(Group)
 admin.site.register(User, UserAdmin)
 admin.site.register(RecommendTags, RecommendTagsAdmin)
 admin.site.register(NewsCard, NewsCardAdmin)
+
+
 

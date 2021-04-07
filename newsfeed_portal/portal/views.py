@@ -1,52 +1,44 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.contrib.auth.views import LoginView
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.http import is_safe_url
-from django.urls import reverse
-from django.views.generic import CreateView, ListView, UpdateView, TemplateView, View
-from django.db.models import Q
-
-from .forms import *
-from .models import NewsCard
-
-from newsapi.newsapi_client import NewsApiClient
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import datetime
 
-from django.http import FileResponse, JsonResponse
-from django.shortcuts import render
-from django.template import RequestContext
+from .forms import *
+from .models import *
+from .tokens import account_activation_token
+# from .serializers import UserUpdateSerializer
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from django.db.models import Count, Value, F, Sum
-from django.db.models.functions import Concat
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy, reverse
-from django.utils.http import is_safe_url
-from django.contrib.auth.views import LoginView, PasswordResetView
-from django.core.paginator import Paginator
-from django.core.mail import send_mail
-from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.views import *
+from django.contrib.sites.shortcuts import get_current_site
 from django.conf import settings
 
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView, UpdateView, TemplateView, View
-from django.views.generic.detail import DetailView
-from rest_framework.response import Response
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
+from django.core.mail import send_mail
 
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.db import transaction
+from django.db.models import Q
+from django.db.models import Count, Value, F, Sum
+from django.db.models.functions import Concat
+
+from django.http import FileResponse, JsonResponse
+
+from django.shortcuts import render, get_object_or_404, redirect
+
+from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.utils.encoding import force_text
-from portal.tokens import account_activation_token
-# from .serializers import UserUpdateSerializer
+
+from django.utils.decorators import method_decorator
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import is_safe_url
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.urls import reverse_lazy, reverse
+
+from django.views.generic import *
+from django.views.generic.detail import *
 
 # ------------------------------------------REST-framework-----------------------------------------
 from rest_framework import viewsets, permissions, filters
@@ -56,6 +48,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
+#------------------------------------------NewsAPI Packages-------------------------------------------------
+from newsapi.newsapi_client import NewsApiClient
+
+
+#-------------------------------------------View Func and Class starts------------------------------------
 class UserLoginView(LoginView):
     form_class = UserAuthForm
 
@@ -134,6 +131,12 @@ class UserSignUpView(CreateView):
             })
 
         return render(request, self.template_name, {'form': form})
+
+class MyPasswordRestView(PasswordResetView):
+    from_email = '<your aws smtp mail id e.g x@y.com>'
+    html_email_template_name = 'users/password_reset_email_template.html'
+    subject_template_name = 'users/password_reset_subject.txt'
+    template_name = 'users/password_reset.html'
 
 class ActivateAccount(View):
 
@@ -250,6 +253,7 @@ class GlobalKeywordBasedNewsView(ListView):
         kwargs['q'] = self.request.GET.get('q')
         return super().get_context_data(**kwargs)
 
+
 @method_decorator(login_required, name='dispatch')
 class UserHomeView(ListView):
     model = NewsCard
@@ -338,17 +342,6 @@ class UserKeywordBasedNewsView(ListView):
         kwargs['q'] = self.request.GET.get('q')
         return super().get_context_data(**kwargs)
 
-@method_decorator(login_required, name='dispatch')
-class SettingsView(ListView):
-    model = User
-    template_name = 'portal/user_settings.html'
-
-class MyPasswordRestView(PasswordResetView):
-    from_email = '<your aws smtp mail id e.g x@y.com>'
-    html_email_template_name = 'users/password_reset_email_template.html'
-    subject_template_name = 'users/password_reset_subject.txt'
-    template_name = 'users/password_reset.html'
-
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -365,6 +358,37 @@ def profile(request):
         'u_form': u_form,
     }
     return render(request, 'portal/user_profile.html', context)
+
+@login_required
+def settings(request): #the settings view
+	todos = TodoList.objects.all() #quering all todos with the object manager
+	categories = Category.objects.all() #getting all categories with object manager
+	if request.method == "POST": #checking if the request method is a POST
+		if "taskAdd" in request.POST: #checking if there is a request to add a todo
+			title = request.POST["description"] #title
+			date = str(request.POST["date"]) #date
+			category = request.POST["category_select"] #category
+			content = title + " -- " + date + " " + category #content
+			Todo = TodoList(title=title, content=content, due_date=date, category=Category.objects.get(name=category))
+			Todo.save() #saving the todo 
+			return redirect("/") #reloading the page
+		
+		if "taskDelete" in request.POST: #checking if there is a request to delete a todo
+			checkedlist = request.POST["checkedbox"] #checked todos to be deleted
+			for todo_id in checkedlist:
+				todo = TodoList.objects.get(id=int(todo_id)) #getting todo id
+				todo.delete() #deleting todo
+
+	return render(request, "portal/user_settings.html", {"todos": todos, "categories":categories})
+
+# @method_decorator(login_required, name='dispatch')
+# class SettingsView(ListView):
+#     model = User
+#     template_name = 'portal/user_settings.html'
+
+
+
+
 
 #---------------------------------------Initial NewsAPI testing--------------------------------------
 def AlJazeera(request):
