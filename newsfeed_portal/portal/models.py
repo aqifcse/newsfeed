@@ -1,7 +1,12 @@
-from django.db import models
-from jsonfield import JSONField
-from django.utils import timezone as tz
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib.auth.models import AbstractUser, User
+from django.db import models
+from django.utils import timezone
+from django.utils import timezone as tz
+from jsonfield import JSONField
+
 
 class User(AbstractUser):
     subscribe = models.BooleanField(
@@ -26,3 +31,30 @@ class NewsCard(models.Model):
     original_news_source_link   = models.URLField()
 
     published_at                = models.DateTimeField(default=tz.now)
+
+
+
+# To Do for settings
+class Category(models.Model): # The Category table name that inherits models.Model
+	name = models.CharField(max_length=100) #Like a varchar
+
+	class Meta:
+		verbose_name = ("Category")
+		verbose_name_plural = ("Categories")
+
+	def __str__(self):
+		return self.name #name to be shown when called
+
+class TodoList(models.Model): #Todolist able name that inherits models.Model
+	title = models.CharField(max_length=250) # a varchar
+	content = models.TextField(blank=True) # a text field 
+	created = models.DateField(default=timezone.now().strftime("%Y-%m-%d")) # a date
+	due_date = models.DateField(default=timezone.now().strftime("%Y-%m-%d")) # a date
+	category = models.ForeignKey(Category, default="general", on_delete=models.CASCADE) # a foreignkey
+
+	class Meta:
+		ordering = ["-created"] #ordering by the created field
+
+	def __str__(self):
+		return self.title #name to be shown when called
+
