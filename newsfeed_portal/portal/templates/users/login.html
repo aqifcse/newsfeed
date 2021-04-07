@@ -1,40 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "users/login_base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login to NewsFeed Portal </title>
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'portal/assets/img/bless_favicon.png' %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'portal/assets/img/bless_favicon.png' %}">
-
-    <!-- Bootstrap CSS Files version 4 -->
-    <link rel="stylesheet" href="{% static 'portal/assets/css/bootstrap.min.css' %}">
-
-    <!-- Google Fonts -->
-    <link href="{% static 'portal/assets/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'portal/assets/css/style.css' %}">
-    <style>
-        nav > div a.nav-item.nav-link {
-            border: none;
-            padding: 18px 25px;
-            color: #fff;
-            background: #272e38;
-            border-radius: 0;
-        }
-        nav > div a.nav-item.nav-link.active {
-            border: none;
-            background: #F2652D;
-            color: #fff;
-            border-radius: 0;
-            transition: background 0.20s linear;
-        }
-    </style>
-</head>
-
+{% block content %}
 <body>
     <div class="container-fluid mglr-0">
         {% if success_message %}
@@ -95,7 +61,7 @@
                             </form>
                             </br> </br>
                             <a class="float-left" href="{% url 'signup' %}" style="color: #d9d9d9"> Create Account</a> <br>
-                            <a class="float-left" href="{% url 'home' %}" style="color: #d9d9d9"> Go to home page</a>
+                            <a class="float-left" href="{% url 'global_home' %}" style="color: #d9d9d9"> Go to home page</a>
                             <a class="float-right" href="{% url 'password_reset' %}" style="color: #d9d9d9">Forget Password</a>
                         </div>
                         </br>
@@ -106,13 +72,4 @@
     </div>
 </body>
 
-<!-- Jquery Js  version: 3.3.1-->
-<script src="{% static 'portal/assets/js/jquery.min.js' %}"></script>
-
-<!-- Bootstrap Js -->
-<script src="{% static 'portal/assets/js/bootstrap.min.js' %}"></script>
-
-<!-- Custom JS -->
-<script src="{% static 'portal/assets/js/main.js' %}"></script>
-
-</html>
+{% endblock %}

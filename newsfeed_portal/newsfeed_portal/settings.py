@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = ')&e(_=tu8d_r&&8r4=^3il%%n42^42n5k%5@wte)wldj4dx(xh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#DEBUG = False
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders', # For future JS Frontend
     'crispy_forms', # For crispy forms
     'rest_framework', # For REST API
+    'django_json_widget', # For json editor in admin
 ]
 
 REST_FRAMEWORK = {
@@ -138,6 +140,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+AUTH_USER_MODEL = 'portal.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

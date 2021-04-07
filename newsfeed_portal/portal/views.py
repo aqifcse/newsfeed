@@ -9,7 +9,7 @@ from django.views.generic import CreateView, ListView, UpdateView, TemplateView,
 from django.db.models import Q
 
 from .forms import *
-from .models import News
+from .models import NewsCard
 
 from newsapi.newsapi_client import NewsApiClient
 
@@ -166,21 +166,84 @@ class ActivateAccount(View):
                 'error_message': 'The confirmation link was invalid, possibly because it has already been used.'
             })
 
-class HomeView(ListView):
-    model = News
-    template_name = 'portal/home.html'
-    context_object_name = 'records'
+class GlobalHomeView(ListView):
+    model = NewsCard
+    template_name = 'portal/global_home.html'
+    context_object_name = 'feeds'
     paginate_by = 15
     
     def get_queryset(self):
         form = self.request.GET.get('q')
         if form:
-            return News.objects.filter(
+            return NewsCard.objects.filter(
                 Q(image_url__icontains=form) | 
                 Q(result__icontains=form) |
                 Q(created_at__icontains=form)
             )
-        queryset = News.objects.all().order_by('created_at').reverse()
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
+
+class GlobalCountryBasedNewsView(ListView):
+    model = NewsCard
+    template_name = 'portal/global_country_based_news.html'
+    context_object_name = 'feeds'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
+
+class GlobalSourceBasedNewsView(ListView):
+    model = NewsCard
+    template_name = 'portal/global_source_based_news.html'
+    context_object_name = 'feeds'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
+
+class GlobalKeywordBasedNewsView(ListView):
+    model = NewsCard
+    template_name = 'portal/global_keword_based_news.html'
+    context_object_name = 'feeds'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -189,33 +252,99 @@ class HomeView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class UserHomeView(ListView):
-    model = News
+    model = NewsCard
     template_name = 'portal/user_home.html'
-    # context_object_name = 'news_list'
-    # paginate_by = 15
+    context_object_name = 'feeds'
+    paginate_by = 15
     
-    # def get_queryset(self):
-    #     form = self.request.GET.get('q')
-    #     if form:
-    #         return News.objects.filter(
-    #             Q(image_url__icontains=form) | 
-    #             Q(result__icontains=form) |
-    #             Q(created_at__icontains=form)
-    #         )
-    #     queryset = News.objects.all().order_by('created_at').reverse()
-    #     return queryset
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
 
-    # def get_context_data(self, **kwargs):
-    #     kwargs['q'] = self.request.GET.get('q')
-    #     return super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
+
+@method_decorator(login_required, name='dispatch')
+class UserCountryBasedNewsView(ListView):
+    model = NewsCard
+    template_name = 'portal/user_country_based_news.html'
+    context_object_name = 'feeds'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
+
+@method_decorator(login_required, name='dispatch')
+class UserSourceBasedNewsView(ListView):
+    model = NewsCard
+    template_name = 'portal/user_source_based_news.html'
+    context_object_name = 'feeds'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
+
+@method_decorator(login_required, name='dispatch')
+class UserKeywordBasedNewsView(ListView):
+    model = NewsCard
+    template_name = 'portal/user_keyword_based_news.html'
+    context_object_name = 'feeds'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        form = self.request.GET.get('q')
+        if form:
+            return NewsCard.objects.filter(
+                Q(image_url__icontains=form) | 
+                Q(result__icontains=form) |
+                Q(created_at__icontains=form)
+            )
+        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs['q'] = self.request.GET.get('q')
+        return super().get_context_data(**kwargs)
 
 @method_decorator(login_required, name='dispatch')
 class SettingsView(ListView):
     model = User
-    template_name = 'portal/settings.html'
+    template_name = 'portal/user_settings.html'
 
 class MyPasswordRestView(PasswordResetView):
-    from_email = '<your aws smtp sending mail id e.g x@y.com>'
+    from_email = '<your aws smtp mail id e.g x@y.com>'
     html_email_template_name = 'users/password_reset_email_template.html'
     subject_template_name = 'users/password_reset_subject.txt'
     template_name = 'users/password_reset.html'
@@ -226,7 +355,7 @@ def profile(request):
         u_form = UserUpdateForm(request.POST, instance=request.user)
         if u_form.is_valid():
             u_form.save()       
-            return render(request, 'portal/user_home.html', {
+            return render(request, 'portal/user_profile.html', {
                 'u_form': u_form,
                 'message': 'Your account has been updated!'
             })
@@ -235,9 +364,9 @@ def profile(request):
     context = {
         'u_form': u_form,
     }
-    return render(request, 'portal/profile.html', context)
+    return render(request, 'portal/user_profile.html', context)
 
-
+#---------------------------------------Initial NewsAPI testing--------------------------------------
 def AlJazeera(request):
     newsapi = NewsApiClient(api_key='cbdd86a002e24e569b7905729d546e91')    #'<your api key>')
     topheadlines = newsapi.get_top_headlines(sources='al-jazeera-english')
