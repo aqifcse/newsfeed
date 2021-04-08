@@ -404,30 +404,69 @@ def user_news_recommend_settings(request):
     if request.method == "POST":
         print(request.user)
         if "taskAdd" in request.POST:
-            title = request.POST["description"]
-            category = request.POST["category_select"]
-            content = title + " -- " + category
+            title = request.POST.get("description", False)
+            category = request.POST.get("category_select", False)
 
-            word_list_object = WordList(
-                title=title,
-                content=content,
-                category=Category.objects.get(name=category),
-            )
-            word_list_object.save()
-            return redirect("portal:user_news_recommend_settings")
+            if category != "":
+                content = title + " -- " + category
+                word_list_object = WordList(
+                    title=title,
+                    content=content,
+                    category=Category.objects.get(name=category),
+                )
+                word_list_object.save()
+                return redirect("portal:user_news_recommend_settings")
+            else:
+                return redirect("portal:user_news_recommend_settings")
 
         if "taskDelete" in request.POST:
-            checkedlist = request.POST["checkedbox"]
-            print(checkedlist)
-            for word_id in checkedlist:
-                word = WordList.objects.get(id=int(word_id))
-                word.delete()
-            return redirect("portal:user_news_recommend_settings")
+            checked_word_id = request.POST.get("checkedbox", False)
+            try:
+                word_obj = WordList.objects.get(id=int(checked_word_id))
+                word_obj.delete()
+                return redirect("portal:user_news_recommend_settings")
+            except:
+                return redirect("portal:user_news_recommend_settings")
+
     return render(
         request,
         "portal/user_news_recommend_settings.html",
         {
             "words": words,
+            "categories": categories,
+        },
+    )
+
+
+@login_required
+def user_news_recommend_settings_category_manager(request):
+
+    categories = Category.objects.all()
+
+    if request.method == "POST":
+        if "taskAdd" in request.POST:
+            category_name = request.POST.get("description", False)
+            print(category_name)
+            if category_name != "":
+                category_object = Category.objects.create(name=category_name)
+                category_object.save()
+                return redirect("portal:user_news_recommend_settings_category_manager")
+            else:
+                return redirect("portal:user_news_recommend_settings_category_manager")
+
+        if "taskDelete" in request.POST:
+            checked_category_id = request.POST.get("checkedbox", False)
+            print(checked_category_id)
+            try:
+                category_obj = Category.objects.get(id=int(checked_category_id))
+                category_obj.delete()
+                return redirect("portal:user_news_recommend_settings_category_manager")
+            except:
+                return redirect("portal:user_news_recommend_settings_category_manager")
+    return render(
+        request,
+        "portal/user_news_recommend_settings_category_manager.html",
+        {
             "categories": categories,
         },
     )
