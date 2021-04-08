@@ -31,11 +31,11 @@ class NewsCardAdmin(admin.ModelAdmin):
 
 # ------------------RecommendWordList------------------
 class WordListAdmin(admin.ModelAdmin):
-    list_display = ("title", "created")
+    list_display = ("category", "word", "created")
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("recommended_by", "name")
 
 
 admin.site.register(WordList, WordListAdmin)

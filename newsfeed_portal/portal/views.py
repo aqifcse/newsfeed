@@ -402,19 +402,22 @@ def user_news_recommend_settings(request):
     words = WordList.objects.all()
     categories = Category.objects.all()
     if request.method == "POST":
-        print(request.user)
+
+        username = request.user.username
+        user_obj = get_object_or_404(User, username=username)
+
         if "taskAdd" in request.POST:
-            title = request.POST.get("description", False)
+            word = request.POST.get("description", False)
             category = request.POST.get("category_select", False)
 
             if category != "":
-                content = title + " -- " + category
-                word_list_object = WordList(
-                    title=title,
-                    content=content,
-                    category=Category.objects.get(name=category),
+                word_object = WordList(
+                    word=word,
+                    category=Category.objects.get(
+                        recommended_by=user_obj, name=category
+                    ),
                 )
-                word_list_object.save()
+                word_object.save()
                 return redirect("portal:user_news_recommend_settings")
             else:
                 return redirect("portal:user_news_recommend_settings")
@@ -422,7 +425,9 @@ def user_news_recommend_settings(request):
         if "taskDelete" in request.POST:
             checked_word_id = request.POST.get("checkedbox", False)
             try:
-                word_obj = WordList.objects.get(id=int(checked_word_id))
+                word_obj = WordList.objects.get(
+                    category__recommended_by=user_obj, id=int(checked_word_id)
+                )
                 word_obj.delete()
                 return redirect("portal:user_news_recommend_settings")
             except:
@@ -444,13 +449,24 @@ def user_news_recommend_settings_category_manager(request):
     categories = Category.objects.all()
 
     if request.method == "POST":
+
+        username = request.user.username
+        user_obj = get_object_or_404(User, username=username)
+
         if "taskAdd" in request.POST:
+
             category_name = request.POST.get("description", False)
-            print(category_name)
+
             if category_name != "":
-                category_object = Category.objects.create(name=category_name)
+
+                category_object = Category.objects.create(
+                    recommended_by=user_obj, name=category_name
+                )
+
                 category_object.save()
+
                 return redirect("portal:user_news_recommend_settings_category_manager")
+
             else:
                 return redirect("portal:user_news_recommend_settings_category_manager")
 
@@ -458,7 +474,9 @@ def user_news_recommend_settings_category_manager(request):
             checked_category_id = request.POST.get("checkedbox", False)
             print(checked_category_id)
             try:
-                category_obj = Category.objects.get(id=int(checked_category_id))
+                category_obj = Category.objects.get(
+                    recommended_by=user_obj, id=int(checked_category_id)
+                )
                 category_obj.delete()
                 return redirect("portal:user_news_recommend_settings_category_manager")
             except:
