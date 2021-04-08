@@ -1,0 +1,67 @@
+{% extends "portal/user_news_recommend_settings_base.html" %}
+{% block settings %}
+
+<body>
+    <div django-app="TaskManager">
+        <div class="container">
+            <div class="content">
+                <h1>News Recommend Settings</h1>
+                <p class="tagline">Give your news recommendation</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <!-- csrf token for basic security -->
+                    <div class="inputContainer">
+                        <input type="text" id="description" class="taskName"
+                            placeholder="Insert a news tag one a time.." name="description" required>
+                        <label for="description">News Tag</label>
+                    </div>
+                    <div class="inputContainer half last">
+                        <i class="fa fa-caret-down selectArrow"></i>
+                        <select id="category" class="taskCategory" name="category_select">
+                            <option class="disabled" value="">Choose a category</option>
+                            {% for category in categories %}
+                            <option class="" value="{{ category.name }}" name="{{ category.name }}">
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <!-- <label for="category">Category</label> -->
+                    </div>
+                    <div class="row">
+                        <button class="taskAdd" name="taskAdd" type="submit">
+                            <i class="fa fa-plus icon"></i>Add Tag</button>
+                        <button class="taskDelete" name="taskDelete" formnovalidate="" type="submit"
+                            onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>Delete Tag</button>
+                    </div>
+                    <ul class="taskList">
+                        {% for word in words %}
+                        <!-- django template lang - for loop -->
+                        <li class="taskItem">
+                            <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ word.id }}"
+                                value="{{ word.id }}">
+                            <label for="{{ word.id }}">
+                                <span class="complete-">
+                                    {{ word.title }}
+                                </span>
+                            </label>
+                            <span class="category-{{ word.category }}">
+                                {{ word.category}}
+                            </span>
+                            <strong class="taskDate">
+                                <i class="fa fa-calendar"></i>
+                                {{ word.created }}
+                            </strong>
+                            <!-- - {{ word.due_date }}</strong> -->
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <!-- taskList -->
+                </form>
+            </div>
+            <!-- content -->
+        </div>
+        <!-- container -->
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+{% endblock %}

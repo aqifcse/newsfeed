@@ -1,75 +1,72 @@
 {% extends "users/login_base.html" %}
-
 {% block content %}
 <body>
     <div class="container-fluid mglr-0">
         {% if success_message %}
-            <div class="alert alert-success">
-                {{ success_message }}
-            </div>
+        <div class="alert alert-success">
+            {{ success_message }}
+        </div>
         {% endif %}
         {% if error_message %}
-            <div class="alert alert-danger">
-                {{ error_message }}
-            </div>
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
         {% endif %}
         {% if form.non_field_errors %}
-<!--                <div class="alert alert-{{ active.tags }}">-->
-                     {{ form.non_field_errors }}
-<!--                </div>-->
+        <!--                <div class="alert alert-{{ active.tags }}">-->
+        {{ form.non_field_errors }}
+        <!--                </div>-->
         {% endif %}
         <div class="login_form_section">
             <div class="login_options col-sm-9 col-lg-7 col-xl-5 col-md-9 ">
                 <div class="col-xs-12 ">
                     <!-- <nav> -->
-                        <!-- <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                          <a class="nav-item nav-link col-6 " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" ></a>
+                    <!-- <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link col-6 " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" ></a>
                         </div> -->
                     <!-- </nav> -->
-                        <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <form method="post" action="{% url 'login' %}">
-                                {% if messages %}
-                                    <div class="messages text-center">
-                                        {% for message in messages %}
-                                            {% if message.tags in 'error' %}
-                                                <div class="alert alert-danger">{{ message }}</div>
-                                            {% elif message.tags in 'success' %}
-                                                <div class="alert alert-success">{{ message }}.</div>
-                                            {% else %}
-                                                <div class="alert alert-warning">{{ message }}</div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
+                    <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <form method="post" action="{% url 'login' %}">
+                            {% if messages %}
+                            <div class="messages text-center">
+                                {% for message in messages %}
+                                {% if message.tags in 'error' %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                                {% elif message.tags in 'success' %}
+                                <div class="alert alert-success">{{ message }}.</div>
+                                {% else %}
+                                <div class="alert alert-warning">{{ message }}</div>
                                 {% endif %}
-                                {% csrf_token %}
-                                <input type="hidden" name="user_type" value="user"/>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text login_input_addon"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control login_input_field" placeholder="username" name="username">
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% csrf_token %}
+                            <input type="hidden" name="user_type" value="user"/>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text login_input_addon"><i class="fa fa-user"></i></span>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text login_input_addon"><i class="fa fa-key key_rotate"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control login_input_field" placeholder="Password" name="password">
-                                    <i class="fa fa-eye show_pass"></i>
+                                <input type="text" class="form-control login_input_field" placeholder="username" name="username">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text login_input_addon"><i class="fa fa-key key_rotate"></i></span>
                                 </div>
-
-                                <button type="submit" class="btn btn-block btn-orange">Sign in</button>
-                            </form>
-                            </br> </br>
-                            <a class="float-left" href="{% url 'signup' %}" style="color: #d9d9d9"> Create Account</a> <br>
-                            <a class="float-left" href="{% url 'global_home' %}" style="color: #d9d9d9"> Go to home page</a>
-                            <a class="float-right" href="{% url 'password_reset' %}" style="color: #d9d9d9">Forget Password</a>
-                        </div>
-                        </br>
+                                <input type="password" class="form-control login_input_field" placeholder="Password" name="password">
+                                <i class="fa fa-eye show_pass"></i>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-orange">Sign in</button>
+                        </form>
+                        </br> </br>
+                        <a class="float-left" href="{% url 'signup' %}" style="color: #d9d9d9"> Create Account</a> <br>
+                        <a class="float-left" href="{% url 'global_home' %}" style="color: #d9d9d9"> Go to home page</a>
+                        <a class="float-right" href="{% url 'password_reset' %}" style="color: #d9d9d9">Forget Password</a>
                     </div>
+                    </br>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 </body>
-
 {% endblock %}

@@ -12,7 +12,7 @@ urlpatterns = [
     path('user-source-based-news/', UserSourceBasedNewsView.as_view(), name='user_source_based_news'),
     path('user-keyword-based-news/', UserKeywordBasedNewsView.as_view(), name='user_keyword_based_news'),
 
-    path('profile/', profile, name='profile'),
-    path('settings/', settings, name='settings'),
+    path('user-profile-settings/', user_profile_settings, name='user_profile_settings'),
+    path('user-news-recommend-settings/', user_news_recommend_settings, name='user_news_recommend_settings'),
     #path('settings/', SettingsView.as_view(), name='settings'),
 ]
