@@ -37,10 +37,11 @@ class Category(models.Model):
 
 
 class WordList(models.Model):
+    category = models.ForeignKey(Category, default="general", on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
+
     content = models.TextField(blank=True)
     created = models.DateField(default=timezone.now().strftime("%Y-%m-%d"))
-    category = models.ForeignKey(Category, default="general", on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-created"]
