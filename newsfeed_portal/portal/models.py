@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from django.utils import timezone as tz
@@ -25,7 +25,7 @@ class NewsCard(models.Model):
 
 
 class Category(models.Model):
-    # recommended_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    recommended_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
     class Meta:
@@ -38,13 +38,11 @@ class Category(models.Model):
 
 class WordList(models.Model):
     category = models.ForeignKey(Category, default="general", on_delete=models.CASCADE)
-    title = models.CharField(max_length=250)
-
-    content = models.TextField(blank=True)
+    word = models.CharField(max_length=250)
     created = models.DateField(default=timezone.now().strftime("%Y-%m-%d"))
 
     class Meta:
         ordering = ["-created"]
 
     def __str__(self):
-        return self.title
+        return self.word

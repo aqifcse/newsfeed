@@ -1,9 +1,6 @@
 ![Logo](https://i.ibb.co/C23m7NR/Logo-Makr-2jjctm.png)
 
-**NewsFeed**
-
-
-A user friendly, personalized news feed portal
+**NewsFeed**, A user friendly, personalized news feed portal
 
 - This is a personalized news feed portal fetches news with NewsAPI 
 - A personalized feed is included for user modification 
@@ -54,9 +51,19 @@ Then hit the migrate command for database migrations(both for sqlite3 and mysql)
 ```
 (venv) x@x:~/newsfeed/newsfeed_portal$ python manage.py migrate
 ```
+Set admin by createsuperuser
+```
+(venv) x@x:~/newsfeed/newsfeed_portal$ python manage.py createsuperuser
+```
+Provide your preffered username, email, password, confirm password
+
 Then run the server locally by runserver command
 ```
 (venv) x@x:~/newsfeed/newsfeed_portal$ python manage.py runserver
+```
+If static files didn't loaded properly use collectstatic
+```
+(venv) x@x:~/newsfeed/newsfeed_portal$ python manage.py collectstatic
 ```
 By default, the server will run in 8000 port. If you want to run the server to a different port (e.g 8080 port), then the command will be 
 ```
@@ -75,8 +82,6 @@ kill the running processes on a specific ip:port or port by kill command after g
 ```
 (venv) x@x:~/newsfeed/newsfeed_portal$ kill -9 31626
 ```
-
-Done!!!!!
 
 
 
