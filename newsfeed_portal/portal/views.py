@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import datetime
 
 from .forms import *
 from .models import *
 from .tokens import account_activation_token
+
 # from .serializers import UserUpdateSerializer
 
 from django.contrib import messages
@@ -48,98 +46,116 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-#------------------------------------------NewsAPI Packages-------------------------------------------------
+# ------------------------------------------NewsAPI Packages-------------------------------------------------
 from newsapi.newsapi_client import NewsApiClient
 
 
-#-------------------------------------------View Func and Class starts------------------------------------
+# -------------------------------------------View Func and Class starts------------------------------------
 class UserLoginView(LoginView):
     form_class = UserAuthForm
 
     def get_success_url(self):
         if self.request.user:
-            return reverse('portal:user_home')
+            return reverse("portal:user_home")
         else:
-            return reverse('portal:user_home')
+            return reverse("portal:user_home")
 
     def form_invalid(self, form):
         # error message
         error_messages = []
         message = form.errors.get_json_data()
         for _, message_value in message.items():
-            error = message_value[0]['message']
+            error = message_value[0]["message"]
             error_messages.append(error)
-        message_ = ' And '.join(error_messages)
+        message_ = " And ".join(error_messages)
 
         # Check user_type
-        user_type = 'asdfa'
+        user_type = "asdfa"
         if user_type:
             messages.error(self.request, message_)
-            return redirect('login')
+            return redirect("login")
         elif user_type:
             messages.error(self.request, message_)
-            return redirect('login')
+            return redirect("login")
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_redirect_url(self):
         """Return the user-originating redirect URL if it's safe."""
         redirect_to = self.request.POST.get(
-            self.redirect_field_name,
-            self.request.GET.get(self.redirect_field_name, '')
+            self.redirect_field_name, self.request.GET.get(self.redirect_field_name, "")
         )
         url_is_safe = is_safe_url(
             url=redirect_to,
             allowed_hosts=self.get_success_url_allowed_hosts(),
             require_https=self.request.is_secure(),
         )
-        return redirect_to if url_is_safe else ''
+        return redirect_to if url_is_safe else ""
+
 
 class UserSignUpView(CreateView):
     model = User
     form_class = UserSignUpForm
-    template_name = 'users/signup_form.html'
+    template_name = "users/signup_form.html"
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {
-            'form': form,
-            'user_type': 'User',
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "user_type": "User",
+            },
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
 
             user = form.save(commit=False)
-            user.is_active = False # Deactivate account till it is confirmed
+            user.is_active = False  # Deactivate account till it is confirmed
             user.save()
 
             current_site = get_current_site(request)
-            subject = 'Activate Your User account in NewsFeed Portal'
-            message = render_to_string('users/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            user.email_user(subject, message, '<your aws smtp sending mail id e.g. x@y.com>')
+            subject = "Activate Your User account in NewsFeed Portal"
+            message = render_to_string(
+                "users/account_activation_email.html",
+                {
+                    "user": user,
+                    "domain": current_site.domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "token": account_activation_token.make_token(user),
+                },
+            )
+            user.email_user(
+                subject, message, "<your aws smtp sending mail id e.g. x@y.com>"
+            )
 
-            email_sent_message = 'An email has been sent to ' + str(user.email) + ' Please check your email and click on the confirmation link to confirm your account'
+            email_sent_message = (
+                "An email has been sent to "
+                + str(user.email)
+                + " Please check your email and click on the confirmation link to confirm your account"
+            )
 
-            return render(request, 'users/login.html', {
-                'success_message': email_sent_message,
-            })
+            return render(
+                request,
+                "users/login.html",
+                {
+                    "success_message": email_sent_message,
+                },
+            )
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
+
 
 class MyPasswordRestView(PasswordResetView):
-    from_email = '<your aws smtp mail id e.g x@y.com>'
-    html_email_template_name = 'users/password_reset_email_template.html'
-    subject_template_name = 'users/password_reset_subject.txt'
-    template_name = 'users/password_reset.html'
+    from_email = "<your aws smtp mail id e.g x@y.com>"
+    html_email_template_name = "users/password_reset_email_template.html"
+    subject_template_name = "users/password_reset_subject.txt"
+    template_name = "users/password_reset.html"
+
 
 class ActivateAccount(View):
-
     def get(self, request, uidb64, token, *args, **kwargs):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
@@ -159,244 +175,311 @@ class ActivateAccount(View):
             login(request, user)
 
             if user:
-                user_success_account_message = email_sent_message = 'Hi!! ' + str(user.username) + ' Your account have been confirmed. Please log with your given username and password.'
+                user_success_account_message = email_sent_message = (
+                    "Hi!! "
+                    + str(user.username)
+                    + " Your account have been confirmed. Please log with your given username and password."
+                )
 
-                return render(request, 'users/login.html', {
-                    'success_message': user_success_account_message,
-                }) 
+                return render(
+                    request,
+                    "users/login.html",
+                    {
+                        "success_message": user_success_account_message,
+                    },
+                )
         else:
-            return render(request, 'users/login.html', {
-                'error_message': 'The confirmation link was invalid, possibly because it has already been used.'
-            })
+            return render(
+                request,
+                "users/login.html",
+                {
+                    "error_message": "The confirmation link was invalid, possibly because it has already been used."
+                },
+            )
+
 
 class GlobalHomeView(ListView):
     model = NewsCard
-    template_name = 'portal/global_home.html'
-    context_object_name = 'feeds'
+    template_name = "portal/global_home.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
+
 
 class GlobalCountryBasedNewsView(ListView):
     model = NewsCard
-    template_name = 'portal/global_country_based_news.html'
-    context_object_name = 'feeds'
+    template_name = "portal/global_country_based_news.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
+
 
 class GlobalSourceBasedNewsView(ListView):
     model = NewsCard
-    template_name = 'portal/global_source_based_news.html'
-    context_object_name = 'feeds'
+    template_name = "portal/global_source_based_news.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
+
 
 class GlobalKeywordBasedNewsView(ListView):
     model = NewsCard
-    template_name = 'portal/global_keword_based_news.html'
-    context_object_name = 'feeds'
+    template_name = "portal/global_keword_based_news.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name="dispatch")
 class UserHomeView(ListView):
     model = NewsCard
-    template_name = 'portal/user_home.html'
-    context_object_name = 'feeds'
+    template_name = "portal/user_home.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(login_required, name="dispatch")
 class UserCountryBasedNewsView(ListView):
     model = NewsCard
-    template_name = 'portal/user_country_based_news.html'
-    context_object_name = 'feeds'
+    template_name = "portal/user_country_based_news.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(login_required, name="dispatch")
 class UserSourceBasedNewsView(ListView):
     model = NewsCard
-    template_name = 'portal/user_source_based_news.html'
-    context_object_name = 'feeds'
+    template_name = "portal/user_source_based_news.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(login_required, name="dispatch")
 class UserKeywordBasedNewsView(ListView):
     model = NewsCard
-    template_name = 'portal/user_keyword_based_news.html'
-    context_object_name = 'feeds'
+    template_name = "portal/user_keyword_based_news.html"
+    context_object_name = "feeds"
     paginate_by = 15
-    
+
     def get_queryset(self):
-        form = self.request.GET.get('q')
+        form = self.request.GET.get("q")
         if form:
             return NewsCard.objects.filter(
-                Q(image_url__icontains=form) | 
-                Q(result__icontains=form) |
-                Q(created_at__icontains=form)
+                Q(image_url__icontains=form)
+                | Q(result__icontains=form)
+                | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by('published_at').reverse()
+        queryset = NewsCard.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
-        kwargs['q'] = self.request.GET.get('q')
+        kwargs["q"] = self.request.GET.get("q")
         return super().get_context_data(**kwargs)
 
+
 @login_required
-def profile(request):
-    if request.method == 'POST':
+def user_profile_settings(request):
+    if request.method == "POST":
         u_form = UserUpdateForm(request.POST, instance=request.user)
         if u_form.is_valid():
-            u_form.save()       
-            return render(request, 'portal/user_profile.html', {
-                'u_form': u_form,
-                'message': 'Your account has been updated!'
-            })
+            u_form.save()
+            return render(
+                request,
+                "portal/user_profile_settings.html",
+                {"u_form": u_form, "message": "Your account has been updated!"},
+            )
     else:
         u_form = UserUpdateForm(instance=request.user)
     context = {
-        'u_form': u_form,
+        "u_form": u_form,
     }
-    return render(request, 'portal/user_profile.html', context)
+    return render(request, "portal/user_profile_settings.html", context)
+
 
 @login_required
-def settings(request): #the settings view
-	todos = TodoList.objects.all() #quering all todos with the object manager
-	categories = Category.objects.all() #getting all categories with object manager
-	if request.method == "POST": #checking if the request method is a POST
-		if "taskAdd" in request.POST: #checking if there is a request to add a todo
-			title = request.POST["description"] #title
-			date = str(request.POST["date"]) #date
-			category = request.POST["category_select"] #category
-			content = title + " -- " + date + " " + category #content
-			Todo = TodoList(title=title, content=content, due_date=date, category=Category.objects.get(name=category))
-			Todo.save() #saving the todo 
-			return redirect("/") #reloading the page
-		
-		if "taskDelete" in request.POST: #checking if there is a request to delete a todo
-			checkedlist = request.POST["checkedbox"] #checked todos to be deleted
-			for todo_id in checkedlist:
-				todo = TodoList.objects.get(id=int(todo_id)) #getting todo id
-				todo.delete() #deleting todo
+def user_news_recommend_settings(request):
+    words = WordList.objects.all()
+    categories = Category.objects.all()
+    if request.method == "POST":
+        print(request.user)
+        if "taskAdd" in request.POST:
+            title = request.POST.get("description", False)
+            category = request.POST.get("category_select", False)
 
-	return render(request, "portal/user_settings.html", {"todos": todos, "categories":categories})
+            if category != "":
+                content = title + " -- " + category
+                word_list_object = WordList(
+                    title=title,
+                    content=content,
+                    category=Category.objects.get(name=category),
+                )
+                word_list_object.save()
+                return redirect("portal:user_news_recommend_settings")
+            else:
+                return redirect("portal:user_news_recommend_settings")
 
-# @method_decorator(login_required, name='dispatch')
-# class SettingsView(ListView):
-#     model = User
-#     template_name = 'portal/user_settings.html'
+        if "taskDelete" in request.POST:
+            checked_word_id = request.POST.get("checkedbox", False)
+            try:
+                word_obj = WordList.objects.get(id=int(checked_word_id))
+                word_obj.delete()
+                return redirect("portal:user_news_recommend_settings")
+            except:
+                return redirect("portal:user_news_recommend_settings")
+
+    return render(
+        request,
+        "portal/user_news_recommend_settings.html",
+        {
+            "words": words,
+            "categories": categories,
+        },
+    )
 
 
+@login_required
+def user_news_recommend_settings_category_manager(request):
+
+    categories = Category.objects.all()
+
+    if request.method == "POST":
+        if "taskAdd" in request.POST:
+            category_name = request.POST.get("description", False)
+            print(category_name)
+            if category_name != "":
+                category_object = Category.objects.create(name=category_name)
+                category_object.save()
+                return redirect("portal:user_news_recommend_settings_category_manager")
+            else:
+                return redirect("portal:user_news_recommend_settings_category_manager")
+
+        if "taskDelete" in request.POST:
+            checked_category_id = request.POST.get("checkedbox", False)
+            print(checked_category_id)
+            try:
+                category_obj = Category.objects.get(id=int(checked_category_id))
+                category_obj.delete()
+                return redirect("portal:user_news_recommend_settings_category_manager")
+            except:
+                return redirect("portal:user_news_recommend_settings_category_manager")
+    return render(
+        request,
+        "portal/user_news_recommend_settings_category_manager.html",
+        {
+            "categories": categories,
+        },
+    )
 
 
-
-#---------------------------------------Initial NewsAPI testing--------------------------------------
+# ---------------------------------------Initial NewsAPI testing--------------------------------------
 def AlJazeera(request):
-    newsapi = NewsApiClient(api_key='cbdd86a002e24e569b7905729d546e91')    #'<your api key>')
-    topheadlines = newsapi.get_top_headlines(sources='al-jazeera-english')
+    newsapi = NewsApiClient(
+        api_key="cbdd86a002e24e569b7905729d546e91"
+    )  #'<your api key>')
+    topheadlines = newsapi.get_top_headlines(sources="al-jazeera-english")
 
-
-    articles = topheadlines['articles']
+    articles = topheadlines["articles"]
 
     desc = []
     news = []
@@ -405,22 +488,22 @@ def AlJazeera(request):
     for i in range(len(articles)):
         myarticles = articles[i]
 
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-
+        news.append(myarticles["title"])
+        desc.append(myarticles["description"])
+        img.append(myarticles["urlToImage"])
 
     mylist = zip(news, desc, img)
 
+    return render(request, "portal/aljazeera.html", context={"mylist": mylist})
 
-    return render(request, 'portal/aljazeera.html', context={"mylist":mylist})
 
 def BBC(request):
-    newsapi = NewsApiClient(api_key='cbdd86a002e24e569b7905729d546e91')# '<your API key>')
-    topheadlines = newsapi.get_top_headlines(sources='bbc-news')
+    newsapi = NewsApiClient(
+        api_key="cbdd86a002e24e569b7905729d546e91"
+    )  # '<your API key>')
+    topheadlines = newsapi.get_top_headlines(sources="bbc-news")
 
-
-    articles = topheadlines['articles']
+    articles = topheadlines["articles"]
 
     desc = []
     news = []
@@ -429,15 +512,14 @@ def BBC(request):
     for i in range(len(articles)):
         myarticles = articles[i]
 
-        news.append(myarticles['title'])
-        desc.append(myarticles['description'])
-        img.append(myarticles['urlToImage'])
-
+        news.append(myarticles["title"])
+        desc.append(myarticles["description"])
+        img.append(myarticles["urlToImage"])
 
     mylist = zip(news, desc, img)
 
+    return render(request, "portal/bbc.html", context={"mylist": mylist})
 
-    return render(request, 'portal/bbc.html', context={"mylist":mylist})
 
 # For 404 and 505 page handle
 def handler404(request, template_name="../templates/404.html"):
