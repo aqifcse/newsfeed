@@ -33,25 +33,45 @@
                 </a>
             </div>
             <ul class="sidebar-menu do-nicescrol">
-                <li class="sidebar-header">options</li>
+                <!-- <li class="sidebar-header"></li> -->
                 <li>
                     <a href="{% url 'portal:user_home' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>home</span>
+                        <i class="fa fa-tachometer"></i><span>Home</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'portal:user_country_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>countries</span>
+                    <a href="{% url 'portal:user_home' %}?search=top" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Top News</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'portal:user_source_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>sources</span>
+                    <a href="{% url 'portal:user_home' %}?search=Business" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Business</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'portal:user_keyword_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>keywords</span>
+                    <a href="{% url 'portal:user_home' %}?search=Technology" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Technology</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'portal:user_home' %}?search=Entertainment" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Entertainment</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'portal:user_home' %}?search=Sports" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Sports</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'portal:user_home' %}?search=Science" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Science</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'portal:user_home' %}?search=Health" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Health</span>
                     </a>
                 </li>
                 <li>
