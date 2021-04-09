@@ -1,60 +1,146 @@
 {% extends "portal/user_base.html" %}
 {% block content %}
-{% if messages %}
-<div class="messages text-center">
-    {% for message in messages %}
-    {% if message.tags in 'error' %}
-    <div class="alert alert-danger">{{ message }}</div>
-    {% elif message.tags in 'success' %}
-    <div class="alert alert-success">{{ message }}.</div>
-    {% else %}
-    <div class="alert alert-warning">{{ message }}</div>
-    {% endif %}
-    {% endfor %}
-</div>
-{% endif %}
-<div class="container-fluid content_area">
-    <div class="row">
-        <div class="col-sm-12" style="margin-bottom: 15px;">
-            {% if is_paginated %}
-            {% if page_obj.has_previous %}
-            <a class="btn btn-outline-dark mb-4" href="?page=1 {% if q %} &q={{ q }} {% endif %}">First</a>
-            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}{% if q %} &q={{ q }} {% endif %}">Previous</a>
-            {% endif %}
-            {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-            <a class="btn btn-dark mb-4" href="?page={{ num }}{% if q %} &q={{ q }} {% endif %}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a class="btn btn-outline-dark mb-4" href="?&page={{ num }}{% if q %} &q={{ q }} {% endif %}">{{ num }}</a>
+
+<body>
+    <div class="content-section">
+        <div class="container" id="articles-container">
+            {% for value in data %}
+            <div class="card mb-3 box" style="max-width: 640px; margin:auto;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{value.url}}" target="_blanck">{{value.title}}</a></h5>
+                            <p class="card-text">{{value.description}}</p>
+                            <p class="card-text"><small class="text-muted">{{value.publishedat}}</small></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 img-box">
+                        <img src="{{value.image}}" class="card-img" alt="..." height="100%">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <h1 id="loading">Loading....</h1>
+        {% if is_paginated %}
+        {% if page_obj.has_previous %}
+        <a class="btn btn-outline-dark mb-4" href="?page=1 {% if q %} &q={{ q }} {% endif %}">First</a>
+        <a class="btn btn-outline-dark mb-4"
+            href="?page={{ page_obj.previous_page_number }}{% if q %} &q={{ q }} {% endif %}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <a class="btn btn-dark mb-4" href="?page={{ num }}{% if q %} &q={{ q }} {% endif %}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <a class="btn btn-outline-dark mb-4"
+            href="?&page={{ num }}{% if q %} &q={{ q }} {% endif %}">{{ num }}</a>
             {% endif %}
             {% endfor %}
+
             {% if page_obj.has_next %}
-            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}{% if q %} &q={{ q }} {% endif %}">Next</a>
-            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}{% if q %} &q={{ q }} {% endif %}">Last</a>
+            <a class="btn btn-outline-dark mb-4"
+                href="?page={{ page_obj.next_page_number }}{% if q %} &q={{ q }} {% endif %}">Next</a>
+            <a class="btn btn-outline-dark mb-4"
+                href="?page={{ page_obj.paginator.num_pages }}{% if q %} &q={{ q }} {% endif %}">Last</a>
             {% endif %}
             {% endif %}
-        </div>
     </div>
-</div>
-<!--End Dashboard Content-->
-</div>
-<!-- End container-fluid-->
-<!-- modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> Selected Image</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="" alt="Content Title" style="display:none;width:100%;" id="preview_img">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- modal -->
-<!--End content-wrapper-->
+</body>
+{% endblock %}
+{% block script %}
+<style>
+    #articles-container {
+        margin-left: 0px;
+    }
+
+    .box {
+        transition-property: box-shadow, transform;
+        transition-duration: 1s;
+    }
+
+    .box:hover {
+        /* box-shadow: 2px 2px 5px #8080807a; */
+        box-shadow: 1px 2px 8px 0px #00bcffb0;
+        transform: translateY(-9px);
+    }
+
+    .img-box {
+        padding: 20px;
+    }
+
+    .img-box img {
+        border-radius: 15px;
+        object-fit: cover;
+    }
+
+    #loading {
+        text-align: center;
+        display: none;
+    }
+</style>
+<script>
+
+    $(document).ready(function () {
+        console.log("ready!");
+        el = document.getElementsByClassName("text-muted")
+        for (i = 0; i < el.length; i++) {
+            t = document.getElementsByClassName("text-muted")[i].innerText
+            var d = new Date(t)
+            document.getElementsByClassName("text-muted")[i].innerText = d.toDateString()
+        }
+    });
+    var page = 2;
+    var window_scroll = true;
+    var search = "{{ search }}";
+
+    window.addEventListener('scroll', function (e) {
+        // scroll check
+        console.log("scroll check...")
+        if (window_scroll) {
+            if ((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 200)) {
+                window_scroll = false;
+                document.getElementById("loading").style.display = "block";
+                $.ajax({
+                    url: '/next?page=' + page + '&search=' + search,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data["success"]) {
+                            articles = data["data"]
+                            articles_html = ''
+                            for (i = 0; i < articles.length; i++) {
+                                articles_html += ' \
+                            <div class="card mb-3 box" style="max-width: 640px; margin:auto;">\
+                                <div class="row">\
+                                    <div class="col-md-8">\
+                                        <div class="card-body">\
+                                            <h5 class="card-title"><a href="'+ articles[i]["url"] + '" target="_blanck">' + articles[i]["title"] + '</a></h5>\
+                                            <p class="card-text">'+ articles[i]["description"] + '</p>\
+                                            <p class="card-text"><small class="text-muted">'+ articles[i]["publishedat"] + '</small></p>\
+                                        </div>\
+                                    </div>\
+                                            \
+                                    <div class="col-md-4 img-box">\
+                                        <img src="'+ articles[i]["image"] + '" class="card-img" alt="..." height="100%">\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            '
+                            }
+                            $("#articles-container").append(articles_html);
+                            page += 1
+                            window_scroll = true;
+                            document.getElementById("loading").style.display = "none";
+                        }
+                        else {
+                            console.log("Failed")
+                            window_scroll = true;
+                            document.getElementById("loading").style.display = "none";
+                        }
+                    }
+                });
+            }
+        }
+    })
+</script>
 {% endblock %}

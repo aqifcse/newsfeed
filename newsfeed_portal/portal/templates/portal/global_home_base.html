@@ -33,25 +33,45 @@
                 </a>
             </div>
             <ul class="sidebar-menu do-nicescrol">
-                <li class="sidebar-header">MAIN NAVIGATION</li>
+                <!-- <li class="sidebar-header"></li> -->
                 <li>
                     <a href="{% url 'global_home' %}" class="waves-effect">
                         <i class="fa fa-tachometer"></i><span>Home</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'global_country_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Countries</span>
+                    <a href="{% url 'global_home' %}?search=top" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Top News</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'global_source_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Sources</span>
+                    <a href="{% url 'global_home' %}?search=Business" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Business</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'global_keyword_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Keywords</span>
+                    <a href="{% url 'global_home' %}?search=Technology" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Technology</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_home' %}?search=Entertainment" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Entertainment</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_home' %}?search=Sports" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Sports</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_home' %}?search=Science" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Science</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_home' %}?search=Health" class="waves-effect">
+                        <i class="fa fa-tachometer"></i><span>Health</span>
                     </a>
                 </li>
             </ul>
@@ -69,6 +89,17 @@
                         </a>
                     </li>
                 </ul>
+                <li class="nav-item">
+                    {% block search %}
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group mb-0 search_input_group mr-3">
+                            <input class="form-control header_search" type="text" id="ad_search" name="search"
+                                placeholder="Search" value="">
+                        </div>
+                    </form>
+                    {% endblock %}
+                </li>
                 <div class="navbar-nav align-items-center right-nav-link ml-auto">
                     <a href="{% url 'login' %}" class="btn btn-outline-dark" role="button">Sign in</a>
                     <a href="{% url 'signup' %}" class="btn btn-outline-dark" role="button">Sign up</a>
@@ -85,13 +116,6 @@
         <a href="javascript:;" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
         <!--End Back To Top Button-->
         <!--Start footer-->
-        <footer class="footer">
-            <!-- <div class="container">
-                <div class="text-center">
-                    Copyright © 2021 Syed Towfiqur Rahim
-                </div>
-            </div> -->
-        </footer>
         <!--End footer-->
     </div>
     <!-- Bootstrap Js -->
