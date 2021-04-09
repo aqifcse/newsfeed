@@ -1,166 +1,168 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>NewsFeed portal</title>
-        <!--FAVICONS -->
-        <link rel="apple-touch-icon" sizes="57x57" href="{% static 'portal/assets/img/bless_favicon.png' %}">
-        <link rel="icon" type="image/png" sizes="96x96" href="{% static 'portal/assets/img/bless_favicon.png' %}">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="{% static 'portal/assets/css/dataTables.bootstrap4.min.css' %}" />
-        <link rel="stylesheet" href="{% static 'portal/assets/css/custom.css' %}" />
-        <!-- Jquery Js  version: 3.3.1-->
-        <script src="{% static 'portal/assets/js/jquery.min.js' %}"></script>
-    </head>
-    <body>
-        <div class='full_page_loading_msg text-success' style="display: none;">
-            <span>Processing</span>
-            <i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></i>
-        </div>
-        <!-- Start wrapper-->
-        <div id="wrapper">
-            <!--Start sidebar-wrapper-->
-            <div id="sidebar-wrapper" data-simplebar=" " data-simplebar-auto-hide=" true ">
-                <div class="brand-logo">
-                    <a href="javascript:;">
-                        <img src="{% static 'portal/assets/img/top_logo.png' %}" class="logo-icon" alt="logo icon">
-                        <p class="logo-text"> NewsFeed Portal</p>
-                    </a>
-                </div>
-                <ul class="sidebar-menu do-nicescrol">
-                    <li class="sidebar-header">MAIN NAVIGATION</li>
-                    <li>
-                        <a href="{% url 'global_home' %}" class="waves-effect">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NewsFeed portal</title>
+    <!--FAVICONS -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'portal/assets/img/bless_favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'portal/assets/img/bless_favicon.png' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'portal/assets/css/dataTables.bootstrap4.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'portal/assets/css/custom.css' %}" />
+    <!-- Jquery Js  version: 3.3.1-->
+    <script src="{% static 'portal/assets/js/jquery.min.js' %}"></script>
+</head>
+
+<body>
+    <div class='full_page_loading_msg text-success' style="display: none;">
+        <span>Processing</span>
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></i>
+    </div>
+    <!-- Start wrapper-->
+    <div id="wrapper">
+        <!--Start sidebar-wrapper-->
+        <div id="sidebar-wrapper" data-simplebar=" " data-simplebar-auto-hide=" true ">
+            <div class="brand-logo">
+                <a href="javascript:;">
+                    <img src="{% static 'portal/assets/img/top_logo.png' %}" class="logo-icon" alt="logo icon">
+                    <p class="logo-text"> NewsFeed Portal</p>
+                </a>
+            </div>
+            <ul class="sidebar-menu do-nicescrol">
+                <li class="sidebar-header">MAIN NAVIGATION</li>
+                <li>
+                    <a href="{% url 'global_home' %}" class="waves-effect">
                         <i class="fa fa-tachometer"></i><span>Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'global_country_based_news' %}" class="waves-effect">
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_country_based_news' %}" class="waves-effect">
                         <i class="fa fa-tachometer"></i><span>Countries</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'global_source_based_news' %}" class="waves-effect">
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_source_based_news' %}" class="waves-effect">
                         <i class="fa fa-tachometer"></i><span>Sources</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'global_keyword_based_news' %}" class="waves-effect">
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'global_keyword_based_news' %}" class="waves-effect">
                         <i class="fa fa-tachometer"></i><span>Keywords</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--End sidebar-wrapper-->
+        <!--Start topbar header-->
+        <header class="topbar-nav">
+            <nav class="navbar navbar-expand fixed-top" style="background:#fff">
+                <ul class="navbar-nav my-nav align-items-center ">
+                    <li class="nav-item">
+                        <a class="nav-link toggle-menu" href="javascript:;">
+                            <span class="icon-menu menu-icon">
+                                <i class="fa fa-bars"></i>
+                            </span>
                         </a>
                     </li>
                 </ul>
-            </div>
-            <!--End sidebar-wrapper-->
-            <!--Start topbar header-->
-            <header class="topbar-nav">
-                <nav class="navbar navbar-expand fixed-top" style="background:#fff">
-                    <ul class="navbar-nav my-nav align-items-center ">
-                        <li class="nav-item">
-                            <a class="nav-link toggle-menu" href="javascript:;">
-                            <span class="icon-menu menu-icon">
-                            <i class="fa fa-bars"></i>
-                            </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="navbar-nav align-items-center right-nav-link ml-auto">
-                        <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
-                        <a href="{% url 'signup' %}" class="btn btn-dark" role="button">Sign up</a>
-                    </div>
-                </nav>
-            </header>
-            <!--End topbar header-->
-            <div class="clearfix"></div>
-            <!--End wrapper-->
-            <div class="content-wrapper">
-                {% block content %}{% endblock %}
-            </div>
-            <!--Start Back To Top Button-->
-            <a href="javascript:;" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-            <!--End Back To Top Button-->
-            <!--Start footer-->
-            <footer class="footer">
-                <div class="container">
-                    <div class="text-center">
-                        Copyright © 2021 Syed Towfiqur Rahim
-                    </div>
+                <div class="navbar-nav align-items-center right-nav-link ml-auto">
+                    <a href="{% url 'login' %}" class="btn btn-outline-dark" role="button">Sign in</a>
+                    <a href="{% url 'signup' %}" class="btn btn-outline-dark" role="button">Sign up</a>
                 </div>
-            </footer>
-            <!--End footer-->
+            </nav>
+        </header>
+        <!--End topbar header-->
+        <div class="clearfix"></div>
+        <!--End wrapper-->
+        <div class="content-wrapper">
+            {% block content %}{% endblock %}
         </div>
-        <!-- Bootstrap Js -->
-        <script src="{% static 'portal/assets/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'portal/assets/js/simplebar.js' %}"></script>
-        <script src="{% static 'portal/assets/js/waves.js' %}"></script>
-        <script src="{% static 'portal/assets/js/sidebar-menu.js' %}"></script>
-        <script src="{% static 'portal/assets/js/slick.min.js' %}"></script>
-        <!-- Datatables js -->
-        <script language="JavaScript" src="{% static 'portal/assets/js/jquery.dataTables.min.js' %}"></script>
-        <script language="JavaScript" src="{% static 'portal/assets/js/dataTables.bootstrap4.min.js' %}"></script>
-        <!-- Custom JS -->
-        <script src="{% static 'portal/assets/js/main.js' %}"></script>
-        <script>
-            $('#id_add_file').click(function(e) {
-                var type = $('#id_ad_type').val();
-                if (type == 'null') {
-                    e.preventDefault();
-                    $('#msg').text('Please Select Ad type First').fadeIn(500).delay(2000).fadeOut(500);
-                }
-            });
-            
-            $('#id_add_file').change(function() {
-            
-                var type = $('#id_ad_type').val();
-                console.log(type);
-                if (type == 'LS') {
-                    var fileInput = document.getElementById('id_add_file');
-                    var filePath = fileInput.value;
-                    console.log('file_path:--"' + filePath);
-                    var allowedExtensions = /(\.png|\.gif)$/i;
-            
-                    //var size = fileInput.files[0].size/1024/1024 //size in MB
-            
-                    var file = fileInput.files && fileInput.files[0];
-                    if (!allowedExtensions.exec(filePath)) {
-                        console.log(fileInput.value);
-                        fileInput.value = '';
-                        //alert('Please upload Image having extensions .jpeg/.jpg/.png/.gif only');
-                        $('#msg').text("Please Upload An Image Having Extensions .png/.PNG Only").fadeIn(1000)
-                            .delay(3000).fadeOut(1000);
-                        return false;
-                    }
-                } else if (type == 'FS') {
-                    var fileInput = document.getElementById('id_add_file');
-                    var filePath = fileInput.value;
-                    console.log('file_path:--"' + filePath);
-                    var allowedExtensions = /(\.mp4)$/i;
-            
-                    //var size = fileInput.files[0].size/1024/1024 //size in MB
-            
-                    var file = fileInput.files && fileInput.files[0];
-                    if (!allowedExtensions.exec(filePath)) {
-                        console.log(fileInput.value);
-                        fileInput.value = '';
-                        //alert('Please upload Video having extensions .jpeg/.jpg/.png/.gif only');
-                        $('#msg').text("Please Upload A Video Having Extensions .mp4 Only").fadeIn(1000).delay(
-                            3000).fadeOut(1000);
-                        return false;
-                    }
-                }
-            })
-            
-            $('#id_ad_type').change(function() {
+        <!--Start Back To Top Button-->
+        <a href="javascript:;" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
+        <!--Start footer-->
+        <footer class="footer">
+            <!-- <div class="container">
+                <div class="text-center">
+                    Copyright © 2021 Syed Towfiqur Rahim
+                </div>
+            </div> -->
+        </footer>
+        <!--End footer-->
+    </div>
+    <!-- Bootstrap Js -->
+    <script src="{% static 'portal/assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'portal/assets/js/simplebar.js' %}"></script>
+    <script src="{% static 'portal/assets/js/waves.js' %}"></script>
+    <script src="{% static 'portal/assets/js/sidebar-menu.js' %}"></script>
+    <script src="{% static 'portal/assets/js/slick.min.js' %}"></script>
+    <!-- Datatables js -->
+    <script language="JavaScript" src="{% static 'portal/assets/js/jquery.dataTables.min.js' %}"></script>
+    <script language="JavaScript" src="{% static 'portal/assets/js/dataTables.bootstrap4.min.js' %}"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'portal/assets/js/main.js' %}"></script>
+    <script>
+        $('#id_add_file').click(function (e) {
+            var type = $('#id_ad_type').val();
+            if (type == 'null') {
+                e.preventDefault();
+                $('#msg').text('Please Select Ad type First').fadeIn(500).delay(2000).fadeOut(500);
+            }
+        });
+
+        $('#id_add_file').change(function () {
+
+            var type = $('#id_ad_type').val();
+            console.log(type);
+            if (type == 'LS') {
                 var fileInput = document.getElementById('id_add_file');
-                fileInput.value = '';
-            })
-        </script>
-        {% block script %} {% endblock %}
-        <style type="text/css">
-            .loading_msg {
+                var filePath = fileInput.value;
+                console.log('file_path:--"' + filePath);
+                var allowedExtensions = /(\.png|\.gif)$/i;
+
+                //var size = fileInput.files[0].size/1024/1024 //size in MB
+
+                var file = fileInput.files && fileInput.files[0];
+                if (!allowedExtensions.exec(filePath)) {
+                    console.log(fileInput.value);
+                    fileInput.value = '';
+                    //alert('Please upload Image having extensions .jpeg/.jpg/.png/.gif only');
+                    $('#msg').text("Please Upload An Image Having Extensions .png/.PNG Only").fadeIn(1000)
+                        .delay(3000).fadeOut(1000);
+                    return false;
+                }
+            } else if (type == 'FS') {
+                var fileInput = document.getElementById('id_add_file');
+                var filePath = fileInput.value;
+                console.log('file_path:--"' + filePath);
+                var allowedExtensions = /(\.mp4)$/i;
+
+                //var size = fileInput.files[0].size/1024/1024 //size in MB
+
+                var file = fileInput.files && fileInput.files[0];
+                if (!allowedExtensions.exec(filePath)) {
+                    console.log(fileInput.value);
+                    fileInput.value = '';
+                    //alert('Please upload Video having extensions .jpeg/.jpg/.png/.gif only');
+                    $('#msg').text("Please Upload A Video Having Extensions .mp4 Only").fadeIn(1000).delay(
+                        3000).fadeOut(1000);
+                    return false;
+                }
+            }
+        })
+
+        $('#id_ad_type').change(function () {
+            var fileInput = document.getElementById('id_add_file');
+            fileInput.value = '';
+        })
+    </script>
+    {% block script %} {% endblock %}
+    <style type="text/css">
+        .loading_msg {
             position: absolute;
             background: #2d2d2d87;
             width: 100%;
@@ -170,8 +172,9 @@
             justify-content: center;
             color: #ffffff !important;
             z-index: 999;
-            }
-            .full_page_loading_msg {
+        }
+
+        .full_page_loading_msg {
             position: absolute;
             background: #2d2d2d87;
             width: 100%;
@@ -181,10 +184,12 @@
             justify-content: center;
             color: #ffffff !important;
             z-index: 999;
-            }
-            .table-responsive {
+        }
+
+        .table-responsive {
             position: relative;
-            }
-        </style>
-    </body>
+        }
+    </style>
+</body>
+
 </html>

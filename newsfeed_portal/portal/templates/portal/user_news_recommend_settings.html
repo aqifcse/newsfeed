@@ -5,7 +5,7 @@
     <div django-app="TaskManager">
         <div class="container">
             <div class="content">
-                <h1>News Recommend Settings</h1>
+                <h1>set words</h1>
                 <!-- <p class="tagline">Give your news recommendation</p> -->
                 <form action="" method="post">
                     {% csrf_token %}
@@ -30,7 +30,7 @@
                     </div>
                     <div class="row">
                         <p class="tagline">
-                            <b>Category Not Added?</b>
+                            <b>category not added?</b>
                             <a href="{% url 'portal:user_news_recommend_settings_category_manager' %}">
                                 <b>Add Category</b>
                             </a>

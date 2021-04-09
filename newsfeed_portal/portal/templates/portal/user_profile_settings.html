@@ -35,8 +35,6 @@
                                         <th scope="col">User ID</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">Created At (Stockholm Time)</th>
-                                        <th scope="col">Updated At (Stockholm Time)</th>
                                         <th scope="col">Subscription</th>
                                     </tr>
                                 </thead>
@@ -46,8 +44,6 @@
                                         <td class="username">{{ user.username }}</td>
                                         <td class="fixed_td_width">{{ user.fast_name }} {{ user.last_name }}</td>
                                         <td class="fixed_td_width">{{ user.email }}</td>
-                                        <td class="fixed_td_width">{{ user.created_at }}</td>
-                                        <td class="fixed_td_width">{{ user.updated_at }}</td>
                                         {% if user.subscribe %}
                                         <td class="fixed_td_width">On</td>
                                         {% else%}
