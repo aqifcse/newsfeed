@@ -30,25 +30,37 @@ class NewsBody(models.Model):
     published_at = models.DateTimeField(default=tz.now)
 
 
-class Category(models.Model):
+class Country(models.Model):
     recommended_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
 
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name = "country"
+        verbose_name_plural = "countries"
 
     def __str__(self):
-        return self.name
+        return self.country
 
 
-class WordList(models.Model):
-    category = models.ForeignKey(Category, default="general", on_delete=models.CASCADE)
-    word = models.CharField(max_length=250)
-    created = models.DateField(default=timezone.now().strftime("%Y-%m-%d"))
+class Source(models.Model):
+    recommended_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    source = models.CharField(max_length=100)
 
     class Meta:
-        ordering = ["-created"]
+        verbose_name = "source"
+        verbose_name_plural = "sources"
 
     def __str__(self):
-        return self.word
+        return self.source
+
+
+class Keyword(models.Model):
+    recommended_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    keyword = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = "keyword"
+        verbose_name_plural = "keywords"
+
+    def __str__(self):
+        return self.keyword
