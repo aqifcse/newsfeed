@@ -2,6 +2,7 @@ import datetime
 
 from .forms import *
 from .models import *
+from newsfeed_portal.settings import *
 from .tokens import account_activation_token
 
 # from .serializers import UserUpdateSerializer
@@ -22,7 +23,7 @@ from django.db.models import Q
 from django.db.models import Count, Value, F, Sum
 from django.db.models.functions import Concat
 
-from django.http import FileResponse, JsonResponse
+from django.http import FileResponse, JsonResponse, HttpResponse
 
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -46,9 +47,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-# ------------------------------------------NewsAPI Packages-------------------------------------------------
+# ------------------------------------------NewsAPI-------------------------------------------------
 from newsapi.newsapi_client import NewsApiClient
+import requests
 
+temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
 
 # -------------------------------------------View Func and Class starts------------------------------------
 class UserLoginView(LoginView):
@@ -198,26 +201,26 @@ class ActivateAccount(View):
             )
 
 
-class GlobalHomeView(ListView):
-    model = NewsBody
-    template_name = "portal/global_home.html"
-    context_object_name = "feeds"
-    paginate_by = 15
+# class GlobalHomeView(ListView):
+#     model = NewsBody
+#     template_name = "portal/global_home.html"
+#     context_object_name = "data"
+#     paginate_by = 15
 
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
 
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
 
 
 class GlobalCountryBasedNewsView(ListView):
@@ -286,27 +289,27 @@ class GlobalKeywordBasedNewsView(ListView):
         return super().get_context_data(**kwargs)
 
 
-@method_decorator(login_required, name="dispatch")
-class UserHomeView(ListView):
-    model = NewsBody
-    template_name = "portal/user_home.html"
-    context_object_name = "feeds"
-    paginate_by = 15
+# @method_decorator(login_required, name="dispatch")
+# class UserHomeView(ListView):
+#     model = NewsBody
+#     template_name = "portal/user_home.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
 
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
 
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -550,3 +553,123 @@ def handler500(request, template_name="../templates/500.html"):
     response = render(None, template_name)
     response.status_code = 500
     return response
+
+
+def global_home(request):
+    page = request.GET.get("page", 1)
+    search = request.GET.get("search", None)
+
+    if search is None or search == "top":
+        # get the top news
+        url = (
+            "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
+                "us", 1, settings.APIKEY
+            )
+        )
+    else:
+        # get the search query request
+        url = (
+            "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+                search, "popularity", page, settings.APIKEY
+            )
+        )
+    r = requests.get(url=url)
+
+    data = r.json()
+    if data["status"] != "ok":
+        return HttpResponse("<h1>Request Failed</h1>")
+    data = data["articles"]
+    context = {"success": True, "data": [], "search": search}
+    # seprating the necessary data
+    for i in data:
+        context["data"].append(
+            {
+                "title": i["title"],
+                "description": "" if i["description"] is None else i["description"],
+                "url": i["url"],
+                "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
+                "publishedat": i["publishedAt"],
+            }
+        )
+    # send the news feed to template in context
+    return render(request, "portal/global_home.html", context=context)
+
+
+@login_required
+def user_home(request):
+    page = request.GET.get("page", 1)
+    search = request.GET.get("search", None)
+
+    if search is None or search == "top":
+        # get the top news
+        url = (
+            "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
+                "us", 1, settings.APIKEY
+            )
+        )
+    else:
+        # get the search query request
+        url = (
+            "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+                search, "popularity", page, settings.APIKEY
+            )
+        )
+    r = requests.get(url=url)
+
+    data = r.json()
+    if data["status"] != "ok":
+        return HttpResponse("<h1>Request Failed</h1>")
+    data = data["articles"]
+    context = {"success": True, "data": [], "search": search}
+    # seprating the necessary data
+    for i in data:
+        context["data"].append(
+            {
+                "title": i["title"],
+                "description": "" if i["description"] is None else i["description"],
+                "url": i["url"],
+                "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
+                "publishedat": i["publishedAt"],
+            }
+        )
+    # send the news feed to template in context
+    return render(request, "portal/user_home.html", context=context)
+
+
+def loadcontent(request):
+    try:
+        page = request.GET.get("page", 1)
+        search = request.GET.get("search", None)
+        # url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+        #     "Technology","popularity",page,settings.APIKEY
+        # )
+        if search is None or search == "top":
+            url = "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
+                "us", page, settings.APIKEY
+            )
+        else:
+            url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+                search, "popularity", page, settings.APIKEY
+            )
+        print("url:", url)
+        r = requests.get(url=url)
+
+        data = r.json()
+        if data["status"] != "ok":
+            return JsonResponse({"success": False})
+        data = data["articles"]
+        context = {"success": True, "data": [], "search": search}
+        for i in data:
+            context["data"].append(
+                {
+                    "title": i["title"],
+                    "description": "" if i["description"] is None else i["description"],
+                    "url": i["url"],
+                    "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
+                    "publishedat": i["publishedAt"],
+                }
+            )
+
+        return JsonResponse(context)
+    except Exception as e:
+        return JsonResponse({"success": False})
