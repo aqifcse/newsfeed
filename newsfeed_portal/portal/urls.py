@@ -4,24 +4,6 @@ from .views import *
 app_name = "portal"
 
 urlpatterns = [
-    # path("aljazeera/", AlJazeera, name="AlJazeera"),
-    # path("bbc/", BBC, name="BBC"),
-    # path("user-home/", UserHomeView.as_view(), name="user_home"),
-    # path(
-    #     "user-country-based-news/",
-    #     UserCountryBasedNewsView.as_view(),
-    #     name="user_country_based_news",
-    # ),
-    # path(
-    #     "user-source-based-news/",
-    #     UserSourceBasedNewsView.as_view(),
-    #     name="user_source_based_news",
-    # ),
-    # path(
-    #     "user-keyword-based-news/",
-    #     UserKeywordBasedNewsView.as_view(),
-    #     name="user_keyword_based_news",
-    # ),
     path("user-home/", user_home, name="user_home"),
     path("user-profile-settings/", user_profile_settings, name="user_profile_settings"),
     path(
@@ -29,24 +11,4 @@ urlpatterns = [
         user_news_recommend_settings,
         name="user_news_recommend_settings",
     ),
-    # path(
-    #     "user-news-country-settings/",
-    #     user_news_country_settings,
-    #     name="user_news_country_settings",
-    # ),
-    # path(
-    #     "user-news-source-settings/",
-    #     user_news_source_settings,
-    #     name="user_news_source_settings",
-    # ),
-    # path(
-    #     "user-news-keyword-settings/",
-    #     user_news_keyword_settings,
-    #     name="user_news_keyword_settings",
-    # ),
-    # path(
-    #     "user-news-recommend-settings/category-manager/",
-    #     user_news_recommend_settings_category_manager,
-    #     name="user_news_recommend_settings_category_manager",
-    # ),
 ]

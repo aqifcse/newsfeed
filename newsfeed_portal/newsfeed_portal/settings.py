@@ -1,11 +1,9 @@
 import os
 import mimetypes
-
-mimetypes.add_type("text/css", ".css", True)
-
-
 from pathlib import Path
 from decouple import config
+
+mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -112,9 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Europe/Stockholm"
@@ -127,14 +122,9 @@ USE_TZ = True
 
 AUTH_USER_MODEL = "portal.User"
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -158,4 +148,4 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # SENDGRID_ECHO_TO_STDOUT=True
 # --------------------Sendgrid Ends----------------------------------------------------------------------
 
-APIKEY = "cbdd86a002e24e569b7905729d546e91"
+APIKEY = "cbdd86a002e24e569b7905729d546e91"  # NewsAPI key
