@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NewsFeed portal</title>
+    <title>newsfeed</title>
     <!--FAVICONS -->
     <link rel="apple-touch-icon" sizes="57x57" href="{% static 'portal/assets/img/bless_favicon.png' %}">
     <link rel="icon" type="image/png" sizes="96x96" href="{% static 'portal/assets/img/bless_favicon.png' %}">
@@ -29,34 +29,34 @@
             <div class="brand-logo">
                 <a href="javascript:;">
                     <img src="{% static 'portal/assets/img/top_logo.png' %}" class="logo-icon" alt="logo icon">
-                    <p class="logo-text"> NewsFeed Portal</p>
+                    <p class="logo-text"> newsfeed</p>
                 </a>
             </div>
             <ul class="sidebar-menu do-nicescrol">
-                <li class="sidebar-header">MAIN NAVIGATION</li>
+                <li class="sidebar-header">options</li>
                 <li>
                     <a href="{% url 'portal:user_home' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Home</span>
+                        <i class="fa fa-tachometer"></i><span>home</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'portal:user_country_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Countries</span>
+                        <i class="fa fa-tachometer"></i><span>countries</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'portal:user_source_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Sources</span>
+                        <i class="fa fa-tachometer"></i><span>sources</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'portal:user_keyword_based_news' %}" class="waves-effect">
-                        <i class="fa fa-tachometer"></i><span>Keywords</span>
+                        <i class="fa fa-tachometer"></i><span>keywords</span>
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'logout' %}" class="waves-effect">
-                        <i class="fa fa-sign-out"></i><span>Logout</span>
+                        <i class="fa fa-sign-out"></i><span>sign out</span>
                     </a>
                 </li>
             </ul>
@@ -85,16 +85,16 @@
                             <span style="font-size: 16px;color: #333;">{{user.first_name}}</span>
                             <i class="fa fa-angle-down" style="font-size: 16px;color: #000;"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right animated fadeIn">
+                        <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-divider"></li>
                             <a href="{% url 'portal:user_profile_settings' %}">
-                                <li class="dropdown-item"><i class="icon-power mr-2"></i> Profile Settings</li>
+                                <li class="dropdown-item"><i class="icon-power mr-2"></i>profile</li>
                             </a>
                             <a href="{% url 'portal:user_news_recommend_settings' %}">
-                                <li class="dropdown-item"><i class="icon-power mr-2"></i>News Recommend Settings</li>
+                                <li class="dropdown-item"><i class="icon-power mr-2"></i>settings</li>
                             </a>
                             <a href="{% url 'logout' %}">
-                                <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
+                                <li class="dropdown-item"><i class="icon-power mr-2"></i> sign out</li>
                             </a>
                         </ul>
                     </li>
@@ -112,11 +112,11 @@
         <!--End Back To Top Button-->
         <!--Start footer-->
         <footer class="footer">
-            <div class="container">
+            <!-- <div class="container">
                 <div class="text-center">
                     Copyright © 2021 Syed Towfiqur Rahim
                 </div>
-            </div>
+            </div> -->
         </footer>
         <!--End footer-->
     </div>

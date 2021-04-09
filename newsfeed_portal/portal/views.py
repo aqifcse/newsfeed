@@ -199,7 +199,7 @@ class ActivateAccount(View):
 
 
 class GlobalHomeView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_home.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -207,12 +207,12 @@ class GlobalHomeView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -221,7 +221,7 @@ class GlobalHomeView(ListView):
 
 
 class GlobalCountryBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_country_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -229,12 +229,12 @@ class GlobalCountryBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -243,7 +243,7 @@ class GlobalCountryBasedNewsView(ListView):
 
 
 class GlobalSourceBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_source_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -251,12 +251,12 @@ class GlobalSourceBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -265,7 +265,7 @@ class GlobalSourceBasedNewsView(ListView):
 
 
 class GlobalKeywordBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_keword_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -273,12 +273,12 @@ class GlobalKeywordBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -288,7 +288,7 @@ class GlobalKeywordBasedNewsView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserHomeView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_home.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -296,12 +296,12 @@ class UserHomeView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -311,7 +311,7 @@ class UserHomeView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserCountryBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_country_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -319,12 +319,12 @@ class UserCountryBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -334,7 +334,7 @@ class UserCountryBasedNewsView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserSourceBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_source_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -342,12 +342,12 @@ class UserSourceBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -357,7 +357,7 @@ class UserSourceBasedNewsView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserKeywordBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_keyword_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -365,12 +365,12 @@ class UserKeywordBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -402,19 +402,22 @@ def user_news_recommend_settings(request):
     words = WordList.objects.all()
     categories = Category.objects.all()
     if request.method == "POST":
-        print(request.user)
+
+        username = request.user.username
+        user_obj = get_object_or_404(User, username=username)
+
         if "taskAdd" in request.POST:
-            title = request.POST.get("description", False)
+            word = request.POST.get("description", False)
             category = request.POST.get("category_select", False)
 
             if category != "":
-                content = title + " -- " + category
-                word_list_object = WordList(
-                    title=title,
-                    content=content,
-                    category=Category.objects.get(name=category),
+                word_object = WordList(
+                    word=word,
+                    category=Category.objects.get(
+                        recommended_by=user_obj, name=category
+                    ),
                 )
-                word_list_object.save()
+                word_object.save()
                 return redirect("portal:user_news_recommend_settings")
             else:
                 return redirect("portal:user_news_recommend_settings")
@@ -422,7 +425,9 @@ def user_news_recommend_settings(request):
         if "taskDelete" in request.POST:
             checked_word_id = request.POST.get("checkedbox", False)
             try:
-                word_obj = WordList.objects.get(id=int(checked_word_id))
+                word_obj = WordList.objects.get(
+                    category__recommended_by=user_obj, id=int(checked_word_id)
+                )
                 word_obj.delete()
                 return redirect("portal:user_news_recommend_settings")
             except:
@@ -444,13 +449,24 @@ def user_news_recommend_settings_category_manager(request):
     categories = Category.objects.all()
 
     if request.method == "POST":
+
+        username = request.user.username
+        user_obj = get_object_or_404(User, username=username)
+
         if "taskAdd" in request.POST:
+
             category_name = request.POST.get("description", False)
-            print(category_name)
+
             if category_name != "":
-                category_object = Category.objects.create(name=category_name)
+
+                category_object = Category.objects.create(
+                    recommended_by=user_obj, name=category_name
+                )
+
                 category_object.save()
+
                 return redirect("portal:user_news_recommend_settings_category_manager")
+
             else:
                 return redirect("portal:user_news_recommend_settings_category_manager")
 
@@ -458,7 +474,9 @@ def user_news_recommend_settings_category_manager(request):
             checked_category_id = request.POST.get("checkedbox", False)
             print(checked_category_id)
             try:
-                category_obj = Category.objects.get(id=int(checked_category_id))
+                category_obj = Category.objects.get(
+                    recommended_by=user_obj, id=int(checked_category_id)
+                )
                 category_obj.delete()
                 return redirect("portal:user_news_recommend_settings_category_manager")
             except:

@@ -5,23 +5,34 @@ from jsonfield import JSONField
 from django_json_widget.widgets import JSONEditorWidget
 from portal.models import *
 
+admin.site.unregister(Group)
+
 
 class UserAdmin(admin.ModelAdmin):
     list_display = [
+        "id",
         "username",
         "first_name",
         "last_name",
         "email",
         "subscribe",
-        "created_at",
-        "updated_at",
     ]
 
 
-class NewsCardAdmin(admin.ModelAdmin):
+admin.site.register(User, UserAdmin)
+
+
+class NewsReaderModelAdmin(admin.ModelAdmin):
+    list_display = ["id", "reader", "headline"]
+
+
+admin.site.register(NewsReader, NewsReaderModelAdmin)
+
+
+class NewsBodyAdmin(admin.ModelAdmin):
     list_display = [
         "id",
-        "headline",
+        "news",
         "thumbnail",
         "source_of_news",
         "country_of_news",
@@ -29,20 +40,18 @@ class NewsCardAdmin(admin.ModelAdmin):
     ]
 
 
-# ------------------RecommendWordList------------------
+admin.site.register(NewsBody, NewsBodyAdmin)
+
+
 class WordListAdmin(admin.ModelAdmin):
-    list_display = ("title", "created")
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("category", "word", "created")
 
 
 admin.site.register(WordList, WordListAdmin)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("recommended_by", "name")
+
+
 admin.site.register(Category, CategoryAdmin)
-
-# ---------------------------------------------------
-
-admin.site.unregister(Group)
-admin.site.register(User, UserAdmin)
-admin.site.register(NewsCard, NewsCardAdmin)
