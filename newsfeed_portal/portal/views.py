@@ -199,7 +199,7 @@ class ActivateAccount(View):
 
 
 class GlobalHomeView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_home.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -207,12 +207,12 @@ class GlobalHomeView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -221,7 +221,7 @@ class GlobalHomeView(ListView):
 
 
 class GlobalCountryBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_country_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -229,12 +229,12 @@ class GlobalCountryBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -243,7 +243,7 @@ class GlobalCountryBasedNewsView(ListView):
 
 
 class GlobalSourceBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_source_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -251,12 +251,12 @@ class GlobalSourceBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -265,7 +265,7 @@ class GlobalSourceBasedNewsView(ListView):
 
 
 class GlobalKeywordBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/global_keword_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -273,12 +273,12 @@ class GlobalKeywordBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -288,7 +288,7 @@ class GlobalKeywordBasedNewsView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserHomeView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_home.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -296,12 +296,12 @@ class UserHomeView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -311,7 +311,7 @@ class UserHomeView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserCountryBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_country_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -319,12 +319,12 @@ class UserCountryBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -334,7 +334,7 @@ class UserCountryBasedNewsView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserSourceBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_source_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -342,12 +342,12 @@ class UserSourceBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -357,7 +357,7 @@ class UserSourceBasedNewsView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class UserKeywordBasedNewsView(ListView):
-    model = NewsCard
+    model = NewsBody
     template_name = "portal/user_keyword_based_news.html"
     context_object_name = "feeds"
     paginate_by = 15
@@ -365,12 +365,12 @@ class UserKeywordBasedNewsView(ListView):
     def get_queryset(self):
         form = self.request.GET.get("q")
         if form:
-            return NewsCard.objects.filter(
+            return NewsBody.objects.filter(
                 Q(image_url__icontains=form)
                 | Q(result__icontains=form)
                 | Q(created_at__icontains=form)
             )
-        queryset = NewsCard.objects.all().order_by("published_at").reverse()
+        queryset = NewsBody.objects.all().order_by("published_at").reverse()
         return queryset
 
     def get_context_data(self, **kwargs):
