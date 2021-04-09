@@ -5,7 +5,7 @@ from .models import *
 from newsfeed_portal.settings import *
 from .tokens import account_activation_token
 
-# from .serializers import UserUpdateSerializer
+# from .serializers import *
 
 from django.contrib import messages
 from django.contrib.auth import login
@@ -201,186 +201,6 @@ class ActivateAccount(View):
             )
 
 
-# class GlobalHomeView(ListView):
-#     model = NewsBody
-#     template_name = "portal/global_home.html"
-#     context_object_name = "data"
-#     paginate_by = 15
-
-#     def get_queryset(self):
-#         form = self.request.GET.get("q")
-#         if form:
-#             return NewsBody.objects.filter(
-#                 Q(image_url__icontains=form)
-#                 | Q(result__icontains=form)
-#                 | Q(created_at__icontains=form)
-#             )
-#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
-#         return queryset
-
-#     def get_context_data(self, **kwargs):
-#         kwargs["q"] = self.request.GET.get("q")
-#         return super().get_context_data(**kwargs)
-
-
-class GlobalCountryBasedNewsView(ListView):
-    model = NewsBody
-    template_name = "portal/global_country_based_news.html"
-    context_object_name = "feeds"
-    paginate_by = 15
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
-class GlobalSourceBasedNewsView(ListView):
-    model = NewsBody
-    template_name = "portal/global_source_based_news.html"
-    context_object_name = "feeds"
-    paginate_by = 15
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
-class GlobalKeywordBasedNewsView(ListView):
-    model = NewsBody
-    template_name = "portal/global_keword_based_news.html"
-    context_object_name = "feeds"
-    paginate_by = 15
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
-# @method_decorator(login_required, name="dispatch")
-# class UserHomeView(ListView):
-#     model = NewsBody
-#     template_name = "portal/user_home.html"
-#     context_object_name = "feeds"
-#     paginate_by = 15
-
-#     def get_queryset(self):
-#         form = self.request.GET.get("q")
-#         if form:
-#             return NewsBody.objects.filter(
-#                 Q(image_url__icontains=form)
-#                 | Q(result__icontains=form)
-#                 | Q(created_at__icontains=form)
-#             )
-#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
-#         return queryset
-
-#     def get_context_data(self, **kwargs):
-#         kwargs["q"] = self.request.GET.get("q")
-#         return super().get_context_data(**kwargs)
-
-
-@method_decorator(login_required, name="dispatch")
-class UserCountryBasedNewsView(ListView):
-    model = NewsBody
-    template_name = "portal/user_country_based_news.html"
-    context_object_name = "feeds"
-    paginate_by = 15
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
-@method_decorator(login_required, name="dispatch")
-class UserSourceBasedNewsView(ListView):
-    model = NewsBody
-    template_name = "portal/user_source_based_news.html"
-    context_object_name = "feeds"
-    paginate_by = 15
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
-@method_decorator(login_required, name="dispatch")
-class UserKeywordBasedNewsView(ListView):
-    model = NewsBody
-    template_name = "portal/user_keyword_based_news.html"
-    context_object_name = "feeds"
-    paginate_by = 15
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return NewsBody.objects.filter(
-                Q(image_url__icontains=form)
-                | Q(result__icontains=form)
-                | Q(created_at__icontains=form)
-            )
-        queryset = NewsBody.objects.all().order_by("published_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
 @login_required
 def user_profile_settings(request):
     if request.method == "POST":
@@ -402,36 +222,64 @@ def user_profile_settings(request):
 
 @login_required
 def user_news_recommend_settings(request):
-    words = WordList.objects.all()
-    categories = Category.objects.all()
+
+    countries = Country.objects.all()
+    sources = Source.objects.all()
+    keywords = Keyword.objects.all()
+
     if request.method == "POST":
 
         username = request.user.username
         user_obj = get_object_or_404(User, username=username)
 
         if "taskAdd" in request.POST:
-            word = request.POST.get("description", False)
-            category = request.POST.get("category_select", False)
+            country = request.POST.get("country", False)
+            source = request.POST.get("source", False)
+            keyword = request.POST.get("keyword", False)
 
-            if category != "":
-                word_object = WordList(
-                    word=word,
-                    category=Category.objects.get(
-                        recommended_by=user_obj, name=category
-                    ),
-                )
-                word_object.save()
+            if (
+                not country
+                or not source
+                or not keyword
+                or country == ""
+                or source == ""
+                or keyword == ""
+            ):
                 return redirect("portal:user_news_recommend_settings")
             else:
+                country_object = Country.objects.create(
+                    recommended_by=user_obj, country=country
+                )
+
+                sources_object = Source.objects.create(
+                    recommended_by=user_obj, source=source
+                )
+
+                keyword_object = Keyword.objects.create(
+                    recommended_by=user_obj, keyword=keyword
+                )
                 return redirect("portal:user_news_recommend_settings")
 
         if "taskDelete" in request.POST:
-            checked_word_id = request.POST.get("checkedbox", False)
+            country_id = request.POST.get("checkedcountry", False)
+            source_id = request.POST.get("checkedsource", False)
+            keyword_id = request.POST.get("checkedkeyword", False)
             try:
-                word_obj = WordList.objects.get(
-                    category__recommended_by=user_obj, id=int(checked_word_id)
+                country_obj = Country.objects.get(
+                    recommended_by=user_obj, id=int(country_id)
                 )
-                word_obj.delete()
+                country_obj.delete()
+
+                source_obj = Source.objects.get(
+                    recommended_by=user_obj, id=int(source_id)
+                )
+                source_obj.delete()
+
+                keyword_obj = Keyword.objects.get(
+                    recommended_by=user_obj, id=int(keyword_id)
+                )
+                keyword_obj.delete()
+
                 return redirect("portal:user_news_recommend_settings")
             except:
                 return redirect("portal:user_news_recommend_settings")
@@ -440,119 +288,107 @@ def user_news_recommend_settings(request):
         request,
         "portal/user_news_recommend_settings.html",
         {
-            "words": words,
-            "categories": categories,
+            "countries": countries,
+            "sources": sources,
+            "keywords": keywords,
         },
     )
 
 
-@login_required
-def user_news_recommend_settings_category_manager(request):
+# @login_required
+# def user_news_recommend_settings_category_manager(request):
 
-    categories = Category.objects.all()
+#     categories = Category.objects.all()
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        username = request.user.username
-        user_obj = get_object_or_404(User, username=username)
+#         username = request.user.username
+#         user_obj = get_object_or_404(User, username=username)
 
-        if "taskAdd" in request.POST:
+#         if "taskAdd" in request.POST:
 
-            category_name = request.POST.get("description", False)
+#             category_name = request.POST.get("description", False)
 
-            if category_name != "":
+#             if category_name != "":
 
-                category_object = Category.objects.create(
-                    recommended_by=user_obj, name=category_name
-                )
+#                 category_object = Category.objects.create(
+#                     recommended_by=user_obj, name=category_name
+#                 )
 
-                category_object.save()
+#                 category_object.save()
 
-                return redirect("portal:user_news_recommend_settings_category_manager")
+#                 return redirect("portal:user_news_recommend_settings_category_manager")
 
-            else:
-                return redirect("portal:user_news_recommend_settings_category_manager")
+#             else:
+#                 return redirect("portal:user_news_recommend_settings_category_manager")
 
-        if "taskDelete" in request.POST:
-            checked_category_id = request.POST.get("checkedbox", False)
-            print(checked_category_id)
-            try:
-                category_obj = Category.objects.get(
-                    recommended_by=user_obj, id=int(checked_category_id)
-                )
-                category_obj.delete()
-                return redirect("portal:user_news_recommend_settings_category_manager")
-            except:
-                return redirect("portal:user_news_recommend_settings_category_manager")
-    return render(
-        request,
-        "portal/user_news_recommend_settings_category_manager.html",
-        {
-            "categories": categories,
-        },
-    )
+#         if "taskDelete" in request.POST:
+#             checked_category_id = request.POST.get("checkedbox", False)
+#             print(checked_category_id)
+#             try:
+#                 category_obj = Category.objects.get(
+#                     recommended_by=user_obj, id=int(checked_category_id)
+#                 )
+#                 category_obj.delete()
+#                 return redirect("portal:user_news_recommend_settings_category_manager")
+#             except:
+#                 return redirect("portal:user_news_recommend_settings_category_manager")
+#     return render(
+#         request,
+#         "portal/user_news_recommend_settings_category_manager.html",
+#         {
+#             "categories": categories,
+#         },
+#     )
 
 
 # ---------------------------------------Initial NewsAPI testing--------------------------------------
-def AlJazeera(request):
-    newsapi = NewsApiClient(
-        api_key="cbdd86a002e24e569b7905729d546e91"
-    )  #'<your api key>')
-    topheadlines = newsapi.get_top_headlines(sources="al-jazeera-english")
+# def AlJazeera(request):
+#     newsapi = NewsApiClient(
+#         api_key="cbdd86a002e24e569b7905729d546e91"
+#     )  #'<your api key>')
+#     topheadlines = newsapi.get_top_headlines(sources="al-jazeera-english")
 
-    articles = topheadlines["articles"]
+#     articles = topheadlines["articles"]
 
-    desc = []
-    news = []
-    img = []
+#     desc = []
+#     news = []
+#     img = []
 
-    for i in range(len(articles)):
-        myarticles = articles[i]
+#     for i in range(len(articles)):
+#         myarticles = articles[i]
 
-        news.append(myarticles["title"])
-        desc.append(myarticles["description"])
-        img.append(myarticles["urlToImage"])
+#         news.append(myarticles["title"])
+#         desc.append(myarticles["description"])
+#         img.append(myarticles["urlToImage"])
 
-    mylist = zip(news, desc, img)
+#     mylist = zip(news, desc, img)
 
-    return render(request, "portal/aljazeera.html", context={"mylist": mylist})
-
-
-def BBC(request):
-    newsapi = NewsApiClient(
-        api_key="cbdd86a002e24e569b7905729d546e91"
-    )  # '<your API key>')
-    topheadlines = newsapi.get_top_headlines(sources="bbc-news")
-
-    articles = topheadlines["articles"]
-
-    desc = []
-    news = []
-    img = []
-
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles["title"])
-        desc.append(myarticles["description"])
-        img.append(myarticles["urlToImage"])
-
-    mylist = zip(news, desc, img)
-
-    return render(request, "portal/bbc.html", context={"mylist": mylist})
+#     return render(request, "portal/aljazeera.html", context={"mylist": mylist})
 
 
-# For 404 and 505 page handle
-def handler404(request, template_name="../templates/404.html"):
-    response = render(None, template_name)
-    response.status_code = 404
-    return response
+# def BBC(request):
+#     newsapi = NewsApiClient(
+#         api_key="cbdd86a002e24e569b7905729d546e91"
+#     )  # '<your API key>')
+#     topheadlines = newsapi.get_top_headlines(sources="bbc-news")
 
+#     articles = topheadlines["articles"]
 
-def handler500(request, template_name="../templates/500.html"):
-    response = render(None, template_name)
-    response.status_code = 500
-    return response
+#     desc = []
+#     news = []
+#     img = []
+
+#     for i in range(len(articles)):
+#         myarticles = articles[i]
+
+#         news.append(myarticles["title"])
+#         desc.append(myarticles["description"])
+#         img.append(myarticles["urlToImage"])
+
+#     mylist = zip(news, desc, img)
+
+#     return render(request, "portal/bbc.html", context={"mylist": mylist})
 
 
 def global_home(request):
@@ -591,6 +427,7 @@ def global_home(request):
                 "publishedat": i["publishedAt"],
             }
         )
+
     # send the news feed to template in context
     return render(request, "portal/global_home.html", context=context)
 
@@ -636,6 +473,7 @@ def user_home(request):
     return render(request, "portal/user_home.html", context=context)
 
 
+# For content latest news within 15 minutes
 def loadcontent(request):
     try:
         page = request.GET.get("page", 1)
@@ -673,3 +511,198 @@ def loadcontent(request):
         return JsonResponse(context)
     except Exception as e:
         return JsonResponse({"success": False})
+
+
+# For 404 and 505 page handle
+def handler404(request, template_name="../templates/404.html"):
+    response = render(None, template_name)
+    response.status_code = 404
+    return response
+
+
+def handler500(request, template_name="../templates/500.html"):
+    response = render(None, template_name)
+    response.status_code = 500
+    return response
+
+
+# Unused Codes
+
+# class GlobalHomeView(ListView):
+#     model = NewsBody
+#     template_name = "portal/global_home.html"
+#     context_object_name = "data"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
+
+
+# class GlobalCountryBasedNewsView(ListView):
+#     model = NewsBody
+#     template_name = "portal/global_country_based_news.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
+
+
+# class GlobalSourceBasedNewsView(ListView):
+#     model = NewsBody
+#     template_name = "portal/global_source_based_news.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
+
+
+# class GlobalKeywordBasedNewsView(ListView):
+#     model = NewsBody
+#     template_name = "portal/global_keword_based_news.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
+
+
+# # @method_decorator(login_required, name="dispatch")
+# # class UserHomeView(ListView):
+# #     model = NewsBody
+# #     template_name = "portal/user_home.html"
+# #     context_object_name = "feeds"
+# #     paginate_by = 15
+
+# #     def get_queryset(self):
+# #         form = self.request.GET.get("q")
+# #         if form:
+# #             return NewsBody.objects.filter(
+# #                 Q(image_url__icontains=form)
+# #                 | Q(result__icontains=form)
+# #                 | Q(created_at__icontains=form)
+# #             )
+# #         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+# #         return queryset
+
+# #     def get_context_data(self, **kwargs):
+# #         kwargs["q"] = self.request.GET.get("q")
+# #         return super().get_context_data(**kwargs)
+
+
+# @method_decorator(login_required, name="dispatch")
+# class UserCountryBasedNewsView(ListView):
+#     model = NewsBody
+#     template_name = "portal/user_country_based_news.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
+
+
+# @method_decorator(login_required, name="dispatch")
+# class UserSourceBasedNewsView(ListView):
+#     model = NewsBody
+#     template_name = "portal/user_source_based_news.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)
+
+
+# @method_decorator(login_required, name="dispatch")
+# class UserKeywordBasedNewsView(ListView):
+#     model = NewsBody
+#     template_name = "portal/user_keyword_based_news.html"
+#     context_object_name = "feeds"
+#     paginate_by = 15
+
+#     def get_queryset(self):
+#         form = self.request.GET.get("q")
+#         if form:
+#             return NewsBody.objects.filter(
+#                 Q(image_url__icontains=form)
+#                 | Q(result__icontains=form)
+#                 | Q(created_at__icontains=form)
+#             )
+#         queryset = NewsBody.objects.all().order_by("published_at").reverse()
+#         return queryset
+
+#     def get_context_data(self, **kwargs):
+#         kwargs["q"] = self.request.GET.get("q")
+#         return super().get_context_data(**kwargs)

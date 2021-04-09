@@ -1,73 +1,87 @@
 {% extends "portal/user_news_recommend_settings_base.html" %}
+
+{% block search %}{% endblock %}
 {% block content %}
 
 <body>
-    <div django-app="TaskManager">
+    <div django-app="taskManager">
         <div class="container">
             <div class="content">
-                <h1>set words</h1>
-                <!-- <p class="tagline">Give your news recommendation</p> -->
+                <h1>Set Recommendation</h1>
+                <b>Please insert or delete these three inputs (country, source, keyword) at a time to delete a
+                    recommendation task</b>
+                <!-- <p class="tagline">Give your news task</p> -->
                 <form action="" method="post">
                     {% csrf_token %}
                     <!-- csrf token for basic security -->
+
                     <div class="inputContainer half last">
-                        <input type="text" id="description" class="taskName"
-                            placeholder="Insert a news tag one a time.." name="description" required>
-                        <label for="description">News Tag</label>
+                        <input type="text" id="country" class="taskName" placeholder="insert country" name="country"
+                            required>
+                        <label for="country">Country</label>
                     </div>
 
                     <div class="inputContainer half last">
-                        <i class="fa fa-caret-down selectArrow"></i>
-                        <select id="category" class="taskCategory" name="category_select">
-                            <option class="disabled" value="">Choose a category</option>
-                            {% for category in categories %}
-                            <option class="" value="{{ category.name }}" name="{{ category.name }}">
-                                {{ category.name }}
-                            </option>
-                            {% endfor %}
-                        </select>
+                        <input type="text" id="source" class="taskName" placeholder="insert source" name="source"
+                            required>
+                        <label for="source">Source</label>
+                    </div>
+                    <div class="inputContainer half last">
+                        <input type="text" id="keyword" class="taskName" placeholder="Insert Keyword" name="keyword"
+                            required>
+                        <label for="keyword">Keyword</label>
+                    </div>
 
-                    </div>
-                    <div class="row">
-                        <p class="tagline">
-                            <b>category not added?</b>
-                            <a href="{% url 'portal:user_news_recommend_settings_category_manager' %}">
-                                <b>Add Category</b>
-                            </a>
-                        </p>
-                    </div>
+
                     <div class="row">
                         <button class="taskAdd" name="taskAdd" type="submit">
-                            <i class="fa fa-plus icon"></i>Add Tag Word</button>
+                            <i class="fa fa-plus icon"></i>Add task</button>
                         <button class="taskDelete" name="taskDelete" formnovalidate="" type="submit"
                             onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>
-                            Delete Tag Word
+                            Delete task
                         </button>
                     </div>
 
 
                     <ul class="taskList">
-                        {% for word in words %}
+                        {% for country in countries %}
                         <!-- django template lang - for loop -->
                         <li class="taskItem">
-                            <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ word.id }}"
-                                value="{{ word.id }}">
-                            <label for="{{ word.id }}">
+                            <input type="checkbox" class="taskCheckbox" name="checkedcountry" id="{{ country.id }}"
+                                value="{{ country.id }}">
+                            <label for="{{ country.id }}">
                                 <span class="complete-">
-                                    {{ word.title }}
+                                    {{ country.country }}
                                 </span>
                             </label>
-                            <span class="category-{{ word.category }}">
-                                {{ word.category}}
-                            </span>
-                            <strong class="taskDate">
-                                <i class="fa fa-calendar"></i>
-                                {{ word.created }}
-                            </strong>
-                            <!-- - {{ word.due_date }}</strong> -->
+                        </li>
+                        {% endfor %}
+                        {% for source in sources %}
+                        <!-- django template lang - for loop -->
+                        <li class="taskItem">
+                            <input type="checkbox" class="taskCheckbox" name="checkedsource" id="{{ source.id }}"
+                                value="{{ source.id }}">
+                            <label for="{{ source.id }}">
+                                <span class="complete-">
+                                    {{ source.source }}
+                                </span>
+                            </label>
+                        </li>
+                        {% endfor %}
+                        {% for keyword in keywords %}
+                        <!-- django template lang - for loop -->
+                        <li class="taskItem">
+                            <input type="checkbox" class="taskCheckbox" name="checkedkeyword" id="{{ keyword.id }}"
+                                value="{{ keyword.id }}">
+                            <label for="{{ keyword.id }}">
+                                <span class="complete-">
+                                    {{ keyword.keyword }}
+                                </span>
+                            </label>
                         </li>
                         {% endfor %}
                     </ul>
+
                     <!-- taskList -->
                 </form>
             </div>
