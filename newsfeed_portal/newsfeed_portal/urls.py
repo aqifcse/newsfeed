@@ -51,24 +51,8 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
-    # path('', GlobalHomeView.as_view(), name='global_home'),
     path("", global_home, name="global_home"),
     path("next", loadcontent, name="Loadcontent"),
-    # path(
-    #     "global-country-based-news/",
-    #     GlobalCountryBasedNewsView.as_view(),
-    #     name="global_country_based_news",
-    # ),
-    # path(
-    #     "global-source-based-news/",
-    #     GlobalSourceBasedNewsView.as_view(),
-    #     name="global_source_based_news",
-    # ),
-    # path(
-    #     "global-keyword-based-news/",
-    #     GlobalKeywordBasedNewsView.as_view(),
-    #     name="global_keyword_based_news",
-    # ),
     path("routers/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
