@@ -1,0 +1,33 @@
+# Sample input for ReadListDelete API
+------------------------ReadListDelete------------------------------------
+{
+    "readlist_id":8,
+    "timestamp":"1618070826",
+    "key":"959ba765383746581e54cedbe7050cecc06e8301ccc771229b3c4897d454a0b9"
+}
+command to acces the API with curl:
+
+curl -d 'readlist_id=9&timestamp=1618070826&key=959ba765383746581e54cedbe7050cecc06e8301ccc771229b3c4897d454a0b9' http://localhost:8000/readListDelete
+
+Success Response:
+{
+    "status":1,
+    "result":["ReadList item successfully Deleted!!"]
+}
+Failure Response:
+1. readlist_id failure
+{
+    "status":0,
+    "result":["readlist_id doesn't exist"]
+}
+2. timestamp or signature key failure
+{
+    "status":0,
+    "result":["Authentication Failure"]
+}
+3. Signature Expired
+{
+    "status":0,
+    "result":["Signature Expired"]
+}
+----------------------------ReadListDelete--------------------------------------------------

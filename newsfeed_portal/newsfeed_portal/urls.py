@@ -14,7 +14,7 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path(
-        "readlist-delete/delete",
+        "readListDelete",
         ReadListDeleteAPIView.as_view(),
         name="readlist_delete",
     ),

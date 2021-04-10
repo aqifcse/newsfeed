@@ -47,6 +47,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
+import hashlib  # For Authentication
+
 # ------------------------------------------NewsAPI-------------------------------------------------
 from newsapi.newsapi_client import NewsApiClient
 import requests
@@ -54,9 +56,126 @@ import requests
 temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
 
 # -------------------------------------------View Func and Class starts------------------------------------
-class ReadListDeleteAPIView(DestroyAPIView):
-    queryset = User.objects.all()
-    lookup_field = "readlist"
+
+# path('fetchExistingTags', FecthExistingTagsAPIView.as_view(), name='fetchExistingTags'),
+
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import status
+
+# import requests
+# import tempfile
+# from django.core import files
+
+# import hashlib
+
+# class FecthExistingTagsAPIView(APIView):
+
+#     def post(self, request, *args, **kwargs):
+
+#         # Taking anonymous image url as input
+#         url = request.data.get('url', None)
+#         input_key = request.data.get('key', None)
+#         input_timestamp = request.data.get('timestamp', None)
+
+#         client_message = str(input_timestamp) + 'fotoboss'
+
+#         generated_signature_by_client = hashlib.sha256(client_message.encode()).hexdigest()
+
+#         event_status = 0
+
+#         timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
+
+#         if url is not None or not url == '':
+#             if generated_signature_by_client == input_key:
+
+#                 if timestamp_now <= int(input_timestamp) + 300:
+
+#                     if url.endswith(('jpg', 'png', 'jpeg')):
+#                         event_status = 1
+#                         data = ImageUrlToDataAPIModel.objects.filter(image_url = url).values('result')
+#                         data_list = []
+#                         for result in data:
+#                             data_list = result['result']
+#                     else:
+#                         event_status = 0
+#                         data_list = ["Image url has to be ended with .jpg or .png"]
+#                 else:
+#                     event_status = 0
+#                     data_list = ["Signature Expired"]
+#             else:
+#                 event_status = 0
+#                 data_list = ["Authentication Failure"]
+#         else:
+#             event_status = 0
+#             data_list = ["No url inserted in getImageUrlToData/?url= <your image url here>"]
+
+#         return Response({'status':event_status, 'result': data_list })
+
+
+class ReadListDeleteAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        readlist_id = request.data.get(
+            "readlist_id", None
+        )  # Here readlist in the AJAX hold the entry_id
+
+        input_key = request.data.get("key", None)
+        input_timestamp = request.data.get("timestamp", None)
+
+        client_message = str(input_timestamp) + "newsfeed"
+
+        generated_signature_by_client = hashlib.sha256(
+            client_message.encode()
+        ).hexdigest()
+
+        event_status_code = 0
+
+        timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
+
+        if readlist_id is not None or not readlist_id == "":
+            if generated_signature_by_client == input_key:
+
+                if (
+                    timestamp_now <= int(input_timestamp) + 360000
+                ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour
+
+                    if not ReadList.objects.filter(pk=readlist_id).exists():
+                        event_status_code = 0
+                        status_message = ["readlist_id doesn't exist"]
+
+                    else:
+                        ReadList.objects.filter(id=int(readlist_id)).delete()
+                        event_status_code = 1
+                        status_message = ["ReadList item successfully Deleted!!"]
+
+                else:
+                    event_status_code = 0
+                    status_message = ["Signature Expired"]
+            else:
+                event_status_code = 0
+                status_message = ["Authentication Failure"]
+        else:
+            event_status_code = 0
+            status_message = ["No Readlist Id is given in the input"]
+
+        return Response({"status": event_status_code, "result": status_message})
+
+
+# class ReadListDeleteAPIView(APIView):
+#     def post(self, request):
+#         entry_id = request.POST.get(
+#             "readlist_id"
+#         )  # Here readlist in the AJAX hold the entry_id
+
+#         print(entry_id)
+
+#         readlist = get_object_or_404(ReadList, pk=entry_id)
+
+#         ReadList.objects.filter(id=entry_id).delete()
+
+#         return Response(
+#             {"status": status.HTTP_202_ACCEPTED, "message": "Readlist deleted."}
+#         )
 
 
 class UserLoginView(LoginView):
@@ -342,69 +461,69 @@ def user_profile_settings(request):
 def user_create_readlist(request):
     if request.method == "POST":
         nr_form = ReadListForm(request.POST, request.FILES, instance=request.user)
-        # try:
-        username = request.user.username
-        user_obj = get_object_or_404(User, username=username)
+        try:
+            username = request.user.username
+            user_obj = get_object_or_404(User, username=username)
 
-        if nr_form.is_valid():
-            country = nr_form.cleaned_data["country"]
-            source = nr_form.cleaned_data["source"]
-            keyword = nr_form.cleaned_data["keyword"]
+            if nr_form.is_valid():
+                country = nr_form.cleaned_data["country"]
+                source = nr_form.cleaned_data["source"]
+                keyword = nr_form.cleaned_data["keyword"]
 
-            if not country or country == None:
-                messages.error(
-                    request, "Insert country of news", extra_tags="country_empty"
+                if not country or country == None:
+                    messages.error(
+                        request, "Insert country of news", extra_tags="country_empty"
+                    )
+                    return render(
+                        request,
+                        "portal/user_create_readlist.html",
+                        {"nr_form": nr_form},
+                    )
+
+                if not source or source == None:
+                    messages.error(
+                        request, "Insert source of news", extra_tags="source_empty"
+                    )
+                    return render(
+                        request,
+                        "portal/user_create_readlist.html",
+                        {"nr_form": nr_form},
+                    )
+
+                if not keyword or keyword == None:
+                    messages.error(
+                        request, "Insert keyword of news", extra_tags="keyword_empty"
+                    )
+                    return render(
+                        request,
+                        "portal/user_create_readlist.html",
+                        {"nr_form": nr_form},
+                    )
+
+                ReadList.objects.create(
+                    created_by=user_obj,
+                    country=country,
+                    source=source,
+                    keyword=keyword,
                 )
+
+                return redirect("portal:user_manage_readlists")
+
+            else:
+                messages.error(request, "Invalid Input", extra_tags="form_invalid")
                 return render(
                     request,
                     "portal/user_create_readlist.html",
                     {"nr_form": nr_form},
                 )
 
-            if not source or source == None:
-                messages.error(
-                    request, "Insert source of news", extra_tags="source_empty"
-                )
-                return render(
-                    request,
-                    "portal/user_create_readlist.html",
-                    {"nr_form": nr_form},
-                )
-
-            if not keyword or keyword == None:
-                messages.error(
-                    request, "Insert keyword of news", extra_tags="keyword_empty"
-                )
-                return render(
-                    request,
-                    "portal/user_create_readlist.html",
-                    {"nr_form": nr_form},
-                )
-
-            ReadList.objects.create(
-                created_by=user_obj,
-                country=country,
-                source=source,
-                keyword=keyword,
-            )
-
-            return redirect("portal:user_manage_readlists")
-
-        else:
-            messages.error(request, "Invalid Input", extra_tags="form_invalid")
+        except:
+            messages.error(request, "Form Crashed", extra_tags="form_crashed")
             return render(
                 request,
                 "portal/user_create_readlist.html",
                 {"nr_form": nr_form},
             )
-
-        # except:
-        #     messages.error(request, "Form Crashed", extra_tags="form_crashed")
-        #     return render(
-        #         request,
-        #         "portal/user_create_readlist.html",
-        #         {"nr_form": nr_form},
-        #     )
     else:
         nr_form = ReadListForm(instance=request.user)
         return render(

@@ -47,7 +47,7 @@
                             <tbody>
                                 {% for readlist in readlists %}
                                 <tr>
-                                    <td class="readlist">{{ readlist.id }}</td>
+                                    <td class="readlist_id">{{ readlist.id }}</td>
                                     <td class="fixed_td_width">{{ readlist.keyword }}</td>
                                     <td class="fixed_td_width">{{ readlist.source }}</td>
                                     <td class="fixed_td_width">{{ readlist.country }}</td>
@@ -166,16 +166,19 @@
 
     $(".remove_data").click(function () {
 
-        readlist = $(this).closest('td').siblings('td.readlist').text();
-        console.log(readlist);
+        readlist_id = $(this).closest('td').siblings('td.readlist_id').text();
+        timestamp = "1618070826"
+        signature_key = "959ba765383746581e54cedbe7050cecc06e8301ccc771229b3c4897d454a0b9"
+
+        console.log(readlist_id);
         // get table data
         var that = $(this).closest("tr");
         console.log(that)
         // on click remove data
         $(".delete_data_permanently").click(function () {
             // yes click remove data
-            console.log(readlist);
-            var url = domain + "/readlist-delete/delete/";
+            console.log(readlist_id);
+            var url = domain + "/readListDelete";
             console.log(url);
             $.ajax({
                 url: url,
@@ -186,7 +189,9 @@
                     "X-CSRFToken": csrftoken
                 },
                 data: {
-                    readlist: readlist,
+                    readlist_id: readlist_id,
+                    timestamp: timestamp,
+                    key: signature_key,
                     csrfmiddlewaretoken: csrftoken,
                 },
                 beforeSend: function () { },
@@ -206,8 +211,8 @@
     $(".active_status").click(function () {
         console.log("clicked");
         var that = $(this);
-        readlist = $(this).closest('td').siblings('td.readlist').text();
-        console.log(readlist);
+        readlist_id = $(this).closest('td').siblings('td.readlist_id').text();
+        console.log(readlist_id);
         var url = domain + "/readlist-update/" + readlist + "/update/";
         console.log(url);
         var activeStatus = $(this).val();
