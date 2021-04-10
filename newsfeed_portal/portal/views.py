@@ -55,69 +55,132 @@ import requests
 
 temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
 
-# -------------------------------------------View Func and Class starts------------------------------------
+# -------------------------------------------REST APIs, Class based View, Function based View strts from here------------------------------------
 
-# path('fetchExistingTags', FecthExistingTagsAPIView.as_view(), name='fetchExistingTags'),
 
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework import status
+class SubscribeUpdateAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        readlist_id = request.data.get(
+            "readlist_id", None
+        )  # readlist_id in the AJAX hold the readlist_id
 
-# import requests
-# import tempfile
-# from django.core import files
+        subscribeActiveStatus = request.data.get(
+            "subscribeActiveStatus", None
+        )  # subscribeActiveStatus in the AJAX holds the subscribeActiveStatus
 
-# import hashlib
+        input_key = request.data.get("key", None)
+        input_timestamp = request.data.get("timestamp", None)
 
-# class FecthExistingTagsAPIView(APIView):
+        client_message = str(input_timestamp) + "newsfeed"
 
-#     def post(self, request, *args, **kwargs):
+        generated_signature_by_client = hashlib.sha256(
+            client_message.encode()
+        ).hexdigest()
 
-#         # Taking anonymous image url as input
-#         url = request.data.get('url', None)
-#         input_key = request.data.get('key', None)
-#         input_timestamp = request.data.get('timestamp', None)
+        event_status_code = 0
 
-#         client_message = str(input_timestamp) + 'fotoboss'
+        timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
 
-#         generated_signature_by_client = hashlib.sha256(client_message.encode()).hexdigest()
+        if readlist_id is not None or not readlist_id == "":
+            if generated_signature_by_client == input_key:
 
-#         event_status = 0
+                if (
+                    timestamp_now <= int(input_timestamp) + 360000
+                ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour. If needed, cange the expiration time as you wish
 
-#         timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
+                    if not ReadList.objects.filter(pk=readlist_id).exists():
+                        event_status_code = 0
+                        status_message = ["readlist_id doesn't exist"]
 
-#         if url is not None or not url == '':
-#             if generated_signature_by_client == input_key:
+                    else:
+                        created_by = ReadList.objects.filter(pk=readlist_id).values(
+                            "created_by"
+                        )
+                        print(created_by.username)
+                        User.objects.filter(username=created_by.username).update(
+                            subscribe=subscribeActiveStatus
+                        )
+                        event_status_code = 1
+                        status_message = ["Success!! Subscribe Updated"]
 
-#                 if timestamp_now <= int(input_timestamp) + 300:
+                else:
+                    event_status_code = 0
+                    status_message = ["Signature Expired"]
+            else:
+                event_status_code = 0
+                status_message = ["Authentication Failure"]
+        else:
+            event_status_code = 0
+            status_message = ["No Readlist Id is given in the input"]
 
-#                     if url.endswith(('jpg', 'png', 'jpeg')):
-#                         event_status = 1
-#                         data = ImageUrlToDataAPIModel.objects.filter(image_url = url).values('result')
-#                         data_list = []
-#                         for result in data:
-#                             data_list = result['result']
-#                     else:
-#                         event_status = 0
-#                         data_list = ["Image url has to be ended with .jpg or .png"]
-#                 else:
-#                     event_status = 0
-#                     data_list = ["Signature Expired"]
-#             else:
-#                 event_status = 0
-#                 data_list = ["Authentication Failure"]
-#         else:
-#             event_status = 0
-#             data_list = ["No url inserted in getImageUrlToData/?url= <your image url here>"]
+        return Response({"status": event_status_code, "result": status_message})
 
-#         return Response({'status':event_status, 'result': data_list })
+
+class NewsLetterUpdateAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        readlist_id = request.data.get(
+            "readlist_id", None
+        )  # Here readlist in the AJAX hold the readlist_id
+
+        newsLetterActiveStatus = request.data.get(
+            "newsLetterActiveStatus", None
+        )  # newsLetterActiveStatus in the AJAX holds the newsLetterActiveStatus
+
+        input_key = request.data.get("key", None)
+        input_timestamp = request.data.get("timestamp", None)
+
+        client_message = str(input_timestamp) + "newsfeed"
+
+        generated_signature_by_client = hashlib.sha256(
+            client_message.encode()
+        ).hexdigest()
+
+        event_status_code = 0
+
+        timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
+
+        if readlist_id is not None or not readlist_id == "":
+            if generated_signature_by_client == input_key:
+
+                if (
+                    timestamp_now <= int(input_timestamp) + 360000
+                ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour. Cange the expiration time as you wish
+
+                    if (
+                        not ReadList.objects.filter(pk=readlist_id).exists()
+                        or not newsLetterActiveStatus
+                        or newsLetterActiveStatus == ""
+                    ):
+                        event_status_code = 0
+                        status_message = [
+                            "readlist_id doesn't exist or newsLetterActiveStatus is null"
+                        ]
+
+                    else:
+                        ReadList.objects.filter(id=int(readlist_id)).update(
+                            newsletter=newsLetterActiveStatus
+                        )
+                        event_status_code = 1
+                        status_message = ["Newsletter Status updated Successfully!!"]
+
+                else:
+                    event_status_code = 0
+                    status_message = ["Signature Expired"]
+            else:
+                event_status_code = 0
+                status_message = ["Authentication Failure"]
+        else:
+            event_status_code = 0
+            status_message = ["No Readlist Id is given in the input"]
+
+        return Response({"status": event_status_code, "result": status_message})
 
 
 class ReadListDeleteAPIView(APIView):
     def post(self, request, *args, **kwargs):
         readlist_id = request.data.get(
             "readlist_id", None
-        )  # Here readlist in the AJAX hold the entry_id
+        )  # Here readlist in the AJAX hold the readlist_id
 
         input_key = request.data.get("key", None)
         input_timestamp = request.data.get("timestamp", None)
@@ -159,23 +222,6 @@ class ReadListDeleteAPIView(APIView):
             status_message = ["No Readlist Id is given in the input"]
 
         return Response({"status": event_status_code, "result": status_message})
-
-
-# class ReadListDeleteAPIView(APIView):
-#     def post(self, request):
-#         entry_id = request.POST.get(
-#             "readlist_id"
-#         )  # Here readlist in the AJAX hold the entry_id
-
-#         print(entry_id)
-
-#         readlist = get_object_or_404(ReadList, pk=entry_id)
-
-#         ReadList.objects.filter(id=entry_id).delete()
-
-#         return Response(
-#             {"status": status.HTTP_202_ACCEPTED, "message": "Readlist deleted."}
-#         )
 
 
 class UserLoginView(LoginView):
@@ -538,7 +584,7 @@ class ManageReadListsView(ListView):
     model = ReadList
     template_name = "portal/user_manage_readlists.html"
     context_object_name = "readlists"
-    paginate_by = 15
+    paginate_by = 1
 
     def get_queryset(self):
         form = self.request.GET.get("q")

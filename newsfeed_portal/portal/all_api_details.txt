@@ -34,7 +34,7 @@ Failure Response:
 ```
 {
     "status":0,
-    "result":["readlist_id doesn't exist"]
+    "result":["Id doesn't exist"]
 }
 ```
 2. timestamp or signature key failure

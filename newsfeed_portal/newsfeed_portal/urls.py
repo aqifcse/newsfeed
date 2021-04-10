@@ -14,10 +14,21 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path(
+        "subscribeUpdate",
+        SubscribeUpdateAPIView.as_view(),
+        name="subscribeUpdate",
+    ),
+    path(
+        "newsLetterUpdate",
+        NewsLetterUpdateAPIView.as_view(),
+        name="newsLetterUpdate",
+    ),
+    path(
         "readListDelete",
         ReadListDeleteAPIView.as_view(),
-        name="readlist_delete",
+        name="readListDelete",
     ),
+    # NewsLetterAPIView
     path("admin/", admin.site.urls),
     path("", include("portal.urls", namespace="portal")),
     path(
