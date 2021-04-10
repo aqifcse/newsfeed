@@ -83,6 +83,61 @@ kill the running processes on a specific ip:port or port by kill command after g
 (venv) x@x:~/newsfeed/newsfeed_portal$ kill -9 31626
 ```
 
+**REST API Documentation**
+**Instruction for generating SHA-256 Signature for all the REST APIs**
+- Go to the directory where hash.py file exists. 
+- Run the hash.py with the following command and get timestamp and signature key in output
+```
+(venv) x@x:~/newsfeed/newsfeed_portal/portal$ python hash.py
+TIMESTAMP: 1618077886
+KEY: c29319231fb11edb337aac86507d790d0c9e8b9d0d32e68d9eddb19757f88a12
+```
+- You can use the timestamp and signature key until the key expiration time. 
+- Once the expiration time is over the signature will be expired and you have to generate another signature key.
+
+
+**Sample input for ReadListDelete API**
+```
+{
+    "readlist_id":8,
+    "timestamp":"1618070826",
+    "key":"959ba765383746581e54cedbe7050cecc06e8301ccc771229b3c4897d454a0b9"
+}
+```
+command to acces the API with curl:
+```
+curl -d 'readlist_id=9&timestamp=1618070826&key=959ba765383746581e54cedbe7050cecc06e8301ccc771229b3c4897d454a0b9' http://localhost:8000/readListDelete
+```
+Success Response:
+```
+{
+    "status":1,
+    "result":["ReadList item successfully Deleted!!"]
+}
+```
+Failure Response:
+1. readlist_id failure
+```
+{
+    "status":0,
+    "result":["readlist_id doesn't exist"]
+}
+```
+2. timestamp or signature key failure
+```
+{
+    "status":0,
+    "result":["Authentication Failure"]
+}
+```
+3. Signature Expired
+```
+{
+    "status":0,
+    "result":["Signature Expired"]
+}
+```
+
 
 
 
