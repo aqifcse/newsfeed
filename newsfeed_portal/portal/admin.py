@@ -43,22 +43,8 @@ class NewsBodyAdmin(admin.ModelAdmin):
 admin.site.register(NewsBody, NewsBodyAdmin)
 
 
-class CountryAdmin(admin.ModelAdmin):
-    list_display = ("id", "recommended_by", "country")
+class ReadListAdmin(admin.ModelAdmin):
+    list_display = ("id", "created_by", "country", "source", "keyword")
 
 
-admin.site.register(Country, CountryAdmin)
-
-
-class SourceAdmin(admin.ModelAdmin):
-    list_display = ("id", "recommended_by", "source")
-
-
-admin.site.register(Source, SourceAdmin)
-
-
-class KeywordAdmin(admin.ModelAdmin):
-    list_display = ("id", "recommended_by", "keyword")
-
-
-admin.site.register(Keyword, KeywordAdmin)
+admin.site.register(ReadList, ReadListAdmin)

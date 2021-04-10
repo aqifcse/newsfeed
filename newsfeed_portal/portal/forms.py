@@ -1,24 +1,31 @@
 from django import forms
-from .models import User 
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, UserCreationForm
+from portal.models import *
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordResetForm,
+    UserCreationForm,
+)
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 
+
 class UserAuthForm(AuthenticationForm):
-    
+
     error_messages = {
-        'invalid_login': _("Incorrect username or password"),
-        'invalid': _("Invalid user input!"),
-        'inactive': _("This account is inactive."),
+        "invalid_login": _("Incorrect username or password"),
+        "invalid": _("Invalid user input!"),
+        "inactive": _("This account is inactive."),
     }
 
     def clean(self):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
+        username = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
 
         if username is not None and password:
-            self.user_cache = authenticate(self.request, username=username, password=password)
+            self.user_cache = authenticate(
+                self.request, username=username, password=password
+            )
             if self.user_cache is None:
                 raise self.get_invalid_login_error()
             else:
@@ -26,18 +33,19 @@ class UserAuthForm(AuthenticationForm):
                     self.confirm_login_allowed(self.user_cache)
                 else:
                     raise forms.ValidationError(
-                        self.error_messages['invalid'],
-                        code='invalid',
+                        self.error_messages["invalid"],
+                        code="invalid",
                     )
 
         return self.cleaned_data
+
 
 class UserSignUpForm(UserCreationForm):
     email = forms.EmailField()
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ["username", "email", "password1", "password2"]
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -45,27 +53,41 @@ class UserSignUpForm(UserCreationForm):
         user.save()
         return user
 
+
 class UserUpdateForm(forms.ModelForm):
-    first_name      = forms.CharField(required=False)
-    last_name       = forms.CharField(required=False)
-    email           = forms.EmailField(required=False)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    email = forms.EmailField(required=False)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'subscribe']
-        widgets = {
-            'jsonfield': JSONEditorWidget
-        }
+        fields = ["first_name", "last_name", "email", "subscribe"]
+        widgets = {"jsonfield": JSONEditorWidget}
+
 
 class EmailValidationOnForgotPassword(PasswordResetForm):
 
     error_messages = {
-        'unregistered': _("The email is not registered. Please register"),
+        "unregistered": _("The email is not registered. Please register"),
     }
 
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data["email"]
         if not User.objects.filter(email__iexact=email, is_active=True).exists():
-            raise forms.ValidationError(self.error_messages['unregistered'], code='unregistered',)
+            raise forms.ValidationError(
+                self.error_messages["unregistered"],
+                code="unregistered",
+            )
 
         return email
+
+
+class ReadListForm(forms.ModelForm):
+    class Meta:
+        model = ReadList
+        fields = [
+            "id",
+            "keyword",
+            "source",
+            "country",
+        ]

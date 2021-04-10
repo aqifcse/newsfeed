@@ -54,6 +54,11 @@ import requests
 temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
 
 # -------------------------------------------View Func and Class starts------------------------------------
+class ReadListDeleteAPIView(DestroyAPIView):
+    queryset = User.objects.all()
+    lookup_field = "readlist"
+
+
 class UserLoginView(LoginView):
     form_class = UserAuthForm
 
@@ -220,119 +225,220 @@ def user_profile_settings(request):
     return render(request, "portal/user_profile_settings.html", context)
 
 
+# @login_required
+# def user_create_readlist(request):
+
+# countries = Country.objects.all()
+# sources = Source.objects.all()
+# keywords = Keyword.objects.all()
+
+# if request.method == "POST":
+
+#     username = request.user.username
+#     user_obj = get_object_or_404(User, username=username)
+
+#     if "taskAdd" in request.POST:
+#         country = request.POST.get("country", False)
+#         source = request.POST.get("source", False)
+#         keyword = request.POST.get("keyword", False)
+
+#         if (
+#             not country
+#             or not source
+#             or not keyword
+#             or country == ""
+#             or source == ""
+#             or keyword == ""
+#         ):
+#             return redirect("portal:user_create_readlist")
+#         else:
+#             country_object = Country.objects.create(
+#                 recommended_by=user_obj, country=country
+#             )
+
+#             sources_object = Source.objects.create(
+#                 recommended_by=user_obj, source=source
+#             )
+
+#             keyword_object = Keyword.objects.create(
+#                 recommended_by=user_obj, keyword=keyword
+#             )
+
+#             return redirect("portal:user_create_readlist")
+
+#             # page = request.GET.get("page", 1)
+#             # search = request.GET.get("search", None)
+
+#             # if search is None or search == "top":
+#             #     # get the top news
+#             #     url = "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
+#             #         "us", 1, settings.APIKEY
+#             #     )
+#             # else:
+#             #     # get the search query request
+#             #     url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+#             #         search, "popularity", page, settings.APIKEY
+#             #     )
+#             # r = requests.get(url=url)
+
+#             # data = r.json()
+#             # if data["status"] != "ok":
+#             #     return HttpResponse("<h1>Request Failed</h1>")
+#             # data = data["articles"]
+#             # context = {"success": True, "data": [], "search": search}
+#             # # seprating the necessary data
+#             # for i in data:
+#             #     context["data"].append(
+#             #         {
+#             #             "title": i["title"],
+#             #             "description": ""
+#             #             if i["description"] is None
+#             #             else i["description"],
+#             #             "url": i["url"],
+#             #             "image": temp_img
+#             #             if i["urlToImage"] is None
+#             #             else i["urlToImage"],
+#             #             "publishedat": i["publishedAt"],
+#             #         }
+#             #     )
+
+#             # # send the news feed to template in context
+#             # return render(
+#             #     request, "portal/user_create_readlist.html", context=context
+#             # )
+
+#     if "taskDelete" in request.POST:
+#         task_id = request.POST.get("checked_all", False)
+#         try:
+#             country_obj = Country.objects.get(
+#                 recommended_by=user_obj, id=int(task_id)
+#             )
+#             country_obj.delete()
+
+#             source_obj = Source.objects.get(
+#                 recommended_by=user_obj, id=int(task_id)
+#             )
+#             source_obj.delete()
+
+#             keyword_obj = Keyword.objects.get(
+#                 recommended_by=user_obj, id=int(task_id)
+#             )
+#             keyword_obj.delete()
+
+#             return redirect("portal:user_create_readlist")
+#         except:
+#             return redirect("portal:user_create_readlist")
+
+# return render(
+#     request,
+#     "portal/user_create_readlist.html",
+#     {
+#         "countries": countries,
+#         "sources": sources,
+#         "keywords": keywords,
+#     },
+# )
 @login_required
-def user_news_recommend_settings(request):
-
-    countries = Country.objects.all()
-    sources = Source.objects.all()
-    keywords = Keyword.objects.all()
-
+def user_create_readlist(request):
     if request.method == "POST":
-
+        nr_form = ReadListForm(request.POST, request.FILES, instance=request.user)
+        # try:
         username = request.user.username
         user_obj = get_object_or_404(User, username=username)
 
-        if "taskAdd" in request.POST:
-            country = request.POST.get("country", False)
-            source = request.POST.get("source", False)
-            keyword = request.POST.get("keyword", False)
+        if nr_form.is_valid():
+            country = nr_form.cleaned_data["country"]
+            source = nr_form.cleaned_data["source"]
+            keyword = nr_form.cleaned_data["keyword"]
 
-            if (
-                not country
-                or not source
-                or not keyword
-                or country == ""
-                or source == ""
-                or keyword == ""
-            ):
-                return redirect("portal:user_news_recommend_settings")
-            else:
-                country_object = Country.objects.create(
-                    recommended_by=user_obj, country=country
+            if not country or country == None:
+                messages.error(
+                    request, "Insert country of news", extra_tags="country_empty"
                 )
-
-                sources_object = Source.objects.create(
-                    recommended_by=user_obj, source=source
-                )
-
-                keyword_object = Keyword.objects.create(
-                    recommended_by=user_obj, keyword=keyword
-                )
-
-                page = request.GET.get("page", 1)
-                search = request.GET.get("search", None)
-
-                if search is None or search == "top":
-                    # get the top news
-                    url = "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
-                        "us", 1, settings.APIKEY
-                    )
-                else:
-                    # get the search query request
-                    url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
-                        search, "popularity", page, settings.APIKEY
-                    )
-                r = requests.get(url=url)
-
-                data = r.json()
-                if data["status"] != "ok":
-                    return HttpResponse("<h1>Request Failed</h1>")
-                data = data["articles"]
-                context = {"success": True, "data": [], "search": search}
-                # seprating the necessary data
-                for i in data:
-                    context["data"].append(
-                        {
-                            "title": i["title"],
-                            "description": ""
-                            if i["description"] is None
-                            else i["description"],
-                            "url": i["url"],
-                            "image": temp_img
-                            if i["urlToImage"] is None
-                            else i["urlToImage"],
-                            "publishedat": i["publishedAt"],
-                        }
-                    )
-
-                # send the news feed to template in context
                 return render(
-                    request, "portal/user_news_recommend_settings.html", context=context
+                    request,
+                    "portal/user_create_readlist.html",
+                    {"nr_form": nr_form},
                 )
 
-        if "taskDelete" in request.POST:
-            country_id = request.POST.get("checkedcountry", False)
-            source_id = request.POST.get("checkedsource", False)
-            keyword_id = request.POST.get("checkedkeyword", False)
-            try:
-                country_obj = Country.objects.get(
-                    recommended_by=user_obj, id=int(country_id)
+            if not source or source == None:
+                messages.error(
+                    request, "Insert source of news", extra_tags="source_empty"
                 )
-                country_obj.delete()
-
-                source_obj = Source.objects.get(
-                    recommended_by=user_obj, id=int(source_id)
+                return render(
+                    request,
+                    "portal/user_create_readlist.html",
+                    {"nr_form": nr_form},
                 )
-                source_obj.delete()
 
-                keyword_obj = Keyword.objects.get(
-                    recommended_by=user_obj, id=int(keyword_id)
+            if not keyword or keyword == None:
+                messages.error(
+                    request, "Insert keyword of news", extra_tags="keyword_empty"
                 )
-                keyword_obj.delete()
+                return render(
+                    request,
+                    "portal/user_create_readlist.html",
+                    {"nr_form": nr_form},
+                )
 
-                return redirect("portal:user_news_recommend_settings")
-            except:
-                return redirect("portal:user_news_recommend_settings")
+            ReadList.objects.create(
+                created_by=user_obj,
+                country=country,
+                source=source,
+                keyword=keyword,
+            )
 
-    return render(
-        request,
-        "portal/user_news_recommend_settings.html",
-        {
-            "countries": countries,
-            "sources": sources,
-            "keywords": keywords,
-        },
-    )
+            return redirect("portal:user_manage_readlists")
+
+        else:
+            messages.error(request, "Invalid Input", extra_tags="form_invalid")
+            return render(
+                request,
+                "portal/user_create_readlist.html",
+                {"nr_form": nr_form},
+            )
+
+        # except:
+        #     messages.error(request, "Form Crashed", extra_tags="form_crashed")
+        #     return render(
+        #         request,
+        #         "portal/user_create_readlist.html",
+        #         {"nr_form": nr_form},
+        #     )
+    else:
+        nr_form = ReadListForm(instance=request.user)
+        return render(
+            request,
+            "portal/user_create_readlist.html",
+            {"nr_form": nr_form},
+        )
+
+
+@method_decorator([login_required], name="dispatch")
+class ManageReadListsView(ListView):
+    model = ReadList
+    template_name = "portal/user_manage_readlists.html"
+    context_object_name = "readlists"
+    paginate_by = 15
+
+    def get_queryset(self):
+        form = self.request.GET.get("q")
+        if form:
+            return (
+                ReadList.objects.filter(
+                    Q(country__icontains=form)
+                    | Q(source__icontains=form)
+                    | Q(keyword__icontains=form)
+                )
+                .order_by("created_at")
+                .reverse()
+            )
+        queryset = ReadList.objects.all().order_by("created_at").reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs["q"] = self.request.GET.get("q")
+        return super().get_context_data(**kwargs)
 
 
 def global_home(request):
