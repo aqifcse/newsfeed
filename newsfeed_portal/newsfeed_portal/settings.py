@@ -149,3 +149,5 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # --------------------Sendgrid Ends----------------------------------------------------------------------
 
 APIKEY = "cbdd86a002e24e569b7905729d546e91"  # NewsAPI key
+
+APPEND_SLASH = False
