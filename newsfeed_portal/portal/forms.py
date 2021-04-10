@@ -85,9 +85,4 @@ class EmailValidationOnForgotPassword(PasswordResetForm):
 class ReadListForm(forms.ModelForm):
     class Meta:
         model = ReadList
-        fields = [
-            "id",
-            "keyword",
-            "source",
-            "country",
-        ]
+        fields = ["id", "keyword", "source", "country", "newsletter"]

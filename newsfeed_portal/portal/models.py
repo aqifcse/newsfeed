@@ -7,7 +7,7 @@ from django.utils import timezone as tz
 class User(AbstractUser):
     subscribe = models.BooleanField(
         default=False,
-        help_text="This will enlist you to newsletter feature. You will get emails on latest news updates. To stop getting emails please set this field false",
+        help_text="This will enlist you to newsletter feature. You will get newsletter emails on latest news updates(within every 15 minutes). To stop getting news please set this field unchecked",
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -35,4 +35,9 @@ class ReadList(models.Model):
     country = models.CharField(max_length=100)
     source = models.CharField(max_length=100)
     keyword = models.CharField(max_length=100)
+
+    newsletter = models.BooleanField(
+        default=False,
+        help_text="Checking this box will send you newsletters to your email id about the latest news updates(within every 15 minutes) based on this readlist. To stop getting news please set this field unchecked",
+    )
     created_at = models.DateTimeField(default=tz.now)
