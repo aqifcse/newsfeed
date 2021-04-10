@@ -44,7 +44,7 @@ admin.site.register(NewsBody, NewsBodyAdmin)
 
 
 class ReadListAdmin(admin.ModelAdmin):
-    list_display = ("id", "created_by", "country", "source", "keyword")
+    list_display = ("id", "created_by", "country", "source", "keyword", "newsletter")
 
 
 admin.site.register(ReadList, ReadListAdmin)
