@@ -13,6 +13,11 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    path(
+        "readlist-delete/delete",
+        ReadListDeleteAPIView.as_view(),
+        name="readlist_delete",
+    ),
     path("admin/", admin.site.urls),
     path("", include("portal.urls", namespace="portal")),
     path(
@@ -20,11 +25,6 @@ urlpatterns = [
     ),
     path("signup/", UserSignUpView.as_view(), name="signup"),
     path("activate/<uidb64>/<token>/", ActivateAccount.as_view(), name="activate"),
-    path(
-        "logout/",
-        auth_views.LogoutView.as_view(template_name="users/logout.html"),
-        name="logout",
-    ),
     path(
         "password-reset/",
         MyPasswordRestView.as_view(form_class=EmailValidationOnForgotPassword),

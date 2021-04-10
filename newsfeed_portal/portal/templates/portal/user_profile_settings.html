@@ -28,7 +28,7 @@
                             <table class="table table-hover teble-responsive agency_list_table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Serial No.</th>
+                                        <th scope="col">Entry No.</th>
                                         <th scope="col">User ID</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
@@ -39,7 +39,7 @@
                                     <tr>
                                         <td class="username">{{ user.id }}</td>
                                         <td class="username">{{ user.username }}</td>
-                                        <td class="fixed_td_width">{{ user.fast_name }} {{ user.last_name }}</td>
+                                        <td class="fixed_td_width">{{ user.first_name }} {{ user.last_name }}</td>
                                         <td class="fixed_td_width">{{ user.email }}</td>
                                         {% if user.subscribe %}
                                         <td class="fixed_td_width">On</td>
@@ -63,7 +63,7 @@
             {{ u_form | crispy }}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-dark " type="submit">Update</button>
+            <button class="btn btn-primary " type="submit">Update</button>
         </div>
     </form>
 </div>
