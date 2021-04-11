@@ -125,7 +125,7 @@ AUTH_USER_MODEL = "portal.User"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -149,5 +149,3 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # --------------------Sendgrid Ends----------------------------------------------------------------------
 
 APIKEY = "cbdd86a002e24e569b7905729d546e91"  # NewsAPI key
-
-APPEND_SLASH = False
