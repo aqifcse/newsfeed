@@ -38,7 +38,7 @@
                                     <th scope="col">Country</th>
                                     <th scope="col">Top Headlines Link</th>
                                     <th scope="col">Full Stories Link</th>
-                                    <th scope="col">Email Subscription <br> Enable/Disable </th>
+                                    <!-- <th scope="col">Email Subscription Status </th> -->
                                     <th scope="col"> Recieve Newsletter<br> Yes/No </th>
                                     <th scope="col">Delete</th>
                                 </tr>
@@ -53,25 +53,25 @@
                                     <td class="fixed_td_width">{{ readlist.country }}</td>
                                     <td class="fixed_td_width">{{ readlist.top_headlines }}</td>
                                     <td class="fixed_td_width">{{ readlist.full_stories }}</td>
-                                    {% if request.user.subscibe %}
+                                    <!-- {% if request.user.subscibe %}
                                     <td>
-                                        <button class="btn btn-danger subscribe_active_status inactive_btn"
+                                        <button class="btn btn-dark subscribe_active_status inactive_btn"
                                             value="False">off</button>
                                     </td>
                                     {% else%}
                                     <td>
-                                        <button class="btn btn-success subscribe_active_status active_btn"
+                                        <button class="btn btn-dark subscribe_active_status active_btn"
                                             value="True">on</button>
                                     </td>
-                                    {% endif %}
+                                    {% endif %} -->
                                     {% if readlist.newsletter %}
                                     <td>
-                                        <button class="btn btn-danger newsletter_active_status inactive_btn"
+                                        <button class="btn btn-dark newsletter_active_status inactive_btn"
                                             value="False">no</button>
                                     </td>
                                     {% else%}
                                     <td>
-                                        <button class="btn btn-success newsletter_active_status active_btn"
+                                        <button class="btn btn-dark newsletter_active_status active_btn"
                                             value="True">yes</button>
                                     </td>
                                     {% endif %}
@@ -221,73 +221,73 @@
         })
     });
 
-    $(".subscribe_active_status").click(function () {
-        console.log("clicked");
-        var that = $(this);
-        readlist_id = $(this).closest('td').siblings('td.readlist_id').text();
-        console.log(readlist_id);
-        var url = domain + "/subscribeUpdate";
-        console.log(url);
-        var subscribeActiveStatus = $(this).val();
-        console.log(subscribeActiveStatus);
-        if (subscribeActiveStatus == "False") {
-            $.ajax({
-                url: url,
-                dataType: 'json',
-                type: 'PUT',
-                contentType: 'application/x-www-form-urlencoded',
-                headers: {
-                    "X-CSRFToken": csrftoken
-                },
-                data: {
-                    readlist_id: readlist_id,
-                    timestamp: timestamp,
-                    key: signature_key,
-                    is_active: "False",
-                    csrfmiddlewaretoken: csrftoken,
-                },
-                beforeSend: function () { },
-                success: function (data) {
-                    // console.log(data);
-                    that.addClass("active_btn");
-                    that.removeClass("inactive_btn");
-                    that.text("on");
-                    that.val("True")
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
+    // $(".subscribe_active_status").click(function () {
+    //     console.log("clicked");
+    //     var that = $(this);
+    //     readlist_id = $(this).closest('td').siblings('td.readlist_id').text();
+    //     console.log(readlist_id);
+    //     var url = domain + "/subscribeUpdate";
+    //     console.log(url);
+    //     var subscribeActiveStatus = $(this).val();
+    //     console.log(subscribeActiveStatus);
+    //     if (subscribeActiveStatus == "False") {
+    //         $.ajax({
+    //             url: url,
+    //             dataType: 'json',
+    //             type: 'POST',
+    //             contentType: 'application/x-www-form-urlencoded',
+    //             headers: {
+    //                 "X-CSRFToken": csrftoken
+    //             },
+    //             data: {
+    //                 readlist_id: readlist_id,
+    //                 is_active: "False",
+    //                 timestamp: timestamp,
+    //                 key: signature_key,
+    //                 csrfmiddlewaretoken: csrftoken,
+    //             },
+    //             beforeSend: function () { },
+    //             success: function (data) {
+    //                 // console.log(data);
+    //                 that.addClass("active_btn");
+    //                 that.removeClass("inactive_btn");
+    //                 that.text("on");
+    //                 that.val("True")
+    //             },
+    //             error: function (jqXhr, textStatus, errorThrown) {
 
-                }
-            });
-        } else if (subscribeActiveStatus == "True") {
-            $.ajax({
-                url: url,
-                dataType: 'json',
-                type: 'PUT',
-                contentType: 'application/x-www-form-urlencoded',
-                headers: {
-                    "X-CSRFToken": csrftoken
-                },
-                data: {
-                    readlist_id: readlist_id,
-                    timestamp: timestamp,
-                    key: signature_key,
-                    is_active: "True",
-                    csrfmiddlewaretoken: csrftoken,
-                },
-                beforeSend: function () { },
-                success: function (data) {
-                    // console.log(data);
-                    that.addClass("inactive_btn");
-                    that.removeClass("active_btn");
-                    that.text("off");
-                    that.val("False")
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
+    //             }
+    //         });
+    //     } else if (subscribeActiveStatus == "True") {
+    //         $.ajax({
+    //             url: url,
+    //             dataType: 'json',
+    //             type: 'POST',
+    //             contentType: 'application/x-www-form-urlencoded',
+    //             headers: {
+    //                 "X-CSRFToken": csrftoken
+    //             },
+    //             data: {
+    //                 readlist_id: readlist_id,
+    //                 is_active: "True",
+    //                 timestamp: timestamp,
+    //                 key: signature_key,
+    //                 csrfmiddlewaretoken: csrftoken,
+    //             },
+    //             beforeSend: function () { },
+    //             success: function (data) {
+    //                 // console.log(data);
+    //                 that.addClass("inactive_btn");
+    //                 that.removeClass("active_btn");
+    //                 that.text("off");
+    //                 that.val("False")
+    //             },
+    //             error: function (jqXhr, textStatus, errorThrown) {
 
-                }
-            });
-        }
-    });
+    //             }
+    //         });
+    //     }
+    // });
 
     $(".newsletter_active_status").click(function () {
         console.log("clicked");
@@ -296,19 +296,22 @@
         console.log(readlist_id);
         var url = domain + "/newsLetterUpdate";
         console.log(url);
-        var newsLetterActiveStatus = $(this).val();
+        var newsLetterActiveStatus = $(this).val()
         console.log(newsLetterActiveStatus);
         if (newsLetterActiveStatus == "False") {
             $.ajax({
                 url: url,
                 dataType: 'json',
-                type: 'PUT',
+                type: 'POST',
                 contentType: 'application/x-www-form-urlencoded',
                 headers: {
                     "X-CSRFToken": csrftoken
                 },
                 data: {
+                    readlist_id: readlist_id,
                     is_active: "False",
+                    timestamp: timestamp,
+                    key: signature_key,
                     csrfmiddlewaretoken: csrftoken,
                 },
                 beforeSend: function () { },
@@ -327,13 +330,16 @@
             $.ajax({
                 url: url,
                 dataType: 'json',
-                type: 'PUT',
+                type: 'POST',
                 contentType: 'application/x-www-form-urlencoded',
                 headers: {
                     "X-CSRFToken": csrftoken
                 },
                 data: {
+                    readlist_id: readlist_id,
                     is_active: "True",
+                    timestamp: timestamp,
+                    key: signature_key,
                     csrfmiddlewaretoken: csrftoken,
                 },
                 beforeSend: function () { },

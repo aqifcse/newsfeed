@@ -60,13 +60,13 @@ temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?a
 
 class SubscribeUpdateAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        readlist_id = request.data.get(
-            "readlist_id", None
+        username = request.data.get(
+            "username", None
         )  # readlist_id in the AJAX hold the readlist_id
 
-        subscribeActiveStatus = request.data.get(
-            "subscribeActiveStatus", None
-        )  # subscribeActiveStatus in the AJAX holds the subscribeActiveStatus
+        is_active = request.data.get(
+            "is_active", None
+        )  # is_active in the AJAX holds the is_active
 
         input_key = request.data.get("key", None)
         input_timestamp = request.data.get("timestamp", None)
@@ -81,27 +81,30 @@ class SubscribeUpdateAPIView(APIView):
 
         timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
 
-        if readlist_id is not None or not readlist_id == "":
+        if username is not None or not username == "":
             if generated_signature_by_client == input_key:
 
                 if (
                     timestamp_now <= int(input_timestamp) + 360000
                 ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour. If needed, cange the expiration time as you wish
 
-                    if not ReadList.objects.filter(pk=readlist_id).exists():
+                    if not User.objects.filter(username=username).exists():
                         event_status_code = 0
-                        status_message = ["readlist_id doesn't exist"]
+                        status_message = ["User doesn't exist"]
 
                     else:
-                        created_by = ReadList.objects.filter(pk=readlist_id).values(
-                            "created_by"
-                        )
-                        print(created_by.username)
-                        User.objects.filter(username=created_by.username).update(
-                            subscribe=subscribeActiveStatus
-                        )
+                        user_obj = get_object_or_404(User, username=username)
+                        user_obj.subscribe = is_active
+                        user_obj.save()
+
                         event_status_code = 1
-                        status_message = ["Success!! Subscribe Updated"]
+                        message = (
+                            "Success !! Subscribe activation status is set to -> "
+                            + is_active
+                            + " for USER ID : "
+                            + username
+                        )
+                        status_message = [message]
 
                 else:
                     event_status_code = 0
@@ -122,9 +125,9 @@ class NewsLetterUpdateAPIView(APIView):
             "readlist_id", None
         )  # Here readlist in the AJAX hold the readlist_id
 
-        newsLetterActiveStatus = request.data.get(
-            "newsLetterActiveStatus", None
-        )  # newsLetterActiveStatus in the AJAX holds the newsLetterActiveStatus
+        is_active = request.data.get(
+            "is_active", None
+        )  # is_active in the AJAX holds the is_active
 
         input_key = request.data.get("key", None)
         input_timestamp = request.data.get("timestamp", None)
@@ -148,20 +151,24 @@ class NewsLetterUpdateAPIView(APIView):
 
                     if (
                         not ReadList.objects.filter(pk=readlist_id).exists()
-                        or not newsLetterActiveStatus
-                        or newsLetterActiveStatus == ""
+                        or not is_active
+                        or is_active == ""
                     ):
                         event_status_code = 0
                         status_message = [
-                            "readlist_id doesn't exist or newsLetterActiveStatus is null"
+                            "readlist_id doesn't exist or is_active is null"
                         ]
 
                     else:
                         ReadList.objects.filter(id=int(readlist_id)).update(
-                            newsletter=newsLetterActiveStatus
+                            newsletter=is_active
                         )
                         event_status_code = 1
-                        status_message = ["Newsletter Status updated Successfully!!"]
+                        message = (
+                            "Success !! Newsletter activation status is set to "
+                            + is_active
+                        )
+                        status_message = [message]
 
                 else:
                     event_status_code = 0
