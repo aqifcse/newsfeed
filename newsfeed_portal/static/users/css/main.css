@@ -1,11 +1,11 @@
 body {
   background: #fafafa;
-  color: #333333;
+  color: #9AECDB;
   margin-top: 5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+  color: #9AECDB;
 }
 
 ul {
@@ -37,7 +37,7 @@ ul {
 }
 
 .article-title {
-  color: #444444;
+  color: #9AECDB;
 }
 
 a.article-title:hover {
@@ -62,7 +62,7 @@ a.article-title:hover {
 }
 
 .article-metadata a:hover {
-  color: #333;
+  color: #9AECDB;
   text-decoration: none;
 }
 
