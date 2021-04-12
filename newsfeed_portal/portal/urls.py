@@ -16,4 +16,14 @@ urlpatterns = [
         ManageReadListsView.as_view(),
         name="user_manage_readlists",
     ),
+    path(
+        "top-headlines/",
+        user_top_headlines,
+        name="user_top_headlines",
+    ),
+    path(
+        "full-stories/",
+        user_full_stories,
+        name="user_full_stories",
+    ),
 ]

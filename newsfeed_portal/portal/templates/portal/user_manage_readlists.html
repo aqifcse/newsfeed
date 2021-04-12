@@ -51,8 +51,12 @@
                                     <td class="fixed_td_width">{{ readlist.keyword }}</td>
                                     <td class="fixed_td_width">{{ readlist.source }}</td>
                                     <td class="fixed_td_width">{{ readlist.country }}</td>
-                                    <td class="fixed_td_width">{{ readlist.top_headlines }}</td>
-                                    <td class="fixed_td_width">{{ readlist.full_stories }}</td>
+                                    <td class="fixed_td_width">
+                                        <a href="{% url 'portal:user_top_headlines' %}"> link </a>
+                                    </td>
+                                    <td class="fixed_td_width">
+                                        <a href="{% url 'portal:user_full_stories' %}"> link </a>
+                                    </td>
                                     <!-- {% if request.user.subscibe %}
                                     <td>
                                         <button class="btn btn-dark subscribe_active_status inactive_btn"

@@ -1,7 +1,0 @@
-# ReadListDeleteAPIView sample input as POST
-------------------------------------------------------------------------------------
-{
-    "readlist_id": 7,
-    "key": "959ba765383746581e54cedbe7050cecc06e8301ccc771229b3c4897d454a0b9",
-    "timestamp": "1618070826"
-}

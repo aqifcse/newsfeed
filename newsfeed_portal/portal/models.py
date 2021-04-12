@@ -32,9 +32,12 @@ class NewsBody(models.Model):
 
 class ReadList(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    country = models.CharField(max_length=100)
-    source = models.CharField(max_length=100)
-    keyword = models.CharField(max_length=100)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    source = models.CharField(max_length=100, null=True, blank=True)
+    keyword = models.CharField(max_length=100, null=True, blank=True)
+
+    top_headlines_url = models.URLField()
+    full_stories_url = models.URLField()
 
     newsletter = models.BooleanField(
         default=False,

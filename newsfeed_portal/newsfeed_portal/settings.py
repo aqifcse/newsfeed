@@ -54,7 +54,7 @@ MIDDLEWARE = [
 
 # For future JS Fronend, we need corsheaders and whitelist for backend frontend communication
 # Future frontend will access whitelist addresses
-CORS_ORIGIN_WHITELIST = ["http://127.0.0.1:8000"]
+CORS_ORIGIN_WHITELIST = ["http://127.0.0.1:8000", "https://newsapi.org"]
 
 CORS_ALLOWED_ALL_ORIGINS = True
 
@@ -148,4 +148,6 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # SENDGRID_ECHO_TO_STDOUT=True
 # --------------------Sendgrid Ends----------------------------------------------------------------------
 
-APIKEY = "cbdd86a002e24e569b7905729d546e91"  # NewsAPI key
+# APIKEY = "cbdd86a002e24e569b7905729d546e91"  # NewsAPI key
+
+APIKEY = "e528c2d1bddb44828d84948700b257c4"
