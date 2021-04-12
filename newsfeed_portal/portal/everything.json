@@ -1,0 +1,265 @@
+[
+    "articles",
+    [
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "BILL BARROW and JILL COLVIN Associated Press",
+            "title": "Trump endorses challenger against Georgia elections chief",
+            "description": "Former President Donald Trump has endorsed a conservative Georgia congressman in his bid to unseat the Republican secretary of state who refused to help overturn the November election results",
+            "url": "https://abcnews.go.com/Politics/wireStory/trump-ally-embattled-georgia-secretary-state-76605744",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_55e7cc36fd4b4b70adf28d8bf8aaf444_16x9_992.jpg",
+            "publishedAt": "2021-03-22T15:21:39Z",
+            "content": "ATLANTA -- Former President Donald Trump on Monday endorsed a conservative Georgia congressman in his bid to unseat the Republican secretary of state who refused to help overturn the November electio… [+3502 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "MARK SHERMAN Associated Press",
+            "title": "Republicans trod well-worn path to court to sue Biden",
+            "description": "Most of the action is in federal courts where Trump was able to appoint judges.",
+            "url": "https://abcnews.go.com/Politics/wireStory/republicans-trod-worn-path-court-sue-biden-76833907",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_083c8cd9aae647fbb2bc67b5f935efc3_16x9_992.jpg",
+            "publishedAt": "2021-04-02T14:04:11Z",
+            "content": "WASHINGTON -- These are busy days for Republican state attorneys general, filing repeated lawsuits that claim President Joe Biden and his administration are overstepping their authority on immigratio… [+5460 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "NICHOLAS RICCARDI Associated Press",
+            "title": "Former Trump adviser takes prominent role in voting battle",
+            "description": "GOP lawyer advised Trump on his campaign to overturn the 2020 election results.",
+            "url": "https://abcnews.go.com/Politics/wireStory/trump-adviser-takes-prominent-role-voting-battle-76736850",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_74265063977144c9808d294f66db175b_16x9_992.jpg",
+            "publishedAt": "2021-03-28T19:38:46Z",
+            "content": "A GOP lawyer who advised former President Donald Trump on his campaign to overturn the 2020 election results is now playing a central role coordinating the Republican effort to tighten voting laws ar… [+6165 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "The Associated Press",
+            "title": "Donald Trump Jr. buys mansion 20 miles from Mar-a-Lago",
+            "description": "Donald Trump Jr. and his girlfriend Kimberly Guilfoyle are now Florida home owners",
+            "url": "https://abcnews.go.com/Politics/wireStory/donald-trump-jr-buys-mansion-20-miles-mar-76811378",
+            "urlToImage": "https://s.abcnews.com/images/WNN/201030_atm_abdi_pic_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-04-01T14:51:49Z",
+            "content": "JUPITER, Fla. -- Donald Trump Jr. and his girlfriend Kimberly Guilfoyle are now Florida home owners.\r\nThe Palm Beach Post reports that the couple spent $9.7 million this week to buy a 11,000-square-f… [+983 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Aaron Katersky",
+            "title": "Manhattan DA Cy Vance will not seek reelection, Trump case pending",
+            "description": "It is expected he will either charge a crime or close the investigation of Trump before he leaves office.",
+            "url": "https://abcnews.go.com/US/manhattan-da-cy-vance-seek-reelection-trump-case/story?id=76411417",
+            "urlToImage": "https://s.abcnews.com/images/Politics/cyrus-vance-jr-file-gty-ml-210312_1615549599578_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-12T11:53:16Z",
+            "content": "Cy Vance announced Friday he would not seek another term as Manhattan District Attorney, a position he used to prosecute Harvey Weinstein and investigate former President Donald Trump.\r\nVance is depa… [+878 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Quinn Scanlan",
+            "title": "Trump backs GOP congressman's bid against Georgia Secretary of State Raffensperger",
+            "description": "Former President Donald Trump on Monday backed a Georgia's congressman's primary challenge against embattled Secretary of State Brad Raffensperger.",
+            "url": "https://abcnews.go.com/Politics/trump-backs-gop-congressmans-bid-georgia-secretary-state/story?id=76607726",
+            "urlToImage": "https://s.abcnews.com/images/Politics/hice-cpac-gty-ps-210322_1616428630849_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-22T17:38:28Z",
+            "content": "Former President Donald Trump, keeping up his debunked election fraud fight, threw his weight behind Georgia GOP Rep. Jody Hice's effort to unseat Republican Secretary of State Brad Raffensperger, ca… [+5493 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "MARC LEVY Associated Press",
+            "title": "Democrats' 2018 Trump Country hero faces hard political path",
+            "description": "Barely a year into Donald Trump’s presidency, Democrats were desperate to show they could reconnect with the white, working-class voters who had turned against them",
+            "url": "https://abcnews.go.com/Politics/wireStory/democrats-2018-trump-country-hero-faces-hard-political-76469641",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_712af980a1d74ef9a72e4711f09aa4aa_16x9_992.jpg",
+            "publishedAt": "2021-03-15T17:02:15Z",
+            "content": "HARRISBURG, Pa. -- In 2018, Conor Lamb wasnt just a candidate he was a symbol.\r\nBarely a year into Donald Trumps presidency, Democrats were desperate to show they could reconnect with the white, work… [+6743 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "MEG KINNARD Associated Press",
+            "title": "Trump looms large in race for South Carolina GOP chairman",
+            "description": "The contest to lead South Carolina's Republican Party is turning into a debate over whose support for former President Donald Trump is highest",
+            "url": "https://abcnews.go.com/Politics/wireStory/trump-looms-large-race-south-carolina-gop-chairman-76811782",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_697716863af1465b997b7a27ecbe238e_16x9_992.jpg",
+            "publishedAt": "2021-04-01T15:41:37Z",
+            "content": "COLUMBIA, S.C. -- In South Carolina where Donald Trump's 2016 primary victory marked a turning point in solidifying his nomination, and where support for him remained high throughout his term the con… [+4638 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Will Steakin, Libby Cathey",
+            "title": "Trump looks to boost former administration officials in 2022 midterms",
+            "description": "Former President Trump has begun promoting a new class of former administration officials to lead a potential wave of MAGA loyalists into the 2022 midterm elections.",
+            "url": "https://abcnews.go.com/Politics/trump-boost-administration-officials-2022-midterms/story?id=76679607",
+            "urlToImage": "https://s.abcnews.com/images/Politics/sarah-sanders-rt-jt-210325_1616694984231_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-25T19:52:41Z",
+            "content": "As former President Donald Trump continues to plot his post-White House political course, he has begun promoting a new class of former Trump administration officials to lead a potential fresh wave of… [+5365 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "The Associated Press",
+            "title": "Former Trump housing official sanctioned over campaign video",
+            "description": "Authorities say a former federal official has admitted she abused her authority in a publicity stunt that tricked New York City public housing residents into sounding supportive of former President Donald Trump",
+            "url": "https://abcnews.go.com/Politics/wireStory/trump-housing-official-sanctioned-campaign-video-76904914",
+            "urlToImage": "https://s.abcnews.com/images/WNN/210311_atm_presha1_pic_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-04-06T18:56:39Z",
+            "content": "NEW YORK -- A former federal official admitted she abused her authority in a publicity stunt that tricked New York City public housing residents into sounding supportive of former President Donald Tr… [+1627 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "MATTHEW LEE AP Diplomatic Writer",
+            "title": "Biden administration quietly ramping up aid to Palestinians",
+            "description": "The Biden administration is quietly ramping up assistance to the Palestinians after former President Donald Trump cut off nearly all such aid",
+            "url": "https://abcnews.go.com/Politics/wireStory/biden-administration-quietly-ramping-aid-palestinians-76790948",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_99f174f4907c4dad9a9a38ff50379e2c_16x9_992.jpg",
+            "publishedAt": "2021-03-31T15:55:36Z",
+            "content": "WASHINGTON -- The Biden administration is quietly ramping up assistance to the Palestinians after former President Donald Trump cut off nearly all aid. Since taking office with a pledge to reverse ma… [+4866 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Michelle Stoddart",
+            "title": "Biden, Fauci appear at odds over calling on Trump to urge supporters get vaccinated",
+            "description": "President Joe Biden and Dr. Anthony Fauci appeared at odds over calling on former President Donald Trump to urge his his supporters to get vaccinated.",
+            "url": "https://abcnews.go.com/Politics/biden-fauci-odds-calling-trump-urge-supporters-vaccinated/story?id=76471342",
+            "urlToImage": "https://s.abcnews.com/images/US/fauci-white-house-reut_hpMain_20210221-170211_2_16x9_992.jpg",
+            "publishedAt": "2021-03-15T21:31:38Z",
+            "content": "President Joe Biden appeared to be at odds with his top scientist in the pandemic fight, Dr. Anthony Fauci, about whether former president Donald Trump should urge his supporters to get vaccinated, g… [+4491 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Libby Cathey, Soo Rin Kim, Will Steakin",
+            "title": "Republicans flock to Mar-a-Lago for Trump fundraising, photo-ops",
+            "description": "As Donald Trump plots his post-White House political life, his flashy country club properties have emerged as destination spots for GOP candidates looking to raise money.",
+            "url": "https://abcnews.go.com/US/republicans-flock-mar-lago-trump-fundraising-photo-ops/story?id=76477186",
+            "urlToImage": "https://s.abcnews.com/images/Politics/mar-a-lago-01-as-gty-190813_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-16T02:30:03Z",
+            "content": "As former President Donald Trump plots his post-White House political life, his flashy country club private properties have emerged as destination spots for Republicans looking to raise money through… [+7013 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Ben Gittleson",
+            "title": "Birx on Trump's disinfectant 'injection' moment: 'I still think about it every day'",
+            "description": "\"You can see how extraordinarily uncomfortable I was,\" Dr. Deborah Birx, the White House coronavirus response coordinator during the Trump administration, told ABC News.",
+            "url": "https://abcnews.go.com/Politics/birx-trumps-disinfectant-injection-moment-day/story?id=76474960",
+            "urlToImage": "https://s.abcnews.com/images/Politics/birx-1-gty-er-210315_1615841518018_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-15T22:34:11Z",
+            "content": "The former coronavirus response coordinator in the Trump White House, Dr. Deborah Birx, says she still thinks about the moment last year when she sat silently while former President Donald Trump rais… [+3850 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Michelle Stoddart",
+            "title": "Trump claims Capitol rioters were 'zero threat,' says some being persecuted",
+            "description": "Former President Donald Trump claimed on Fox that the rioters were \"hugging and kissing\" Capitol Police officers during the Jan 6 riot.",
+            "url": "https://abcnews.go.com/Politics/trump-claims-capitol-rioters-posed-threat-persecuted/story?id=76702608",
+            "urlToImage": "https://s.abcnews.com/images/Politics/trump-orlando-cpac-rdx-jt-210326_1616772499026_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-26T16:46:06Z",
+            "content": "Former President Donald Trump is defending his supporters who violently assaulted the Capitol on Jan. 6, claiming they posed \"zero threat,\" despite multiple the riot resulting in multiple deaths and … [+3554 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Jack Date",
+            "title": "2 Capitol Police officers sue Trump for physical and emotional injuries from riot",
+            "description": "Two Capitol Police officers filed a civil suit Tuesday against former President Trump for physical and emotional injuries they say they suffered in the Jan. 6 riot.",
+            "url": "https://abcnews.go.com/Politics/capitol-police-officers-sue-trump-physical-emotional-injuries/story?id=76784999",
+            "urlToImage": "https://s.abcnews.com/images/International/trump-jan6-gty-rc-210305_1614953461904_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-31T18:00:48Z",
+            "content": "Two Capitol Police officers filed a civil suit Tuesday against former President Donald Trump for physical and emotional injuries they say they suffered as a result of the Jan. 6 Capitol riot.\r\nIn the… [+6256 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Quinn Scanlan",
+            "title": "Trump insists 'something bad happened' in Ga. in call with election investigator: WSJ",
+            "description": "Trump insists 'something bad happened' with Ga. election in an audio recording obtained by the Wall Street Journal of a call with the a state investigator.",
+            "url": "https://abcnews.go.com/Politics/trump-insists-bad-happened-ga-election-call-investigator/story?id=76376706",
+            "urlToImage": "https://s.abcnews.com/images/Politics/donald-trump-raffensperger-georgia-election-01-gty-llr-210310_1615421935733_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-03-11T01:46:33Z",
+            "content": "In a December phone call with the chief investigator in Secretary of State Brad Raffensperger's office, former President Donald Trump insisted he won Georgia's presidential election, telling the inve… [+6099 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "John Santucci, Katherine Faulders",
+            "title": "Gaetz, under investigation for sex allegations, sought pardon from Trump: Sources",
+            "description": "During the final weeks of the Trump administration, Rep. Matt Gaetz asked the White House for a blanket presidential pardon that ultimately was not granted, say sources.",
+            "url": "https://abcnews.go.com/Politics/gaetz-investigation-sex-allegations-sought-blanket-pardon-trump/story?id=76911923",
+            "urlToImage": "https://s.abcnews.com/images/Politics/matt-gaetz-donald-trump-01-ap-llr-210402_1617390326131_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-04-07T01:29:09Z",
+            "content": "During the final weeks of President Donald Trump's administration, Republican Rep. Matt Gaetz asked the White House for a blanket presidential pardon --- a request that was ultimately not granted, ac… [+2097 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "MICHAEL BALSAMO, ERIC TUCKER and ALAN FRAM Associated Press",
+            "title": "GOP Rep. Gaetz investigated over sexual relationship",
+            "description": "Republican Rep. Matt Gaetz, a prominent conservative and a close ally of former President Donald Trump, says he is being investigated by the Justice Department but denies any criminal wrongdoing",
+            "url": "https://abcnews.go.com/Politics/wireStory/gop-rep-gaetz-investigated-sexual-relationship-76779169",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_c6e252c443144216a9a0caa0095b61d1_16x9_992.jpg",
+            "publishedAt": "2021-03-31T01:48:30Z",
+            "content": "WASHINGTON -- Republican Rep. Matt Gaetz, a prominent conservative in Congress and a close ally of former President Donald Trump, said Tuesday he is being investigated by the Justice Department over … [+3238 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "COLLIN BINKLEY AP Education Writer",
+            "title": "Education Department reviewing campus sex assault rules",
+            "description": "The Education Department is taking the next step to revise federal rules around campus sexual assault, paving the way for an overhaul of a polarizing Trump-era policy that President Joe Biden has vowed to reverse",
+            "url": "https://abcnews.go.com/Politics/wireStory/education-department-reviewing-campus-sex-assault-rules-76897236",
+            "urlToImage": "https://s.abcnews.com/images/US/210215_abc_on_location_logo_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-04-06T15:12:09Z",
+            "content": "The Education Department on Tuesday moved forward with plans to revise federal rules around campus sexual assault, paving the way for an overhaul of a polarizing Trump-era policy that President Joe B… [+2683 chars]"
+        }
+    ]
+]
