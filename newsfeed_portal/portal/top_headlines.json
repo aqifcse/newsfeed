@@ -1,0 +1,135 @@
+[
+    "articles",
+    [
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Julia Jacobo",
+            "title": "2 climbers rescued in a Utah canyon after being stranded for hours",
+            "description": "",
+            "url": "https://abcnews.go.com/US/climbers-rescued-utah-canyon-stranded-hours/story?id=77003986",
+            "urlToImage": "https://s.abcnews.com/images/US/stranded-hikers-01-jef-210411_1618160338294_hpMain_16x9_992.jpg",
+            "publishedAt": "2021-04-11T17:32:00Z",
+            "content": "Two climbers were rescued off a mountain in Utah after they got lost in the dark.\r\nThe hikers set out around 4 p.m. Friday to climb the Scott Room route on Little Cottonwood Canyon, located in the Sa… [+672 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "SAMY MAGDY Associated Press",
+            "title": "Egypt prosecutors find gross negligence behind train crash",
+            "description": "",
+            "url": "https://abcnews.go.com/International/wireStory/egypt-prosecutors-find-gross-negligence-train-crash-77006558",
+            "urlToImage": "https://s.abcnews.com/images/International/WireAP_56dfe0aa7bfd493ca0c61e949a712ee5_16x9_992.jpg",
+            "publishedAt": "2021-04-11T17:11:04Z",
+            "content": "CAIRO -- Egyptian prosecutors said Sunday they found that gross negligence by railway employees was behind a deadly train crash that caused public outcry across the country. Drugs were allegedly also… [+1751 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "SAMY MAGDY Associated Press",
+            "title": "Egypt: Ex-student given 8 more years in #MeToo case",
+            "description": "",
+            "url": "https://abcnews.go.com/International/wireStory/egypt-student-years-metoo-case-77007072",
+            "urlToImage": "null",
+            "publishedAt": "2021-04-11T17:03:00Z",
+            "content": "CAIRO -- An Egyptian court on Sunday convicted a former student at an elite university of attempted rape and drug possession, sentencing him to eight years imprisonment atop a previous punishment for… [+2198 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "ROBERT BURNS AP National Security Writer",
+            "title": "Pentagon chief declares 'ironclad' US commitment to Israel",
+            "description": "",
+            "url": "https://abcnews.go.com/Politics/wireStory/pentagon-chief-declares-ironclad-us-commitment-israel-77006524",
+            "urlToImage": "https://s.abcnews.com/images/Politics/WireAP_916085a729ed4061942783dc3256060d_16x9_992.jpg",
+            "publishedAt": "2021-04-11T17:01:55Z",
+            "content": "TEL AVIV, Israel -- U.S. Defense Secretary Lloyd Austin on Sunday declared an enduring and ironclad American commitment to Israel, reinforcing support at a tense time in Israeli politics and amid que… [+5584 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "KRISTIN DEANE  Associated Press",
+            "title": "More volcanic eruptions on Caribbean island of St. Vincent",
+            "description": "",
+            "url": "https://abcnews.go.com/International/wireStory/volcanic-eruptions-caribbean-island-st-vincent-77006625",
+            "urlToImage": "https://s.abcnews.com/images/International/WireAP_c193aa5851b844cb9c85340bc5e0be21_16x9_992.jpg",
+            "publishedAt": "2021-04-11T16:43:11Z",
+            "content": "KINGSTOWN, St. Vincent -- Conditions worsened on Sunday at a volcano on the eastern Caribbean island of St. Vincent as loud rumbling, lightning and heavy ashfall were observed and residents reported … [+2084 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "SAM METZ and KEN RITTER Associated Press",
+            "title": "Las Vegas pushes to become first to ban ornamental grass",
+            "description": "",
+            "url": "https://abcnews.go.com/Lifestyle/wireStory/las-vegas-pushes-ban-ornamental-grass-77006404",
+            "urlToImage": "https://s.abcnews.com/images/Lifestyle/WireAP_fd495a2166304dad98cb3b0e2243586d_16x9_992.jpg",
+            "publishedAt": "2021-04-11T16:07:00Z",
+            "content": "LAS VEGAS -- A desert city built on a reputation for excess and indulgence wants to become a model for restraint and conservation with a first-in-the-nation policy banning grass that nobody walks on.… [+6051 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Jon Haworth",
+            "title": "Police negotiators on scene at hotel after reports of a barricaded gunman, gunshots",
+            "description": "",
+            "url": "https://abcnews.go.com/US/police-negotiators-scene-hotel-reports-barricaded-gunman-gunshots/story?id=77003005",
+            "urlToImage": "https://s.abcnews.com/images/US/honolulu-hotel-gun_hpMain_20210411-053122_16x9_992.jpg",
+            "publishedAt": "2021-04-11T13:56:00Z",
+            "content": "A man with a firearm has barricaded himself in a Honolulu hotel room following reports of multiple shots being fired, officials said.\r\nHonolulu Police Department Captain Brian Lynch said that a 911 c… [+1712 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Daniel Manzo",
+            "title": "Severe weather threat in Florida as over 350 reports of severe weather reported in South since Friday",
+            "description": "",
+            "url": "https://abcnews.go.com/US/severe-weather-threat-florida-350-reports-severe-weather/story?id=77003476",
+            "urlToImage": "https://s.abcnews.com/images/US/illinois-weat_hpMain_20210411-061953_16x9_992.jpg",
+            "publishedAt": "2021-04-11T10:23:19Z",
+            "content": "Since Friday, there have been at least 350 reports of severe weather across the southern U.S.\r\nThis includes five reported tornadoes -- one in Louisiana, two in Mississippi, one in Florida and one in… [+2014 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "Marlene Lenthang",
+            "title": "Police pull guns on and spray Black-Latino Army officer during traffic stop, lawsuit says",
+            "description": "",
+            "url": "https://abcnews.go.com/US/police-pull-guns-spray-black-latino-army-officer/story?id=76992531",
+            "urlToImage": "https://s.abcnews.com/images/US/virginia-threat_hpMain_20210410-214939_16x9_992.jpg",
+            "publishedAt": "2021-04-10T17:17:00Z",
+            "content": "Two Virginia police officers have been sued for allegedly drawing their guns on a uniformed Army officer during a traffic stop and spraying him with a substance.\r\nOn Dec. 5, 2020, Windsor police offi… [+4492 chars]"
+        },
+        {
+            "source": {
+                "id": "abc-news",
+                "name": "ABC News"
+            },
+            "author": "The Associated Press",
+            "title": "Beachgoer finds body of man whose truck plunged off bridge",
+            "description": "",
+            "url": "https://abcnews.go.com/US/wireStory/beachgoer-finds-body-man-truck-plunged-off-bridge-76994609",
+            "urlToImage": "null",
+            "publishedAt": "2021-04-10T16:37:05Z",
+            "content": "MANTEO, N.C. -- The body of a Maryland man whose truck plunged off the side of the Chesapeake Bay Bridge-Tunnel in December was found Friday on a beach in North Carolina, according to his relatives.\r… [+1035 chars]"
+        }
+    ]
+]

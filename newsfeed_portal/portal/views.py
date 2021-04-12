@@ -52,6 +52,7 @@ import hashlib  # For Authentication
 # ------------------------------------------NewsAPI-------------------------------------------------
 from newsapi.newsapi_client import NewsApiClient
 import requests
+import json
 
 temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
 
@@ -378,241 +379,6 @@ class ActivateAccount(View):
             )
 
 
-@login_required
-def user_profile_settings(request):
-    if request.method == "POST":
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-        if u_form.is_valid():
-            u_form.save()
-            return render(
-                request,
-                "portal/user_profile_settings.html",
-                {"u_form": u_form, "message": "Your account has been updated!"},
-            )
-    else:
-        u_form = UserUpdateForm(instance=request.user)
-    context = {
-        "u_form": u_form,
-    }
-    return render(request, "portal/user_profile_settings.html", context)
-
-
-# @login_required
-# def user_create_readlist(request):
-
-# countries = Country.objects.all()
-# sources = Source.objects.all()
-# keywords = Keyword.objects.all()
-
-# if request.method == "POST":
-
-#     username = request.user.username
-#     user_obj = get_object_or_404(User, username=username)
-
-#     if "taskAdd" in request.POST:
-#         country = request.POST.get("country", False)
-#         source = request.POST.get("source", False)
-#         keyword = request.POST.get("keyword", False)
-
-#         if (
-#             not country
-#             or not source
-#             or not keyword
-#             or country == ""
-#             or source == ""
-#             or keyword == ""
-#         ):
-#             return redirect("portal:user_create_readlist")
-#         else:
-#             country_object = Country.objects.create(
-#                 recommended_by=user_obj, country=country
-#             )
-
-#             sources_object = Source.objects.create(
-#                 recommended_by=user_obj, source=source
-#             )
-
-#             keyword_object = Keyword.objects.create(
-#                 recommended_by=user_obj, keyword=keyword
-#             )
-
-#             return redirect("portal:user_create_readlist")
-
-#             # page = request.GET.get("page", 1)
-#             # search = request.GET.get("search", None)
-
-#             # if search is None or search == "top":
-#             #     # get the top news
-#             #     url = "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
-#             #         "us", 1, settings.APIKEY
-#             #     )
-#             # else:
-#             #     # get the search query request
-#             #     url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
-#             #         search, "popularity", page, settings.APIKEY
-#             #     )
-#             # r = requests.get(url=url)
-
-#             # data = r.json()
-#             # if data["status"] != "ok":
-#             #     return HttpResponse("<h1>Request Failed</h1>")
-#             # data = data["articles"]
-#             # context = {"success": True, "data": [], "search": search}
-#             # # seprating the necessary data
-#             # for i in data:
-#             #     context["data"].append(
-#             #         {
-#             #             "title": i["title"],
-#             #             "description": ""
-#             #             if i["description"] is None
-#             #             else i["description"],
-#             #             "url": i["url"],
-#             #             "image": temp_img
-#             #             if i["urlToImage"] is None
-#             #             else i["urlToImage"],
-#             #             "publishedat": i["publishedAt"],
-#             #         }
-#             #     )
-
-#             # # send the news feed to template in context
-#             # return render(
-#             #     request, "portal/user_create_readlist.html", context=context
-#             # )
-
-#     if "taskDelete" in request.POST:
-#         task_id = request.POST.get("checked_all", False)
-#         try:
-#             country_obj = Country.objects.get(
-#                 recommended_by=user_obj, id=int(task_id)
-#             )
-#             country_obj.delete()
-
-#             source_obj = Source.objects.get(
-#                 recommended_by=user_obj, id=int(task_id)
-#             )
-#             source_obj.delete()
-
-#             keyword_obj = Keyword.objects.get(
-#                 recommended_by=user_obj, id=int(task_id)
-#             )
-#             keyword_obj.delete()
-
-#             return redirect("portal:user_create_readlist")
-#         except:
-#             return redirect("portal:user_create_readlist")
-
-# return render(
-#     request,
-#     "portal/user_create_readlist.html",
-#     {
-#         "countries": countries,
-#         "sources": sources,
-#         "keywords": keywords,
-#     },
-# )
-@login_required
-def user_create_readlist(request):
-    if request.method == "POST":
-        nr_form = ReadListForm(request.POST, request.FILES, instance=request.user)
-        try:
-            username = request.user.username
-            user_obj = get_object_or_404(User, username=username)
-
-            if nr_form.is_valid():
-                country = nr_form.cleaned_data["country"]
-                source = nr_form.cleaned_data["source"]
-                keyword = nr_form.cleaned_data["keyword"]
-
-                if not country or country == None:
-                    messages.error(
-                        request, "Insert country of news", extra_tags="country_empty"
-                    )
-                    return render(
-                        request,
-                        "portal/user_create_readlist.html",
-                        {"nr_form": nr_form},
-                    )
-
-                if not source or source == None:
-                    messages.error(
-                        request, "Insert source of news", extra_tags="source_empty"
-                    )
-                    return render(
-                        request,
-                        "portal/user_create_readlist.html",
-                        {"nr_form": nr_form},
-                    )
-
-                if not keyword or keyword == None:
-                    messages.error(
-                        request, "Insert keyword of news", extra_tags="keyword_empty"
-                    )
-                    return render(
-                        request,
-                        "portal/user_create_readlist.html",
-                        {"nr_form": nr_form},
-                    )
-
-                ReadList.objects.create(
-                    created_by=user_obj,
-                    country=country,
-                    source=source,
-                    keyword=keyword,
-                )
-
-                return redirect("portal:user_manage_readlists")
-
-            else:
-                messages.error(request, "Invalid Input", extra_tags="form_invalid")
-                return render(
-                    request,
-                    "portal/user_create_readlist.html",
-                    {"nr_form": nr_form},
-                )
-
-        except:
-            messages.error(request, "Form Crashed", extra_tags="form_crashed")
-            return render(
-                request,
-                "portal/user_create_readlist.html",
-                {"nr_form": nr_form},
-            )
-    else:
-        nr_form = ReadListForm(instance=request.user)
-        return render(
-            request,
-            "portal/user_create_readlist.html",
-            {"nr_form": nr_form},
-        )
-
-
-@method_decorator([login_required], name="dispatch")
-class ManageReadListsView(ListView):
-    model = ReadList
-    template_name = "portal/user_manage_readlists.html"
-    context_object_name = "readlists"
-    paginate_by = 1
-
-    def get_queryset(self):
-        form = self.request.GET.get("q")
-        if form:
-            return (
-                ReadList.objects.filter(
-                    Q(country__icontains=form)
-                    | Q(source__icontains=form)
-                    | Q(keyword__icontains=form)
-                )
-                .order_by("created_at")
-                .reverse()
-            )
-        queryset = ReadList.objects.all().order_by("created_at").reverse()
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        kwargs["q"] = self.request.GET.get("q")
-        return super().get_context_data(**kwargs)
-
-
 def global_home(request):
     page = request.GET.get("page", 1)
     search = request.GET.get("search", None)
@@ -679,10 +445,165 @@ def user_home(request):
     if data["status"] != "ok":
         return HttpResponse("<h1>Request Failed</h1>")
     data = data["articles"]
+    # print(data)
     context = {"success": True, "data": [], "search": search}
+
     # seprating the necessary data
     for i in data:
         context["data"].append(
+            {
+                "title": i["title"],
+                "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
+                "source": i["source"]["name"],
+                # "country": i["source"]["country"],
+                "publishedat": i["publishedAt"],
+                "description": "" if i["description"] is None else i["description"],
+                "url": i["url"],
+            }
+        )
+    # send the news feed to template in context
+    return render(request, "portal/user_home.html", context=context)
+
+
+@login_required
+def user_profile_settings(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        if u_form.is_valid():
+            u_form.save()
+            return render(
+                request,
+                "portal/user_profile_settings.html",
+                {"u_form": u_form, "message": "Your account has been updated!"},
+            )
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+    context = {
+        "u_form": u_form,
+    }
+    return render(request, "portal/user_profile_settings.html", context)
+
+
+@login_required
+def user_create_readlist(request):
+    if request.method == "POST":
+        nr_form = ReadListForm(request.POST, request.FILES, instance=request.user)
+        # try:
+        username = request.user.username
+        user_obj = get_object_or_404(User, username=username)
+
+        if nr_form.is_valid():
+            country = nr_form.cleaned_data["country"]
+            source = nr_form.cleaned_data["source"]
+            keyword = nr_form.cleaned_data["keyword"]
+
+            if not country or country == None:
+                country = ""
+            if not source or source == None:
+                source = ""
+            if not keyword or keyword == None:
+                keyword = ""
+
+            page = 1
+            # user preffered top headlines
+
+            top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&country={}&source={}&page={}&apiKey={}".format(
+                keyword, country, source, page, settings.APIKEY
+            )
+
+            full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+                keyword, "popularity", page, settings.APIKEY
+            )
+
+            ReadList.objects.create(
+                created_by=user_obj,
+                country=country,
+                source=source,
+                keyword=keyword,
+                top_headlines_url=top_headlines_url,
+                full_stories_url=full_stories_url,
+            )
+            return redirect("portal:user_manage_readlists")
+
+        else:
+            messages.error(request, "Invalid Input", extra_tags="form_invalid")
+            return render(
+                request,
+                "portal/user_create_readlist.html",
+                {"nr_form": nr_form},
+            )
+
+        # except:
+        #     messages.error(request, "Form Crashed", extra_tags="form_crashed")
+        #     return render(
+        #         request,
+        #         "portal/user_create_readlist.html",
+        #         {"nr_form": nr_form},
+        #     )
+    else:
+        nr_form = ReadListForm(instance=request.user)
+        return render(
+            request,
+            "portal/user_create_readlist.html",
+            {"nr_form": nr_form},
+        )
+
+
+@method_decorator([login_required], name="dispatch")
+class ManageReadListsView(ListView):
+    model = ReadList
+    template_name = "portal/user_manage_readlists.html"
+    context_object_name = "readlists"
+    paginate_by = 1
+
+    def get_queryset(self):
+        form = self.request.GET.get("q")
+        if form:
+            return (
+                ReadList.objects.filter(
+                    Q(country__icontains=form)
+                    | Q(source__icontains=form)
+                    | Q(keyword__icontains=form)
+                )
+                .order_by("created_at")
+                .reverse()
+            )
+        queryset = ReadList.objects.all().order_by("created_at").reverse()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        kwargs["q"] = self.request.GET.get("q")
+        return super().get_context_data(**kwargs)
+
+
+@login_required
+def user_top_headlines(request):
+
+    readlist_obj = get_object_or_404(ReadList, created_by=request.user)
+    top_headlines_url = readlist_obj.top_headlines_url
+    print("Full Stories : " + top_headlines_url)
+
+    top_headlines_resp = requests.get(url=top_headlines_url)
+
+    search = readlist_obj.keyword
+    print("Search : " + search)
+
+    top_headlines_data = top_headlines_resp.json()
+    # print(top_headlines_data["articles"])
+
+    if top_headlines_data["status"] != "ok":
+        return HttpResponse("<h1>Request Failed</h1>")
+
+    top_headlines_data = top_headlines_data["articles"]
+
+    top_headlines_context = {
+        "success": True,
+        "data": [],
+        "search": search,
+    }
+    # seprating the necessary top_headlines_data
+    for i in top_headlines_data:
+        top_headlines_context["data"].append(
             {
                 "title": i["title"],
                 "description": "" if i["description"] is None else i["description"],
@@ -691,8 +612,58 @@ def user_home(request):
                 "publishedat": i["publishedAt"],
             }
         )
+    # print(top_headlines_context)
     # send the news feed to template in context
-    return render(request, "portal/user_home.html", context=context)
+    return render(
+        request,
+        "portal/user_top_headlines.html",
+        context=top_headlines_context,
+    )
+
+
+@login_required
+def user_full_stories(request):
+
+    readlist_obj = get_object_or_404(ReadList, created_by=request.user)
+    full_stories_url = readlist_obj.full_stories_url
+    print("Full Stories : " + full_stories_url)
+
+    full_stories_resp = requests.get(url=full_stories_url)
+
+    search = readlist_obj.keyword
+    print("Search : " + search)
+
+    full_stories_data = full_stories_resp.json()
+    # print(full_stories_data["articles"])
+
+    if full_stories_data["status"] != "ok":
+        return HttpResponse("<h1>Request Failed</h1>")
+
+    full_stories_data = full_stories_data["articles"]
+
+    full_stories_context = {
+        "success": True,
+        "data": [],
+        "search": search,
+    }
+    # seprating the necessary full_stories_data
+    for i in full_stories_data:
+        full_stories_context["data"].append(
+            {
+                "title": i["title"],
+                "description": "" if i["description"] is None else i["description"],
+                "url": i["url"],
+                "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
+                "publishedat": i["publishedAt"],
+            }
+        )
+    # print(full_stories_context)
+    # send the news feed to template in context
+    return render(
+        request,
+        "portal/user_full_stories.html",
+        context=full_stories_context,
+    )
 
 
 # For content latest news within 15 minutes
@@ -711,7 +682,7 @@ def loadcontent(request):
             url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
                 search, "popularity", page, settings.APIKEY
             )
-        print("url:", url)
+        # print("url:", url)
         r = requests.get(url=url)
 
         data = r.json()
@@ -723,13 +694,14 @@ def loadcontent(request):
             context["data"].append(
                 {
                     "title": i["title"],
+                    "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
+                    # "source": "" if i["source"]["name"] is None else i["source"]["id"],
+                    # "country": i["source"]["country"],
+                    "publishedat": i["publishedAt"],
                     "description": "" if i["description"] is None else i["description"],
                     "url": i["url"],
-                    "image": temp_img if i["urlToImage"] is None else i["urlToImage"],
-                    "publishedat": i["publishedAt"],
                 }
             )
-
         return JsonResponse(context)
     except Exception as e:
         return JsonResponse({"success": False})

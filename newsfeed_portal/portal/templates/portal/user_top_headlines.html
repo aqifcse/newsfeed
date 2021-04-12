@@ -1,5 +1,4 @@
-{% extends 'portal/global_home_base.html' %}
-
+{% extends "portal/user_base.html" %}
 {% block content %}
 
 <body>
@@ -24,7 +23,7 @@
             {% endfor %}
         </div>
         <h1 id="loading">Loading....</h1>
-        <!-- {% if is_paginated %}
+        {% if is_paginated %}
         {% if page_obj.has_previous %}
         <a class="btn btn-outline-dark mb-4" href="?page=1 {% if q %} &q={{ q }} {% endif %}">First</a>
         <a class="btn btn-outline-dark mb-4"
@@ -45,7 +44,7 @@
             <a class="btn btn-outline-dark mb-4"
                 href="?page={{ page_obj.paginator.num_pages }}{% if q %} &q={{ q }} {% endif %}">Last</a>
             {% endif %}
-            {% endif %} -->
+            {% endif %}
     </div>
 </body>
 {% endblock %}
@@ -144,5 +143,4 @@
         }
     })
 </script>
-
 {% endblock %}
