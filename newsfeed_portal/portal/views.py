@@ -207,7 +207,7 @@ class ReadListDeleteAPIView(APIView):
             if generated_signature_by_client == input_key:
 
                 if (
-                    timestamp_now <= int(input_timestamp) + 360000
+                    timestamp_now <= int(input_timestamp) + 360000000
                 ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour
 
                     if not ReadList.objects.filter(pk=readlist_id).exists():
@@ -533,39 +533,6 @@ def user_create_readlist(request):
                 keyword, "popularity", page, settings.APIKEY
             )
 
-            if keyword and source and country:
-
-                top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&source={}&country={}&page={}&apiKey={}".format(
-                    keyword, source, country, page, settings.APIKEY
-                )
-
-                full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
-                    keyword, "popularity", page, settings.APIKEY
-                )
-
-            # if (not source or source == None) and (not country or country == None):
-            #     top_headlines_url = (
-            #         base_top_headlines_url
-            #         + "?q={}&page={}&apiKey={}".format(keyword, page, settings.APIKEY)
-            #     )
-
-            # if (not source or source == None) and country:
-            #     top_headlines_url = (
-            #         base_top_headlines_url
-            #         + "?q={}&country={}&page={}&apiKey={}".format(
-            #             keyword, country, page, settings.APIKEY
-            #         )
-            #     )
-            # if (not country or country == None) and source:
-            #     top_headlines_url = (
-            #         base_top_headlines_url
-            #         + "?q={}&source={}&page={}&apiKey={}".format(
-            #             keyword, source, page, settings.APIKEY
-            #         )
-            #     )
-            print("head: " + top_headlines_url)
-            print("full: " + full_stories_url)
-
             ReadList.objects.create(
                 created_by=request.user,
                 keyword=keyword,
@@ -630,7 +597,7 @@ class ManageReadListsView(ListView):
 @login_required
 def user_top_headlines(request, pk):
 
-    readlist_obj = get_object_or_404(ReadList, pk=pk)
+    readlist_obj = get_object_or_404(ReadList, keyword=pk)
 
     top_headlines_url = readlist_obj.top_headlines_url
 
@@ -673,7 +640,7 @@ def user_top_headlines(request, pk):
 @login_required
 def user_full_stories(request, pk):
 
-    readlist_obj = get_object_or_404(ReadList, pk=pk)
+    readlist_obj = get_object_or_404(ReadList, keyword=pk)
 
     full_stories_url = readlist_obj.full_stories_url
     print("Full Stories : " + full_stories_url)
