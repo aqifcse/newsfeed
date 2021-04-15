@@ -10,9 +10,10 @@
 
 <div class="container-fluid dashboard_item">
     {% for m in messages %}
-    {% if "country" in m.tags %} <div class="alert alert-danger"><strong> {{ m }} </strong></div> {% endif %}
-    {% if "source" in m.tags %} <div class="alert alert-danger"><strong> {{ m }} </strong></div> {% endif %}
-    {% if "keyword" in m.tags %} <div class="alert alert-danger"><strong> {{ m }} </strong></div> {% endif %}
+    {% if "keyword_already_exist" in m.tags %}
+    <div class="alert alert-danger"><strong> {{ m }} </strong></div>
+    {% endif %}
+    {% if "form_invalid" in m.tags %} <div class="alert alert-danger"><strong> {{ m }} </strong></div> {% endif %}
     {% endfor %}
     <div class="d-sm-flex align-items-center justify-content-between mb-4"></div>
     <div class="row">

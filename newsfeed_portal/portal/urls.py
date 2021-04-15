@@ -17,12 +17,12 @@ urlpatterns = [
         name="user_manage_readlists",
     ),
     path(
-        "top-headlines/",
+        "top-headlines/<pk>",
         user_top_headlines,
         name="user_top_headlines",
     ),
     path(
-        "full-stories/",
+        "full-stories/<pk>",
         user_full_stories,
         name="user_full_stories",
     ),
