@@ -2,20 +2,21 @@ from newsapi import NewsApiClient
 import requests
 import json
 
-api = NewsApiClient(api_key="e528c2d1bddb44828d84948700b257c4")
+# api = NewsApiClient(api_key="e528c2d1bddb44828d84948700b257c4")
 
 # bbc_top_headlines = api.get_top_headlines(sources="newyork-times")
 # for key, value in bbc_top_headlines.items():
 
 # for key, value in api.get_sources().items():
-# file = open("sources.json", "w", encoding="utf-8")
+#     file = open("sources.json", "w", encoding="utf-8")
+#     json.dump((key, value), file, ensure_ascii=False)
 
 # for key, value in api.get_everything(q="trump", sources="abc-news").items():
 # file = open("everything.json", "w", encoding="utf-8")
 
-for key, value in api.get_top_headlines(sources="abc-news").items():
-    file = open("top_headlines.json", "w", encoding="utf-8")
-    json.dump((key, value), file, ensure_ascii=False)
+# for key, value in api.get_top_headlines(sources="abc-news").items():
+#     file = open("top_headlines.json", "w", encoding="utf-8")
+# json.dump((key, value), file, ensure_ascii=False)
 
 # page = request.GET.get("page", 1)
 # search = request.GET.get("search", None)
@@ -173,3 +174,62 @@ for key, value in api.get_top_headlines(sources="abc-news").items():
 # https://newsapi.org/v2/top-headlines?q=trump&source=abc-news&country=us&page=1&apiKey=e528c2d1bddb44828d84948700b257c4
 # https://newsapi.org/v2/everything?q=trump&source=abc-news&country=us&page=1&apiKey=e528c2d1bddb44828d84948700b257c4
 # -------------------------------------------------------------------------------------
+
+# source = api.get_sources()
+
+# context = {"success": True, "data": []}
+
+# for i in data:
+#     context["data"].append(
+#         {
+#             "id": i["id"],
+#             "name": "" if i["name"] is None else i["name"],
+#             "url": i["url"],
+#             "country": "" if ["country"] is None else i["country"],
+#         }
+#     )
+
+# file = open("newsfeed_sources.json", "w", encoding="utf-8")
+# json.dump(context, file, ensure_ascii=False)
+
+
+# page = request.GET.get("page", 1)
+# search = request.GET.get("search", None)
+
+# if search is None or search == "top":
+#     # get the top news
+#     url = "https://newsapi.org/v2/top-headlines?country={}&page={}&apiKey={}".format(
+#         "us", 1, settings.APIKEY
+#     )
+# else:
+#     # get the search query request
+#     url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+#         search, "popularity", page, settings.APIKEY
+#     )
+
+api_key = "e528c2d1bddb44828d84948700b257c4"
+url = "https://newsapi.org/v2/sources?apiKey={}".format(api_key)
+
+r = requests.get(url=url)
+
+data = r.json()
+data = data["sources"]
+context = {"success": True, "data": []}
+# seprating the necessary data
+for i in data:
+    context["data"].append(
+        {
+            "id": i["id"],
+            "name": "" if i["name"] is None else i["name"],
+            "url": i["url"],
+            "country": i["country"],
+        }
+    )
+a = "('"
+b = "', '"
+d = "'),"
+for i in data:
+    print(str(a) + i["id"] + str(b) + i["name"] + str(d))
+    # print(i["name"])
+    # print(i["url"])
+    # print(i["country"])

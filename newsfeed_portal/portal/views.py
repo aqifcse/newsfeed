@@ -493,33 +493,84 @@ def user_create_readlist(request):
         user_obj = get_object_or_404(User, username=username)
 
         if nr_form.is_valid():
+            keyword = nr_form.cleaned_data["keyword"]
             country = nr_form.cleaned_data["country"]
             source = nr_form.cleaned_data["source"]
-            keyword = nr_form.cleaned_data["keyword"]
-
-            if not country or country == None:
-                country = ""
-            if not source or source == None:
-                source = ""
-            if not keyword or keyword == None:
-                keyword = ""
 
             page = 1
-            # user preffered top headlines
 
-            top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&country={}&source={}&page={}&apiKey={}".format(
-                keyword, country, source, page, settings.APIKEY
+            if not keyword or keyword == None:
+                messages.error(
+                    request,
+                    "Insert a keyword to create a readlist",
+                    extra_tags="form_invalid",
+                )
+                return render(
+                    request,
+                    "portal/user_create_readlist.html",
+                    {"nr_form": nr_form},
+                )
+
+            if ReadList.objects.filter(
+                keyword=keyword, created_by=request.user
+            ).exists():
+                messages.error(
+                    request,
+                    "Keyword already exist. Please create a new keyword or delete existing readlist with the same keyword",
+                    extra_tags="keyword_already_exist",
+                )
+                return render(
+                    request,
+                    "portal/user_create_readlist.html",
+                    {"nr_form": nr_form},
+                )
+
+            top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&source={}&country={}&page={}&apiKey={}".format(
+                keyword, source, country, page, settings.APIKEY
             )
 
             full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
                 keyword, "popularity", page, settings.APIKEY
             )
 
+            if keyword and source and country:
+
+                top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&source={}&country={}&page={}&apiKey={}".format(
+                    keyword, source, country, page, settings.APIKEY
+                )
+
+                full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+                    keyword, "popularity", page, settings.APIKEY
+                )
+
+            # if (not source or source == None) and (not country or country == None):
+            #     top_headlines_url = (
+            #         base_top_headlines_url
+            #         + "?q={}&page={}&apiKey={}".format(keyword, page, settings.APIKEY)
+            #     )
+
+            # if (not source or source == None) and country:
+            #     top_headlines_url = (
+            #         base_top_headlines_url
+            #         + "?q={}&country={}&page={}&apiKey={}".format(
+            #             keyword, country, page, settings.APIKEY
+            #         )
+            #     )
+            # if (not country or country == None) and source:
+            #     top_headlines_url = (
+            #         base_top_headlines_url
+            #         + "?q={}&source={}&page={}&apiKey={}".format(
+            #             keyword, source, page, settings.APIKEY
+            #         )
+            #     )
+            print("head: " + top_headlines_url)
+            print("full: " + full_stories_url)
+
             ReadList.objects.create(
-                created_by=user_obj,
-                country=country,
-                source=source,
+                created_by=request.user,
                 keyword=keyword,
+                source=source,
+                country=country,
                 top_headlines_url=top_headlines_url,
                 full_stories_url=full_stories_url,
             )
@@ -554,7 +605,7 @@ class ManageReadListsView(ListView):
     model = ReadList
     template_name = "portal/user_manage_readlists.html"
     context_object_name = "readlists"
-    paginate_by = 1
+    paginate_by = 5
 
     def get_queryset(self):
         form = self.request.GET.get("q")
@@ -577,16 +628,15 @@ class ManageReadListsView(ListView):
 
 
 @login_required
-def user_top_headlines(request):
+def user_top_headlines(request, pk):
 
-    readlist_obj = get_object_or_404(ReadList, created_by=request.user)
+    readlist_obj = get_object_or_404(ReadList, pk=pk)
+
     top_headlines_url = readlist_obj.top_headlines_url
-    print("Full Stories : " + top_headlines_url)
 
     top_headlines_resp = requests.get(url=top_headlines_url)
 
     search = readlist_obj.keyword
-    print("Search : " + search)
 
     top_headlines_data = top_headlines_resp.json()
     # print(top_headlines_data["articles"])
@@ -599,7 +649,6 @@ def user_top_headlines(request):
     top_headlines_context = {
         "success": True,
         "data": [],
-        "search": search,
     }
     # seprating the necessary top_headlines_data
     for i in top_headlines_data:
@@ -622,29 +671,26 @@ def user_top_headlines(request):
 
 
 @login_required
-def user_full_stories(request):
+def user_full_stories(request, pk):
 
-    readlist_obj = get_object_or_404(ReadList, created_by=request.user)
+    readlist_obj = get_object_or_404(ReadList, pk=pk)
+
     full_stories_url = readlist_obj.full_stories_url
     print("Full Stories : " + full_stories_url)
 
     full_stories_resp = requests.get(url=full_stories_url)
 
-    search = readlist_obj.keyword
-    print("Search : " + search)
-
     full_stories_data = full_stories_resp.json()
     # print(full_stories_data["articles"])
 
-    if full_stories_data["status"] != "ok":
-        return HttpResponse("<h1>Request Failed</h1>")
+    # if full_stories_data["status"] != "ok":
+    #     return HttpResponse("<h1>Request Failed</h1>")
 
     full_stories_data = full_stories_data["articles"]
 
     full_stories_context = {
         "success": True,
         "data": [],
-        "search": search,
     }
     # seprating the necessary full_stories_data
     for i in full_stories_data:

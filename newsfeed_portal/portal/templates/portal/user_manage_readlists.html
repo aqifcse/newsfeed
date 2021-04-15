@@ -52,10 +52,10 @@
                                     <td class="fixed_td_width">{{ readlist.source }}</td>
                                     <td class="fixed_td_width">{{ readlist.country }}</td>
                                     <td class="fixed_td_width">
-                                        <a href="{% url 'portal:user_top_headlines' %}"> link </a>
+                                        <a href="{% url 'portal:user_top_headlines' readlist.id %}"> link </a>
                                     </td>
                                     <td class="fixed_td_width">
-                                        <a href="{% url 'portal:user_full_stories' %}"> link </a>
+                                        <a href="{% url 'portal:user_full_stories' readlist.id %}"> link </a>
                                     </td>
                                     <!-- {% if request.user.subscibe %}
                                     <td>
