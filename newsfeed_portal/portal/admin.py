@@ -22,17 +22,11 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 
 
-class NewsReaderModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "reader", "headline"]
-
-
-admin.site.register(NewsReader, NewsReaderModelAdmin)
-
-
-class NewsBodyAdmin(admin.ModelAdmin):
+class ReadListNewsBodyAdmin(admin.ModelAdmin):
     list_display = [
         "id",
-        "news",
+        "readlist",
+        "headline",
         "thumbnail",
         "source_of_news",
         "country_of_news",
@@ -40,14 +34,7 @@ class NewsBodyAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(NewsBody, NewsBodyAdmin)
-
-
-# class ReadListAuthorAdmin(admin.ModelAdmin):
-#     list_display = ("id", "created_by", "keyword")
-
-
-# admin.site.register(ReadListAuthor, ReadListAuthorAdmin)
+admin.site.register(ReadListNewsBody, ReadListNewsBodyAdmin)
 
 
 class ReadListAdmin(admin.ModelAdmin):
