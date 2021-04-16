@@ -207,7 +207,7 @@ class ReadListDeleteAPIView(APIView):
             if generated_signature_by_client == input_key:
 
                 if (
-                    timestamp_now <= int(input_timestamp) + 360000000
+                    timestamp_now <= int(input_timestamp) + 36000000
                 ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour
 
                     if not ReadList.objects.filter(pk=readlist_id).exists():
@@ -215,9 +215,22 @@ class ReadListDeleteAPIView(APIView):
                         status_message = ["readlist_id doesn't exist"]
 
                     else:
-                        ReadList.objects.filter(id=int(readlist_id)).delete()
-                        event_status_code = 1
-                        status_message = ["ReadList item successfully Deleted!!"]
+                        readlist = get_object_or_404(ReadList, pk=readlist_id)
+                        if not ReadListNewsBody.objects.filter(
+                            readlist=readlist
+                        ).exists():
+                            ReadList.objects.filter(id=int(readlist_id)).delete()
+                            event_status_code = 1
+                            status_message = [
+                                "There is no ReadListNewsBody found in this ReadList. Only readlist item successfully Deleted!!"
+                            ]
+                        else:
+                            ReadListNewsBody.objects.filter(readlist=readlist).delete()
+                            ReadList.objects.filter(id=int(readlist_id)).delete()
+                            event_status_code = 1
+                            status_message = [
+                                "Both ReadListNewsBody and ReadList are successfully Deleted!!"
+                            ]
 
                 else:
                     event_status_code = 0
@@ -493,40 +506,22 @@ def user_create_readlist(request):
         user_obj = get_object_or_404(User, username=username)
 
         if nr_form.is_valid():
-            keyword = nr_form.cleaned_data["keyword"]
             country = nr_form.cleaned_data["country"]
             source = nr_form.cleaned_data["source"]
+            keyword = nr_form.cleaned_data["keyword"]
+
+            if not country or country == None:
+                country = ""
+            if not source or source == None:
+                source = ""
+            if not keyword or keyword == None:
+                keyword = ""
 
             page = 1
+            # user preffered top headlines
 
-            if not keyword or keyword == None:
-                messages.error(
-                    request,
-                    "Insert a keyword to create a readlist",
-                    extra_tags="form_invalid",
-                )
-                return render(
-                    request,
-                    "portal/user_create_readlist.html",
-                    {"nr_form": nr_form},
-                )
-
-            if ReadList.objects.filter(
-                keyword=keyword, created_by=request.user
-            ).exists():
-                messages.error(
-                    request,
-                    "Keyword already exist. Please create a new keyword or delete existing readlist with the same keyword",
-                    extra_tags="keyword_already_exist",
-                )
-                return render(
-                    request,
-                    "portal/user_create_readlist.html",
-                    {"nr_form": nr_form},
-                )
-
-            top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&source={}&country={}&page={}&apiKey={}".format(
-                keyword, source, country, page, settings.APIKEY
+            top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&country={}&source={}&page={}&apiKey={}".format(
+                keyword, country, source, page, settings.APIKEY
             )
 
             full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
@@ -534,13 +529,33 @@ def user_create_readlist(request):
             )
 
             ReadList.objects.create(
-                created_by=request.user,
+                created_by=user_obj,
                 keyword=keyword,
-                source=source,
                 country=country,
+                source=source,
                 top_headlines_url=top_headlines_url,
                 full_stories_url=full_stories_url,
             )
+
+            readlist = ReadList.objects.get(created_by=user_obj, keyword=keyword)
+
+            full_stories_resp = requests.get(url=full_stories_url)
+
+            full_stories_data = full_stories_resp.json()
+
+            full_stories_data = full_stories_data["articles"]
+
+            # seprating the necessary full_stories_data
+            for i in full_stories_data:
+                ReadListNewsBody.objects.create(
+                    readlist=readlist,
+                    headline=i["title"],
+                    thumbnail=temp_img if i["urlToImage"] is None else i["urlToImage"],
+                    source_of_news="" if source is None else source,
+                    country_of_news="" if country is None else country,
+                    original_news_source_link=i["url"],
+                    published_at=i["publishedAt"],
+                )
             return redirect("portal:user_manage_readlists")
 
         else:
@@ -572,7 +587,7 @@ class ManageReadListsView(ListView):
     model = ReadList
     template_name = "portal/user_manage_readlists.html"
     context_object_name = "readlists"
-    paginate_by = 5
+    paginate_by = 1
 
     def get_queryset(self):
         form = self.request.GET.get("q")
@@ -598,12 +613,13 @@ class ManageReadListsView(ListView):
 def user_top_headlines(request, pk):
 
     readlist_obj = get_object_or_404(ReadList, keyword=pk)
-
     top_headlines_url = readlist_obj.top_headlines_url
+    print("Full Stories : " + top_headlines_url)
 
     top_headlines_resp = requests.get(url=top_headlines_url)
 
     search = readlist_obj.keyword
+    print("Search : " + search)
 
     top_headlines_data = top_headlines_resp.json()
     # print(top_headlines_data["articles"])
@@ -616,6 +632,7 @@ def user_top_headlines(request, pk):
     top_headlines_context = {
         "success": True,
         "data": [],
+        "search": search,
     }
     # seprating the necessary top_headlines_data
     for i in top_headlines_data:
@@ -641,23 +658,26 @@ def user_top_headlines(request, pk):
 def user_full_stories(request, pk):
 
     readlist_obj = get_object_or_404(ReadList, keyword=pk)
-
     full_stories_url = readlist_obj.full_stories_url
     print("Full Stories : " + full_stories_url)
 
     full_stories_resp = requests.get(url=full_stories_url)
 
+    search = readlist_obj.keyword
+    print("Search : " + search)
+
     full_stories_data = full_stories_resp.json()
     # print(full_stories_data["articles"])
 
-    # if full_stories_data["status"] != "ok":
-    #     return HttpResponse("<h1>Request Failed</h1>")
+    if full_stories_data["status"] != "ok":
+        return HttpResponse("<h1>Request Failed</h1>")
 
     full_stories_data = full_stories_data["articles"]
 
     full_stories_context = {
         "success": True,
         "data": [],
+        "search": search,
     }
     # seprating the necessary full_stories_data
     for i in full_stories_data:
