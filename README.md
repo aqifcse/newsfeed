@@ -12,7 +12,7 @@
 
 OS: Ubuntu 18.04 LTS
 
-At first, clone the project from terminal by renaming the folder(e.g. newsfeed) 
+At first, clone the project from terminal 
 ```
 $ git clone https://gitlab.com/aqifcse/newsfeed.git
 ```
