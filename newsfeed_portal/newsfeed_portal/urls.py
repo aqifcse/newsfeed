@@ -14,6 +14,11 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path(
+        "userReadListTrack",
+        UserReadListTrackAPIView.as_view(),
+        name="userReadListTrack",
+    ),
+    path(
         "subscribeUpdate",
         SubscribeUpdateAPIView.as_view(),
         name="subscribeUpdate",
