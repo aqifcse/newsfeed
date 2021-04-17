@@ -59,6 +59,123 @@ temp_img = "https://images.pexels.com/photos/3225524/pexels-photo-3225524.jpeg?a
 # -------------------------------------------REST APIs, Class based View, Function based View strts from here------------------------------------
 
 
+class UserReadListTrackAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get(
+            "username", None
+        )  # readlist_id in the AJAX hold the readlist_id
+
+        input_key = request.data.get("key", None)
+        input_timestamp = request.data.get("timestamp", None)
+
+        client_message = str(input_timestamp) + "newsfeed"
+
+        generated_signature_by_client = hashlib.sha256(
+            client_message.encode()
+        ).hexdigest()
+
+        event_status_code = 0
+
+        timestamp_now = int(datetime.datetime.timestamp(datetime.datetime.now()))
+
+        if username is not None or not username == "":
+            if generated_signature_by_client == input_key:
+
+                if (
+                    timestamp_now <= int(input_timestamp) + 360000000
+                ):  # Setting the sigtnature expiration time to 360000000 seconds or 100 hour. If needed, cange the expiration time as you wish
+
+                    if not User.objects.filter(username=username).exists():
+                        event_status_code = 0
+                        status_message = ["User doesn't exist"]
+
+                    else:
+                        user_obj = get_object_or_404(User, username=username)
+                        readlist_objs = ReadList.objects.filter(created_by=user_obj)
+
+                        readlists = []
+                        readlist_news_bodies = []
+
+                        readlist_data = {
+                            "id": "",
+                            "keyword": "",
+                            "source": "",
+                            "country": "",
+                            "top_headlines_url": "",
+                            "full_stories_url": "",
+                            "newsletter": "",
+                            "created_at": "",
+                        }
+
+                        readlist_news_body_data = {
+                            "id": "",
+                            "readlist": "",
+                            "headline": "",
+                            "thumbnail": "",
+                            "source_of_news": "",
+                            "country_of_news": "",
+                            "original_news_source_link": "",
+                            "published_at": "",
+                        }
+
+                        for readlist_obj in readlist_objs:
+                            readlist_data = {
+                                "id": readlist_obj.id,
+                                "keyword": readlist_obj.keyword,
+                                "source": readlist_obj.source,
+                                "country": readlist_obj.country,
+                                "top_headlines_url": readlist_obj.top_headlines_url,
+                                "full_stories_url": readlist_obj.full_stories_url,
+                                "newsletter": readlist_obj.newsletter,
+                                "created_at": readlist_obj.created_at,
+                            }
+
+                            # print(readlist_data)
+
+                            readlists.append(readlist_data)
+
+                            readlist_news_body_objs = ReadListNewsBody.objects.filter(
+                                readlist=readlist_obj
+                            )
+
+                            for readlist_news_body_obj in readlist_news_body_objs:
+                                readlist_news_body_data = {
+                                    "id": readlist_news_body_obj.id,
+                                    "keyword": readlist_news_body_obj.readlist.keyword,
+                                    "headline": readlist_news_body_obj.headline,
+                                    "thumbnail": readlist_news_body_obj.thumbnail,
+                                    "source_of_news": readlist_news_body_obj.source_of_news,
+                                    "country_of_news": readlist_news_body_obj.country_of_news,
+                                    "original_news_source_link": readlist_news_body_obj.original_news_source_link,
+                                    "published_at": readlist_news_body_obj.published_at,
+                                }
+
+                                readlist_news_bodies.append(readlist_news_body_data)
+
+                        data = {
+                            "username": user_obj.username,
+                            "first_name": user_obj.first_name,
+                            "last_name": user_obj.last_name,
+                            "subscribed": user_obj.subscribe,
+                            "readlists": readlists,
+                            "curated_news": readlist_news_bodies,
+                        }
+                        event_status_code = 1
+                        return Response({"status": event_status_code, "result": data})
+
+                else:
+                    event_status_code = 0
+                    status_message = ["Signature Expired"]
+            else:
+                event_status_code = 0
+                status_message = ["Authentication Failure"]
+        else:
+            event_status_code = 0
+            status_message = ["No Readlist Id is given in the input"]
+
+        return Response({"status": event_status_code, "result": status_message})
+
+
 class SubscribeUpdateAPIView(APIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get(
@@ -86,8 +203,8 @@ class SubscribeUpdateAPIView(APIView):
             if generated_signature_by_client == input_key:
 
                 if (
-                    timestamp_now <= int(input_timestamp) + 360000
-                ):  # Setting the sigtnature expiration time to 360000 seconds or 100 hour. If needed, cange the expiration time as you wish
+                    timestamp_now <= int(input_timestamp) + 360000000
+                ):  # Setting the sigtnature expiration time to 360000000 seconds or 100 hour. If needed, cange the expiration time as you wish
 
                     if not User.objects.filter(username=username).exists():
                         event_status_code = 0
@@ -501,78 +618,80 @@ def user_profile_settings(request):
 def user_create_readlist(request):
     if request.method == "POST":
         nr_form = ReadListForm(request.POST, request.FILES, instance=request.user)
-        # try:
-        username = request.user.username
-        user_obj = get_object_or_404(User, username=username)
+        try:
+            username = request.user.username
+            user_obj = get_object_or_404(User, username=username)
 
-        if nr_form.is_valid():
-            country = nr_form.cleaned_data["country"]
-            source = nr_form.cleaned_data["source"]
-            keyword = nr_form.cleaned_data["keyword"]
+            if nr_form.is_valid():
+                country = nr_form.cleaned_data["country"]
+                source = nr_form.cleaned_data["source"]
+                keyword = nr_form.cleaned_data["keyword"]
 
-            if not country or country == None:
-                country = ""
-            if not source or source == None:
-                source = ""
-            if not keyword or keyword == None:
-                keyword = ""
+                if not country or country == None:
+                    country = ""
+                if not source or source == None:
+                    source = ""
+                if not keyword or keyword == None:
+                    keyword = ""
 
-            page = 1
-            # user preffered top headlines
+                page = 1
+                # user preffered top headlines
 
-            top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&country={}&source={}&page={}&apiKey={}".format(
-                keyword, country, source, page, settings.APIKEY
-            )
-
-            full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
-                keyword, "popularity", page, settings.APIKEY
-            )
-
-            ReadList.objects.create(
-                created_by=user_obj,
-                keyword=keyword,
-                country=country,
-                source=source,
-                top_headlines_url=top_headlines_url,
-                full_stories_url=full_stories_url,
-            )
-
-            readlist = ReadList.objects.get(created_by=user_obj, keyword=keyword)
-
-            full_stories_resp = requests.get(url=full_stories_url)
-
-            full_stories_data = full_stories_resp.json()
-
-            full_stories_data = full_stories_data["articles"]
-
-            # seprating the necessary full_stories_data
-            for i in full_stories_data:
-                ReadListNewsBody.objects.create(
-                    readlist=readlist,
-                    headline=i["title"],
-                    thumbnail=temp_img if i["urlToImage"] is None else i["urlToImage"],
-                    source_of_news="" if source is None else source,
-                    country_of_news="" if country is None else country,
-                    original_news_source_link=i["url"],
-                    published_at=i["publishedAt"],
+                top_headlines_url = "https://newsapi.org/v2/top-headlines?q={}&country={}&source={}&page={}&apiKey={}".format(
+                    keyword, country, source, page, settings.APIKEY
                 )
-            return redirect("portal:user_manage_readlists")
 
-        else:
-            messages.error(request, "Invalid Input", extra_tags="form_invalid")
+                full_stories_url = "https://newsapi.org/v2/everything?q={}&sortBy={}&page={}&apiKey={}".format(
+                    keyword, "popularity", page, settings.APIKEY
+                )
+
+                ReadList.objects.create(
+                    created_by=user_obj,
+                    keyword=keyword,
+                    country=country,
+                    source=source,
+                    top_headlines_url=top_headlines_url,
+                    full_stories_url=full_stories_url,
+                )
+
+                readlist = ReadList.objects.get(created_by=user_obj, keyword=keyword)
+
+                full_stories_resp = requests.get(url=full_stories_url)
+
+                full_stories_data = full_stories_resp.json()
+
+                full_stories_data = full_stories_data["articles"]
+
+                # seprating the necessary full_stories_data
+                for i in full_stories_data:
+                    ReadListNewsBody.objects.create(
+                        readlist=readlist,
+                        headline=i["title"],
+                        thumbnail=temp_img
+                        if i["urlToImage"] is None
+                        else i["urlToImage"],
+                        source_of_news="" if source is None else source,
+                        country_of_news="" if country is None else country,
+                        original_news_source_link=i["url"],
+                        published_at=i["publishedAt"],
+                    )
+                return redirect("portal:user_manage_readlists")
+
+            else:
+                messages.error(request, "Invalid Input", extra_tags="form_invalid")
+                return render(
+                    request,
+                    "portal/user_create_readlist.html",
+                    {"nr_form": nr_form},
+                )
+
+        except:
+            messages.error(request, "Form Crashed", extra_tags="form_crashed")
             return render(
                 request,
                 "portal/user_create_readlist.html",
                 {"nr_form": nr_form},
             )
-
-        # except:
-        #     messages.error(request, "Form Crashed", extra_tags="form_crashed")
-        #     return render(
-        #         request,
-        #         "portal/user_create_readlist.html",
-        #         {"nr_form": nr_form},
-        #     )
     else:
         nr_form = ReadListForm(instance=request.user)
         return render(
@@ -594,9 +713,9 @@ class ManageReadListsView(ListView):
         if form:
             return (
                 ReadList.objects.filter(
-                    Q(country__icontains=form)
+                    Q(keyword__icontains=form)
                     | Q(source__icontains=form)
-                    | Q(keyword__icontains=form)
+                    | Q(country__icontains=form)
                 )
                 .order_by("created_at")
                 .reverse()
